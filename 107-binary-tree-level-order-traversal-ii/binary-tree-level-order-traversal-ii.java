@@ -34,12 +34,9 @@ class Solution {
                     q.add(rv.right);
                 }
             }
-            if(ans.size() ==  0) {
-                ans.add(ll);
-            }else {
-                ans.add(0, ll);
-            }
+            ans.add(ll);
         }
+        Collections.reverse(ans);
         return ans;
     }
 }
