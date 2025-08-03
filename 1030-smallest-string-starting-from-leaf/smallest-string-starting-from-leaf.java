@@ -22,11 +22,17 @@ class Solution {
         for(int i = 0; i < ll.size(); i++) {
             str.append(ll.get(i));
             str.reverse();
-            ll.set(i, str.toString());
+            if(ans == "") {
+                ans = str.toString();
+            }
+            else {
+                if(ans.compareTo(str.toString()) > 0) {
+                    ans = str.toString();
+                }
+            }
             str.setLength(0);
         }
-        Collections.sort(ll);
-        return ll.get(0);
+        return ans;
     }
     public void path(TreeNode root, String s, List<String> ll) {
         if(root == null) {
