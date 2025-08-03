@@ -20,9 +20,6 @@ class Solution {
         return ans;
     }
     public void path(TreeNode root, String s) {
-        if(root == null) {
-            return;
-        }
         s = (char)(root.val + 'a') + s;
         if(root.left == null && root.right == null) {
             if(ans.isEmpty() || ans.compareTo(s) > 0) {
@@ -30,7 +27,11 @@ class Solution {
             }
             return;
         }
-        path(root.left, s);
-        path(root.right, s);
+        if(root.left != null) {
+            path(root.left, s);
+        }
+        if(root.right != null) {
+            path(root.right, s);
+        }
     }
 }
