@@ -14,37 +14,33 @@
  * }
  */
 class Solution {
+    String ans = "";
+    StringBuilder str = new StringBuilder();
     public String smallestFromLeaf(TreeNode root) {
-        String ans = "";
-        List<String> ll = new ArrayList<>();
-        path(root, "", ll);
-        StringBuilder str = new StringBuilder();
-        for(int i = 0; i < ll.size(); i++) {
-            str.append(ll.get(i));
-            str.reverse();
-            if(ans == "") {
-                ans = str.toString();
-            }
-            else {
-                if(ans.compareTo(str.toString()) > 0) {
-                    ans = str.toString();
-                }
-            }
-            str.setLength(0);
-        }
+        ans = "";
+        path(root, "");
         return ans;
     }
-    public void path(TreeNode root, String s, List<String> ll) {
+    public void path(TreeNode root, String s) {
         if(root == null) {
             return;
         }
         if(root.left == null && root.right == null) {
             s += (char)(root.val + 'a');
-            System.out.println(s);
-            ll.add(s);
+            str.append(s);
+            str.reverse();
+            if(ans.equals("")) {
+                ans = str.toString();
+            }
+            else{
+                if(ans.compareTo(str.toString()) >= 0) {
+                    ans = str.toString();
+                }
+            }
+            str.setLength(0);
             return;
         }
-        path(root.left, s + (char)(root.val + 'a'), ll);
-        path(root.right, s + (char)(root.val + 'a'), ll);
+        path(root.left, s + (char)(root.val + 'a'));
+        path(root.right, s + (char)(root.val + 'a'));
     }
 }
