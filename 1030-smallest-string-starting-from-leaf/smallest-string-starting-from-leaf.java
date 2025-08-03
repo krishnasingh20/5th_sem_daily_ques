@@ -15,9 +15,7 @@
  */
 class Solution {
     String ans = "";
-    StringBuilder str = new StringBuilder();
     public String smallestFromLeaf(TreeNode root) {
-        ans = "";
         path(root, "");
         return ans;
     }
@@ -25,22 +23,14 @@ class Solution {
         if(root == null) {
             return;
         }
+        s = (char)(root.val + 'a') + s;
         if(root.left == null && root.right == null) {
-            s += (char)(root.val + 'a');
-            str.append(s);
-            str.reverse();
-            if(ans.equals("")) {
-                ans = str.toString();
+            if(ans.isEmpty() || ans.compareTo(s) > 0) {
+                ans = s;
             }
-            else{
-                if(ans.compareTo(str.toString()) >= 0) {
-                    ans = str.toString();
-                }
-            }
-            str.setLength(0);
             return;
         }
-        path(root.left, s + (char)(root.val + 'a'));
-        path(root.right, s + (char)(root.val + 'a'));
+        path(root.left, s);
+        path(root.right, s);
     }
 }
