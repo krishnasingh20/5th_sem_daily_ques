@@ -10,9 +10,10 @@ class Solution {
                 i++;
                 continue;
             }
+
             ans = Math.max(ans, j - i);
             j++;
         }
-        return Math.max(ans, 0);
+        return ans;
     }
 }
