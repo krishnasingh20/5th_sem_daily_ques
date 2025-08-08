@@ -18,20 +18,17 @@ class Solution {
                 int a = i;
                 int b = j;
                 boolean flag1 = false;
-                boolean flag2 = false;
                 while(a < n && b < m) {
                     if(word1.charAt(a) == word2.charAt(b)) {
                         a++;
                         b++;
+                        continue;
                     }
                     else if(word1.charAt(a) > word2.charAt(b)) {
                         flag1 = true;
                         break;
                     }
-                    else {
-                        flag2 = true;
-                        break;
-                    }
+                    break;
                 }
                 if(flag1 || (a == n && b == m) || (a < n && b == m)) {
                     ans.append(word1.charAt(i));
