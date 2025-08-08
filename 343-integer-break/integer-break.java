@@ -3,9 +3,6 @@ class Solution {
         if(n == 2 || n == 3) {
             return n - 1;
         }
-        if(n == 5) {
-            return 6;
-        }
         if(n % 3 == 0) {
             return (int)Math.pow(3, n / 3);
         }
