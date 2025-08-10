@@ -41,7 +41,7 @@ class Solution {
         return root;
     }
     public ListNode middlePrev(ListNode head) {
-        ListNode prev = head;
+        ListNode prev = null;
         ListNode slow = head;
         ListNode fast = head;
         while(fast != null && fast.next != null) {
