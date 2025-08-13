@@ -42,16 +42,12 @@ class Solution {
     public void reverse(List<TreeNode> ll) {
         int i = 0;
         int j = ll.size() - 1;
-        while(i <= j) {
-            int a = ll.get(i).val;
-            int b = ll.get(j).val;
-            int temp = a;
-            a = b;
-            b =  temp;
+        while(i < j) {
             TreeNode nn1 = ll.get(i);
-            nn1.val = a;
             TreeNode nn2 = ll.get(j);
-            nn2.val = b;
+            int temp = nn1.val;
+            nn1.val = nn2.val;
+            nn2.val = temp;
             i++;
             j--;
         }
