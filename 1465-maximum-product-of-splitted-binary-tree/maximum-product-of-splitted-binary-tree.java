@@ -17,7 +17,7 @@ class Solution {
     long Max = Long.MIN_VALUE;
     public int maxProduct(TreeNode root) {
         long totalsum = totalSum(root);
-        long sum = maxProduct(root, totalsum);
+        maxProduct(root, totalsum);
         return (int)(Max % 1000000007);
     }
     public long maxProduct(TreeNode root, long totalsum) {
@@ -26,8 +26,8 @@ class Solution {
         }
         long left = maxProduct(root.left, totalsum);
         long right =maxProduct(root.right, totalsum);
-        long currSum = totalsum - (left + right + root.val);
-        Max = Math.max(Max, currSum *  (left + right + root.val));
+        long currSum = (left + right + root.val);
+        Max = Math.max(Max, currSum * (totalsum - currSum));
         return left + right + root.val;
     }
     public long totalSum(TreeNode root) {
