@@ -23,20 +23,21 @@ class Solution {
         int ans = 0;
         while(!q.isEmpty()) {
             Pair start = q.peek();
-            Pair end = null;
+            Pair end = start;
             int size = q.size();
             for(int i = 0; i < size; i++) {
-                end = q.poll();
-                if(end.node.left != null) {
+                Pair rv = q.poll();
+                end = rv;
+                if(rv.node.left != null) {
                     Pair nn = new Pair();
-                    nn.node = end.node.left;
-                    nn.idx = 2 * end.idx + 1;//formula for finding index of ith parent left child
+                    nn.node = rv.node.left;
+                    nn.idx = 2 * rv.idx + 1;//formula for finding index of ith parent left child
                     q.add(nn);
                 }
-                if(end.node.right != null) {
+                if(rv.node.right != null) {
                     Pair nn = new Pair();
-                    nn.node = end.node.right;
-                    nn.idx = 2 * end.idx + 2;//formula for finding index of ith parent right child 
+                    nn.node = rv.node.right;
+                    nn.idx = 2 * rv.idx + 2;//formula for finding index of ith parent right child 
                     q.add(nn);
                 }
             }
