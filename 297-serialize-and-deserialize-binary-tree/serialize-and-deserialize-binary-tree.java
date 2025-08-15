@@ -12,7 +12,6 @@ public class Codec {
     // Encodes a tree to a single string.
     public String serialize(TreeNode root) {
         traversal(root);
-        str.deleteCharAt(str.length() - 1);
         return str.toString();
     }
     public void traversal(TreeNode root) {
@@ -35,6 +34,9 @@ public class Codec {
     }
     int idx = 0;
     public TreeNode construct(String[] arr) {
+        if(idx == arr.length) {
+            return null;
+        }
         String s = arr[idx++];
         if(s.equals("null")) {
             return null;
