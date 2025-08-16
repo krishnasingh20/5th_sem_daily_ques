@@ -27,34 +27,26 @@ class Solution {
         ListNode start = head;
         int idx = 0;
         while(curr != null) {
-            if(len > 0) {
-                if(i+1 == b) {
-                    ListNode next = curr.next;
-                    curr.next = null;
-                    ans[idx++] = start;
-                    start = next;
-                    curr = next;
-                    i = 0;
-                    len--;
-                }
-                else {
-                    curr = curr.next;
-                    i++;
-                }
+            if(len > 0 && i+1 == b) {
+                ListNode next = curr.next;
+                curr.next = null;
+                ans[idx++] = start;
+                start = next;
+                curr = next;
+                i = 0;
+                len--;
+            }
+            else if(len == 0 && i+1 == a) {
+                ListNode next = curr.next;
+                curr.next = null;
+                ans[idx++] = start;
+                start = next;
+                curr = next;
+                i = 0;
             }
             else {
-                if(i+1 == a) {
-                    ListNode next = curr.next;
-                    curr.next = null;
-                    ans[idx++] = start;
-                    start = next;
-                    curr = next;
-                    i = 0;
-                }
-                else {
-                    curr = curr.next;
-                    i++;
-                }
+                curr = curr.next;
+                i++;
             }
         }
         return ans;
