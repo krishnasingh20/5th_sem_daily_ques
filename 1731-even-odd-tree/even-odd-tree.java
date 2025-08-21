@@ -16,44 +16,44 @@
 class Solution {
     public boolean isEvenOddTree(TreeNode root) {
         Queue<TreeNode> q = new LinkedList<>();
-        List<Integer> ll = new ArrayList<>();
         q.add(root);
         int level = 0;
         while(!q.isEmpty()) {
             int size = q.size();
-            for(int i = 0; i < size; i++) {
-                TreeNode rv = q.poll();
-                ll.add(rv.val);
-                if(rv.left != null) {
-                    q.add(rv.left);
-                }
-                if(rv.right != null) {
-                    q.add(rv.right);
-                }
-            }
             if(level == 0) {
+                int prev = Integer.MIN_VALUE;
                 for(int i = 0; i < size; i++) {
-                    if(i+1 < size && ll.get(i) >= ll.get(i+1)) {
+                    TreeNode rv = q.poll();
+                    if((rv.val & 1) == 0 || prev >= rv.val) {
                         return false;
                     }
-                    if(ll.get(i) % 2 == 0) {
-                        return false;
+                    if(rv.left != null) {
+                        q.add(rv.left);
                     }
+                    if(rv.right != null) {
+                        q.add(rv.right);
+                    }
+                    prev = rv.val;
                 }
                 level = 1;
             }
             else {
+                int prev = Integer.MAX_VALUE;
                 for(int i = 0; i < size; i++) {
-                    if(i+1 < size && ll.get(i) <= ll.get(i+1)) {
+                    TreeNode rv = q.poll();
+                    if((rv.val & 1) == 1 || prev <= rv.val) {
                         return false;
                     }
-                    if(ll.get(i) % 2 != 0) {
-                        return false;
+                    if(rv.left != null) {
+                        q.add(rv.left);
                     }
+                    if(rv.right != null) {
+                        q.add(rv.right);
+                    }
+                    prev = rv.val;
                 }
                 level = 0;
             }
-            ll.clear();
         }
         return true;
     }
