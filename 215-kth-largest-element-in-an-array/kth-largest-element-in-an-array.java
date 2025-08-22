@@ -5,11 +5,9 @@ class Solution {
             pq.add(nums[i]);
         }
         for(int i = k; i < nums.length; i++) {
-            if(nums[i] > pq.peek()) {
-                pq.poll();
-                pq.add(nums[i]);
-            }
+            pq.add(nums[i]);
+            pq.poll();
         }
-        return pq.peek();
+        return pq.poll();
     }
 }
