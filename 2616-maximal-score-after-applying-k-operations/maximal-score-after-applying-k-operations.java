@@ -1,68 +1,77 @@
-import java.util.*;
-
 class Solution {
-    List<Integer> heap = new ArrayList<>();
+    int size;
 
     public long maxKelements(int[] nums, int k) {
-        // Build max-heap
-        for (int num : nums) {
-            add(num);
-        }
+        size = nums.length;
+
+        // Step 1: Build max-heap in-place
+        buildHeap(nums);
 
         long score = 0;
         while (k-- > 0) {
-            int val = remove(); // extract max
+            int val = remove(nums);  // extract max
             score += val;
             int newVal = (int) Math.ceil(val / 3.0);
-            add(newVal);
+            add(newVal, nums);      // insert new value
         }
         return score;
     }
 
-    // Insert element into heap
-    public void add(int item) {
-        heap.add(item);
-        upHeapify(heap.size() - 1);
-    }
-
-    private void upHeapify(int ci) {
-        if (ci == 0) return;
-        int pi = (ci - 1) / 2;
-        if (heap.get(pi) < heap.get(ci)) { // max-heap condition
-            swap(pi, ci);
-            upHeapify(pi);
+    // Build heap from array
+    private void buildHeap(int[] nums) {
+        for (int i = size / 2 - 1; i >= 0; i--) {
+            downHeapify(i, nums);
         }
     }
 
-    // Extract max element
-    public int remove() {
-        swap(0, heap.size() - 1);
-        int val = heap.remove(heap.size() - 1);
-        downHeapify(0);
+    // Insert at end, then fix heap
+    private void add(int item, int[] nums) {
+        if (size == nums.length) { // expand if needed
+            nums = java.util.Arrays.copyOf(nums, size * 2);
+        }
+        nums[size] = item;
+        size++;
+        upHeapify(size - 1, nums);
+    }
+
+    private void upHeapify(int ci, int[] nums) {
+        if (ci == 0) return;
+        int pi = (ci - 1) / 2;
+        if (nums[pi] < nums[ci]) {
+            swap(pi, ci, nums);
+            upHeapify(pi, nums);
+        }
+    }
+
+    // Remove root (max element)
+    private int remove(int[] nums) {
+        swap(0, size - 1, nums);
+        int val = nums[size - 1];
+        size--;
+        downHeapify(0, nums);
         return val;
     }
 
-    private void downHeapify(int pi) {
+    private void downHeapify(int pi, int[] nums) {
         int lci = 2 * pi + 1;
         int rci = 2 * pi + 2;
         int maxi = pi;
 
-        if (lci < heap.size() && heap.get(maxi) < heap.get(lci)) {
+        if (lci < size && nums[maxi] < nums[lci]) {
             maxi = lci;
         }
-        if (rci < heap.size() && heap.get(maxi) < heap.get(rci)) {
+        if (rci < size && nums[maxi] < nums[rci]) {
             maxi = rci;
         }
-
         if (maxi != pi) {
-            swap(maxi, pi);
-            downHeapify(maxi);
+            swap(pi, maxi, nums);
+            downHeapify(maxi, nums);
         }
     }
 
-    private void swap(int i, int j) {
-        int temp = heap.get(i);
-        heap.set(i, heap.get(j));
-        heap.set(j, temp);
+    private void swap(int i, int j, int[] nums) {
+        int temp = nums[i];
+        nums[i] = nums[j];
+        nums[j] = temp;
     }
 }
