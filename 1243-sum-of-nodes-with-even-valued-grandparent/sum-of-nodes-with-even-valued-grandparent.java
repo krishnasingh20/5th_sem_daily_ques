@@ -14,19 +14,18 @@
  * }
  */
 class Solution {
-    int ans = 0;
     public int sumEvenGrandparent(TreeNode root) {
-        sumEvenGrandParent(-1, -1, root);
-        return ans;
+        return sumEvenGrandParent(-1, -1, root);
     }
-    public void sumEvenGrandParent(int grandParent, int parent, TreeNode child) {
+    public int sumEvenGrandParent(int grandParent, int parent, TreeNode child) {
         if(child == null) {
-            return;
+            return 0;
         }
-        if(grandParent % 2 == 0) {
-            ans += child.val;
+        int left = sumEvenGrandParent(parent, child.val, child.left);
+        int right = sumEvenGrandParent(parent, child.val, child.right);
+        if((grandParent & 1) == 0) {
+            return left + right + child.val;
         }
-        sumEvenGrandParent(parent, child.val, child.left);
-        sumEvenGrandParent(parent, child.val, child.right);
+        return left + right;
     }
 }
