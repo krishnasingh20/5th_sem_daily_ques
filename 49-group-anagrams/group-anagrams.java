@@ -13,6 +13,7 @@ class Solution {
         for(String key: map.keySet()) {
             ans.add(map.get(key));
         }
+        System.gc();
         return ans;
     }
     public String GetKey(String s) {
