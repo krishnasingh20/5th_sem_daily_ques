@@ -15,9 +15,9 @@ class Solution {
         }
         return ans;
     }
-    int[] freq = new int[26];
     public String GetKey(String s) {
         //best way to generate unique key for different anagram
+        int[] freq = new int[26];
         for(char ch:s.toCharArray()) {
             freq[ch-'a']++;
         }
@@ -25,7 +25,6 @@ class Solution {
         for(int i = 0; i < 26; i++) {
             str.append(freq[i]+"/");
         }
-        Arrays.fill(freq, 0);
         return str.toString();
     }
 }
