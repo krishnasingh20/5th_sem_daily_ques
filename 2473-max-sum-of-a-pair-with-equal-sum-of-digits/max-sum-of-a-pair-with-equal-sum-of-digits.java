@@ -1,7 +1,6 @@
 class Solution {
     public int maximumSum(int[] nums) {
         int ans = Integer.MIN_VALUE;
-        Arrays.sort(nums);
         HashMap<Integer, Integer> map = new HashMap<>();
         for(int i = 0; i < nums.length; i++) {
             int sum = 0;
@@ -12,8 +11,13 @@ class Solution {
             }
             if(map.getOrDefault(sum, -1) != -1) {
                 ans = Math.max(ans, map.get(sum)+nums[i]);
+                if(map.get(sum) < nums[i]) {
+                    map.put(sum, nums[i]);
+                }
             }
-            map.put(sum, nums[i]);
+            else {
+                map.put(sum, nums[i]);
+            }
         }
         return ans==Integer.MIN_VALUE?-1:ans;
     }
