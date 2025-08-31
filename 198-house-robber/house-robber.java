@@ -1,19 +1,15 @@
 class Solution {
     public int rob(int[] nums) {
-        // top down approach 
+        // bottom up approach 
+        if(nums.length == 1) {
+            return nums[0];
+        }
         int[] dp = new int[nums.length];
-        Arrays.fill(dp,-1);
-        return robber(nums, 0, dp);
-    }
-    public int robber(int[] arr, int i, int[] dp) {
-        if(i >= arr.length) {
-            return 0;
+        dp[0] = nums[0];
+        dp[1] = Math.max(nums[0], nums[1]);
+        for(int i = 2; i < nums.length; i++) {
+            dp[i] = Math.max(nums[i]+dp[i-2], dp[i-1]);
         }
-        if(dp[i] != -1) {
-            return dp[i];
-        }
-        int robb = arr[i] + robber(arr, i+2, dp);
-        int dont_rob = robber(arr, i+1, dp);
-        return dp[i] = Math.max(robb, dont_rob);
+        return dp[dp.length - 1];
     }
 }
