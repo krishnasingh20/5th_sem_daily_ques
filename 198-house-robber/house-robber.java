@@ -1,5 +1,6 @@
 class Solution {
     public int rob(int[] nums) {
+        // top down approach 
         int[] dp = new int[nums.length];
         Arrays.fill(dp,-1);
         return robber(nums, 0, dp);
