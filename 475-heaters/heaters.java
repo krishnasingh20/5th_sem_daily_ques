@@ -3,7 +3,7 @@ class Solution {
         Arrays.sort(houses);
         Arrays.sort(heaters);
         int low = 0;
-        int high = 1000000000;
+        int high = Math.max(houses[houses.length - 1], heaters[heaters.length - 1]);
         int ans = 0;
         while(low <= high) {
             int mid = low + (high - low) / 2;
