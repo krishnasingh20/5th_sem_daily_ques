@@ -8,17 +8,15 @@ class Solution {
         }
         Arrays.sort(worker);
         Arrays.sort(arr, (a, b)->a[0]-b[0]);
-        PriorityQueue<int[]> pq = new PriorityQueue<>((a, b)->b[1]-a[1]);
         int j = 0;
         int ans = 0;
+        int maxProfit = 0;
         for(int i = 0; i < worker.length; i++) {
             while(j < arr.length && worker[i] >= arr[j][0]) {
-                pq.add(arr[j]);
+                maxProfit = Math.max(maxProfit, arr[j][1]);
                 j++;
             }
-            if(!pq.isEmpty()) {
-                ans += pq.peek()[1];
-            }
+            ans += maxProfit;
         }
         return ans;
     }
