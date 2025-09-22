@@ -1,5 +1,6 @@
 class Solution {
     public int longestIncreasingPath(int[][] matrix) {
+        // in these babiaclly i try to find for evry index that maximum length of decreasing path (longest increasing can be equivalent to it) and i used dp to store it so that in future when i go to that index agin the recomputed value get reassign
         int[][] dp = new int[matrix.length][matrix[0].length];
         for(int[] d: dp) {
             Arrays.fill(d, -1);
