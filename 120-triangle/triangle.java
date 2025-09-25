@@ -1,11 +1,27 @@
 class Solution {
     public int minimumTotal(List<List<Integer>> triangle) {
-        int n = triangle.get(triangle.size()-1).size();
-        int[][] dp = new int[n][n];
-        for(int[] d: dp) {
-            Arrays.fill(d, 1000000000);
+        // these question is basically based on minimum path sum --> recursive approach
+        // int n = triangle.get(triangle.size()-1).size();
+        // int[][] dp = new int[n][n];
+        // for(int[] d: dp) {
+        //     Arrays.fill(d, 1000000000);
+        // }
+        // return minTotal(triangle, 0, 0, dp);
+
+        // bottom up approach
+        int m = triangle.size();
+        int[][] dp = new int[m][m];
+        for(int i = 0; i < triangle.get(m-1).size(); i++) {
+            dp[m-1][i] = triangle.get(m-1).get(i);
         }
-        return minTotal(triangle, 0, 0, dp);
+        for(int i = m - 2; i >= 0; i--) {
+            for(int j = i; j >= 0; j--) {
+                int below = triangle.get(i).get(j)+dp[i+1][j];
+                int below_right = triangle.get(i).get(j)+dp[i+1][j+1];
+                dp[i][j] = Math.min(below, below_right);
+            }
+        }
+        return dp[0][0];
     }
     public int minTotal(List<List<Integer>> ll, int i, int j, int[][] dp) {
         if(i == ll.size()) {
