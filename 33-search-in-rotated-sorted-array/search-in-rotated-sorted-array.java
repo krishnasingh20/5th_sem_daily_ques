@@ -1,6 +1,5 @@
-class Solution {
+ class Solution {
     public int search(int[] nums, int target) {
-        // in these first we find the sorted half and then use search 
         int low = 0;
         int high = nums.length - 1;
         while(low <= high) {
@@ -8,8 +7,7 @@ class Solution {
             if(nums[mid] == target) {
                 return mid;
             }
-            // left part of mid is sorted
-            else if(nums[low] <= nums[mid]) {
+            else if(nums[mid] >= nums[low]) {
                 if(nums[low] <= target && target < nums[mid]) {
                     high = mid - 1;
                 }
@@ -17,9 +15,8 @@ class Solution {
                     low = mid + 1;
                 }
             }
-            // right part of mid is sorted 
             else {
-                if(nums[high] >= target && target > nums[mid]) {
+                if(nums[mid] < target && target <= nums[high]) {
                     low = mid + 1;
                 }
                 else {
