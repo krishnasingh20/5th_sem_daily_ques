@@ -1,23 +1,37 @@
 class Solution {
     public String frequencySort(String s) {
+        PriorityQueue<Pair> pq = new PriorityQueue<>(new Comparator<Pair>(){
+            @Override
+            public int compare(Pair o1, Pair o2) {
+                return o2.val - o1.val;
+            }
+        });
         int[] freq = new int[128];
-        for(char ch: s.toCharArray()) {
-            freq[ch]++;
+        for(char c: s.toCharArray()) {
+            freq[c]++;
         }
-        PriorityQueue<int[]> pq = new PriorityQueue<>((a,b)->b[1]-a[1]);
         for(int i = 0; i < 128; i++) {
             if(freq[i] > 0) {
-                pq.add(new int[]{i, freq[i]});
+                pq.add(new Pair((char)i, freq[i]));
             }
         }
         StringBuilder str = new StringBuilder();
         while(!pq.isEmpty()) {
-            int[] val = pq.poll();
-            char ch = (char)val[0];
-            for(int i = 0; i < val[1]; i++) {
-                str.append(ch);
+            Pair p = pq.poll();
+            int len = p.val;
+            while(len > 0) {
+                str.append(p.ch);
+                len--;
             }
         }
         return str.toString();
+    }
+    class Pair {
+        char ch;
+        int val;
+        Pair(char ch, int val) {
+            this.ch = ch;
+            this.val = val;
+        }
     }
 }
