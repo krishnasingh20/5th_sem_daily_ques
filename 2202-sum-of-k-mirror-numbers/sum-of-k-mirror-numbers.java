@@ -1,13 +1,15 @@
 class Solution {
+    StringBuilder str = new StringBuilder();
     public long kMirror(int k, int n) {
         long l = 1;
         long sum = 0;
-        StringBuilder str = new StringBuilder();
+        // StringBuilder str = new StringBuilder();
         while(n > 0) {
             long half = (l+1)/2;
             long min = (long)Math.pow(10, half-1);
             long max = (long)Math.pow(10, half)-1;
             for(long num = min; num <= max; num++) {
+                str.setLength(0);
                 long num1 = 0;
                 if((l & 1) == 1) {
                     str.append(num);
@@ -38,12 +40,14 @@ class Solution {
         return sum;
     }
     public String baseK(long num, int k) {
-        StringBuilder str = new StringBuilder();
+        str.setLength(0);
         while(num > 0) {
             str.append(num % k);
             num /= k;
         }
-        return str.reverse().toString();
+        String s = str.reverse().toString();
+        str.setLength(0);
+        return s;
     }
     public boolean isPalindrome(String s) {
         int i = 0;
