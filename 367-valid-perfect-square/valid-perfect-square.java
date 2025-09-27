@@ -1,7 +1,7 @@
 class Solution {
     public boolean isPerfectSquare(int num) {
         int low = 1;
-        int high = (int)Math.sqrt(num);
+        int high = num;
         while(low <= high) {
             int mid = low + (high - low)/2;
             if((long)mid*mid == (long)num) {
