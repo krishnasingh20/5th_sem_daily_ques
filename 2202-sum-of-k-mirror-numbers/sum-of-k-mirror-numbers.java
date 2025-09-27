@@ -9,17 +9,14 @@ class Solution {
             long max = (long)Math.pow(10, half)-1;
             for(long num = min; num <= max; num++) {
                 long num1 = 0;
+                str.append(num);
+                String s = str.toString();
+                str.reverse();
                 if((l & 1) == 1) {
-                    str.append(num);
-                    String s = str.toString();
-                    str.reverse();
                     s = s+str.substring(1);
                     num1 = Long.parseLong(s);
                 }
                 else {
-                    str.append(num);
-                    String s = str.toString();
-                    str.reverse();
                     s = s+str.toString();
                     num1 = Long.parseLong(s);
                 }
