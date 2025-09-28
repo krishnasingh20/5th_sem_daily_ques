@@ -1,20 +1,35 @@
 class Solution {
     public int lengthOfLIS(int[] nums) {
-        int[] LIS = new int[nums.length];
-        // for evry single element it is ouw LIS 
-        Arrays.fill(LIS, 1);
+        return LIS(nums);
+    }
+    public int LIS(int[] nums) {
+        int[] lis = new int[nums.length];
+        lis[0] = nums[0];
+        int len = 1;
         for(int i = 1; i < nums.length; i++) {
-            for(int j = i - 1; j >= 0; j--) {
-                if(nums[j] < nums[i]) {
-                    int l = LIS[j] + 1;
-                    LIS[i] = Math.max(LIS[i], l); 
-                }
+            if(nums[i] > lis[len-1]) {
+                lis[len] = nums[i];
+                len++;
+            }
+            else {
+                int idx = BinarySearch(lis, 0, len - 1, nums[i]);
+                lis[idx] = nums[i];
             }
         }
-        int max = LIS[0];
-        for(int i = 1; i < LIS.length; i++) {
-            max = Math.max(LIS[i], max);
+        return len;
+    }
+    public int BinarySearch(int[] lis, int low, int high, int val) {
+        int idx = 0;
+        while(low <= high) {
+            int mid = low + (high - low) / 2;
+            if(lis[mid] >= val) {
+                idx = mid;
+                high = mid - 1;
+            }
+            else {
+                low = mid + 1;
+            }
         }
-        return max;
+        return idx;
     }
 }
