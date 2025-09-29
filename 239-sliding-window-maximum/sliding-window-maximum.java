@@ -1,20 +1,28 @@
 class Solution {
     public int[] maxSlidingWindow(int[] nums, int k) {
-        PriorityQueue<int[]> pq = new PriorityQueue<>((a, b)->b[0]-a[0]);
-        for(int i = 0; i < k; i++) {
-            pq.add(new int[]{nums[i], i});
-        }
         int[] ans = new int[nums.length - k + 1];
-        int idx = 0;
-        ans[idx++] = pq.peek()[0];
-        for(int i = k; i < nums.length; i++) {
-            pq.add(new int[]{nums[i], i});
-            if(pq.peek()[1] <= i-k) {
-                while(pq.size() > k && pq.peek()[1] <= i - k) {
-                    pq.poll();
-                }
+        int[] premax = new int[nums.length];
+        int[] suffmax = new int[nums.length];
+        premax[0] = nums[0];
+        for(int i = 1; i < nums.length; i++) {
+            if(i % k == 0) {
+                premax[i] = nums[i];
             }
-            ans[idx++] = pq.peek()[0];
+            else {
+                premax[i] = Math.max(premax[i-1], nums[i]);
+            }
+        }
+        suffmax[nums.length-1] = nums[nums.length-1];
+        for(int i = nums.length - 2; i >= 0; i--) {
+            if((i+1)%k == 0) {
+                suffmax[i] = nums[i];
+            }
+            else {
+                suffmax[i] = Math.max(suffmax[i+1], nums[i]);
+            }
+        }
+        for(int i = 0; i < ans.length; i++) {
+            ans[i] = Math.max(suffmax[i], premax[i+k-1]);
         }
         return ans;
     }
