@@ -6,7 +6,7 @@ class Solution {
         // }
         // Boolean[][] dp = new Boolean[s.length()][s.length()];
         // return word(s, set, 0, 0, dp);
-        return bottomUp(s, wordDict);
+        return bottomUpR(s, wordDict);
     }
     public boolean word(String s, HashSet<String> set, int i, int j, Boolean[][] dp) {
         if(i == s.length() && j == s.length()) {
@@ -36,7 +36,7 @@ class Solution {
     }
     // bottom up
     // think that recursion is working from back
-    public boolean bottomUp(String s, List<String> wordDict) {
+    public boolean bottomUpL(String s, List<String> wordDict) {
         boolean[] dp = new boolean[s.length()+1];
         dp[0] = true;//for empty string answer will be true
         for(int i = 1; i <= s.length(); i++) {
@@ -50,7 +50,27 @@ class Solution {
         }
         return dp[dp.length-1];
     }
+    // bottom up
+    // think that recursion is working from front
+    public boolean bottomUpR(String s, List<String> wordDict) {
+        boolean[] dp = new boolean[s.length()+1];
+        dp[dp.length-1] = true;//for empty string answer will be true
+        for(int i = dp.length - 2; i >= 0; i--) {
+            for(String s1: wordDict) {
+                int t = s1.length();
+                if(i+t <= s.length() && s.substring(i , i+t).equals(s1) && dp[i+t]) {
+                    dp[i] = true;
+                    break;
+                } 
+            }
+        }
+        return dp[0];
+    }
 }
 // below for top down approach
 // TC --> O(n²) in worst case
 // SC --> O(n²) for dp + O(k) for dictionary + O(n) call stack
+
+// below for bottom up approach
+// TC--> O(n^2)
+// SC--> O(n)
