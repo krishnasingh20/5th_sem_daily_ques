@@ -39,7 +39,6 @@ class Solution {
     public boolean bottomUp(String s, List<String> wordDict) {
         boolean[] dp = new boolean[s.length()+1];
         dp[0] = true;//for empty string answer will be true
-        HashSet<String> set = new HashSet<>(wordDict);
         for(int i = 1; i <= s.length(); i++) {
             for(String s1: wordDict) {
                 int t = s1.length();
