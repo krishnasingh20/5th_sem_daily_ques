@@ -8,35 +8,19 @@ class Solution {
         for(char c: s1.toCharArray()) {
             freq[c-'a']++;
         }
-        StringBuilder str = new StringBuilder();
-        for(int i = 0; i < 26; i++) {
-            str.append(freq[i]).append('/');
-        }
-        s1 = str.toString();
-        str.setLength(0);
-        Arrays.fill(freq, 0);
+        int[] freq1 = new int[26];
         for(int i = 0; i < k; i++) {
-            freq[s2.charAt(i)-'a']++;
+            freq1[s2.charAt(i)-'a']++;
         }
-        for(int i = 0; i < 26; i++) {
-            str.append(freq[i]).append('/');
-        }
-        String s = str.toString();
-        if(s.equals(s1)) {
+        if(Arrays.equals(freq, freq1)) {
             return true;
         }
-        str.setLength(0);
         for(int i = k; i < s2.length(); i++) {
-            freq[s2.charAt(i)-'a']++;
-            freq[s2.charAt(i-k)-'a']--;
-            for(int j = 0; j < 26; j++) {
-                str.append(freq[j]).append('/');
-            }
-            s = str.toString();
-            if(s.equals(s1)) {
+            freq1[s2.charAt(i)-'a']++;
+            freq1[s2.charAt(i-k)-'a']--;
+            if(Arrays.equals(freq, freq1)) {
                 return true;
             }
-            str.setLength(0);
         }
         return false;
     }
