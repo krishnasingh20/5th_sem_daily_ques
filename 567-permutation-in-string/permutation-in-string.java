@@ -12,16 +12,27 @@ class Solution {
         for(int i = 0; i < k; i++) {
             freq1[s2.charAt(i)-'a']++;
         }
-        if(Arrays.equals(freq, freq1)) {
+        if(compare(freq, freq1)) {
             return true;
         }
         for(int i = k; i < s2.length(); i++) {
             freq1[s2.charAt(i)-'a']++;
             freq1[s2.charAt(i-k)-'a']--;
-            if(Arrays.equals(freq, freq1)) {
+            if(compare(freq, freq1)) {
                 return true;
             }
         }
         return false;
     }
+    public boolean compare(int[] a, int[] b) {
+        for(int i = 0; i < 26; i++) {
+            if(a[i] != b[i]) {
+                return false;
+            }
+        }
+        return true;
+    }
 }
+
+
+// in these i had reduce overhead of every time generating string to directly cpmare the freq array using array in built function
