@@ -1,6 +1,6 @@
 class Solution {
     public int findMinArrowShots(int[][] points) {
-        Arrays.sort(points, (a, b)-> Integer.compare(a[1], b[1]));
+        Arrays.sort(points, (a, b)-> Integer.compare(a[1], b[1]));//to avoid overflow we use intger.compare instead of lambda function because points value ranges form -2^31 to 2^31 - 1
         int count = 1;
         int end = points[0][1];
         for(int i = 1; i < points.length; i++) {
