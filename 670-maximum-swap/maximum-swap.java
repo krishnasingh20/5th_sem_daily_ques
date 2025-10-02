@@ -22,7 +22,15 @@ class Solution {
                 break;
             }
         }
-        String s = new String(ch);
-        return Integer.parseInt(s);
+        if(idx == -1) {
+            return num;
+        }
+        int ans = 0;
+        for(int i = 0; i < ch.length; i++) {
+            ans = ans * 10 + (ch[i]-'0');
+        }
+        return ans;
     }
 }
+// TC--> O(n^2)
+// SC--> O(n)
