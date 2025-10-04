@@ -14,11 +14,11 @@ class Solution {
                 ans += (value/(key+1))*(key+1);
                 int rem = value % (key+1);
                 if(rem > 0) {
-                    ans += (1+(rem-1)+(key - (rem-1)));
+                    ans += (key+1);
                 }
             }
             else {
-                ans += (1+(value-1)+(key - (value-1)));
+                ans += (key+1);
             }
         }
         return ans;
