@@ -26,14 +26,11 @@ class Solution {
                 while(i < n - 1 && ch[i] == ch[i+1]) {
                     i++;
                 }
-                if(i == n) {
-                    break;
-                }
                 int k = i + 1;
                 while(k < n && ch[k] == '.') {
                     k++;
                 }
-                if(k == n) {
+                if(k >= n) {
                     for(int l = i; l < n; l++) {
                         ch[l] = 'R';
                     }
