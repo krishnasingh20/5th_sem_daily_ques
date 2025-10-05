@@ -9,12 +9,10 @@ class Solution {
         for(int i = 0; i < queries.length; i++) {
             long ans = 0;
             int idx = binarySearch(nums, 0, nums.length - 1, queries[i]);
-            System.out.println(idx);
             if(idx == -1) {
                 ans += ((long)queries[i]*nums.length - prefix[nums.length]);
             }
             else {
-                System.out.println(prefix[idx+1]);
                 ans += Math.abs(queries[i]-nums[idx]);
                 ans += Math.abs((long)queries[i]*(idx) - prefix[idx]);
                 ans += Math.abs((long)queries[i]*(nums.length - (idx+1)) - (prefix[nums.length] - prefix[idx+1]));
