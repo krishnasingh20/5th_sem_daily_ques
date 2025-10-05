@@ -1,1 +1,1 @@
-<h2>sum-of-distances Notes</h2><hr>[ Time taken: 42 m 47 s ]
+<h2>sum-of-distances Notes</h2><hr>[ Time taken: 40 s ]
