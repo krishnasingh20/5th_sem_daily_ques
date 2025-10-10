@@ -1,28 +1,24 @@
 class Solution {
     public String getHint(String secret, String guess) {
-        int[] freq = new int[10];
-        int x = 0;
-        int y = 0;
-        int n = secret.length();
-        for(int i = 0; i < n; i++) {
-            if(secret.charAt(i) != guess.charAt(i)) {
-                freq[secret.charAt(i)-'0']++;
+        HashMap<Character, Integer> map = new HashMap<>();
+        int b = 0;
+        for(int i = 0; i < secret.length(); i++) {
+            if(secret.charAt(i) == guess.charAt(i)) {
+                b++;
+            }
+            else {
+                map.put(guess.charAt(i), map.getOrDefault(guess.charAt(i), 0) + 1);
             }
         }
-
-        for(int i = 0; i < n; i++) {
-            char ch1 = secret.charAt(i);
-            char ch2 = guess.charAt(i);
-            if(ch1 == ch2) {
-                x++;
-            }
-            else if(ch1 != ch2) {
-                if(freq[ch2 - '0'] > 0) {
-                    y++;
-                    freq[ch2-'0']--;
+        int a = 0;
+        for(int i = 0; i < guess.length(); i++) {
+            if(secret.charAt(i) != guess.charAt(i)) {
+                if(map.getOrDefault(secret.charAt(i), 0) > 0) {
+                    a++;
+                    map.put(secret.charAt(i), map.get(secret.charAt(i))-1);
                 }
             }
         }
-        return x+"A"+y+"B";
+        return b+"A"+a+"B";
     }
 }
