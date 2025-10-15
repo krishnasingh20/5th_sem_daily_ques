@@ -1,54 +1,18 @@
 class Solution {
+    static int[] key = {1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1};
+    static String[] value = {"M", "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", "V", "IV", "I"};
     public String intToRoman(int num) {
-        TreeMap<Integer, Character> map = new TreeMap<>();
-        map.put(1, 'I');
-        map.put(5, 'V');
-        map.put(10, 'X');
-        map.put(50, 'L');
-        map.put(100, 'C');
-        map.put(500, 'D');
-        map.put(1000, 'M');
-        StringBuilder ans = new StringBuilder();
-        StringBuilder sb = new StringBuilder();
-        int a = 0;
+        StringBuilder str = new StringBuilder();
+        int i = 0;
         while(num > 0) {
-            int val = num % 10;
-            int value = (int)Math.pow(10, a) * val;
-            a++;
-            num /= 10;
-            while(value > 0) {
-                if(val == 4 || val == 9) {
-                    for(int key: map.keySet()) {
-                        if(key >= value) {
-                            int diff = key - value;
-                            sb.append(map.get(diff));
-                            sb.append(map.get(key));
-                            break;
-                        }
-                    }
-                    value = 0;
-                }
-                else {
-                    int x = 0;
-                    for(int key: map.keySet()) {
-                        if(key > value) {
-                            break;
-                        }
-                        x = key;
-                    }
-                    sb.append(map.get(x));
-                    value -= x;
-                    int temp = value;
-                    while(temp > 0) {
-                        val = temp % 10;
-                        temp /= 10;
-                    }
-                }
+            if(num >= key[i]) {
+                str.append(value[i]);
+                num -= key[i];
             }
-            sb.reverse();
-            ans.append(sb.toString());
-            sb.setLength(0);
+            else {
+                i++;
+            }
         }
-        return ans.reverse().toString();
+        return str.toString();
     }
 }
