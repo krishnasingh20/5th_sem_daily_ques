@@ -4,19 +4,18 @@ class Solution {
         for(int i = 0; i < nums2.length; i++) {
             map.put(nums2[i], i);
         }
+        Stack<Integer> st = new Stack<>();
+        for(int i = 0; i < nums2.length; i++) {
+            while(!st.isEmpty() && nums2[st.peek()] < nums2[i]) {
+                nums2[st.pop()] = nums2[i];
+            }
+            st.push(i);
+        }
+        while(!st.isEmpty()) {
+            nums2[st.pop()] = -1;
+        }
         for(int i = 0; i < nums1.length; i++) {
-            int idx = map.get(nums1[i]);
-            boolean flag = false;
-            for(int j = idx+1; j < nums2.length; j++) {
-                if(nums2[j] > nums1[i]) {
-                    nums1[i] = nums2[j];
-                    flag = true;
-                    break;
-                }
-            }
-            if(!flag) {
-                nums1[i] = -1;
-            }
+            nums1[i] = nums2[map.get(nums1[i])];
         }
         return nums1;
     }
