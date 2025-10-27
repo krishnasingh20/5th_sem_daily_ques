@@ -1,28 +1,20 @@
 class Solution {
     public int numberOfBeams(String[] bank) {
-        int[] count = new int[bank.length];
+        int prev = 0;
+        int ans = 0;
         for(int i = 0; i < bank.length; i++) {
+            int curr = 0;
             for(int j = 0; j < bank[i].length(); j++) {
                 if(bank[i].charAt(j) == '1') {
-                    count[i]++;
+                    curr++;
                 }
             }
-        }
-        int ans = 0;
-        int val = count[0];
-        int i = 1;
-        while(i < count.length) {
-            if(val == 0) {
-                val = count[i];
-                i++;
+            if(prev == 0) {
+                prev = curr;
             }
-            else if(count[i] == 0) {
-                i++;
-            }
-            else {
-                ans += (val*count[i]);
-                val = count[i];
-                i++;
+            else if(curr != 0) {
+                ans += prev*curr;
+                prev = curr;
             }
         }
         return ans;
