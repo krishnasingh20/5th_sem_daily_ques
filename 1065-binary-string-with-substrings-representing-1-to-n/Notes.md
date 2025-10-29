@@ -1,1 +1,1 @@
-<h2>binary-string-with-substrings-representing-1-to-n Notes</h2><hr>[ Time taken: 1 hr 3 m 28 s ]
+<h2>binary-string-with-substrings-representing-1-to-n Notes</h2><hr>[ Time taken: 1 hr 12 m 14 s ]
