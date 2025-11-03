@@ -7,9 +7,10 @@ class Solution {
         for(int i = 0; i < walls.length; i++) {
             mat[walls[i][0]][walls[i][1]] = 2;
         }
+        boolean flag = false;
         // from left to right row wise
         for(int i = 0; i < m; i++) {
-            boolean flag = false;
+            flag = false;
             for(int j = 0; j < n; j++) {
                 if(mat[i][j] == 1) {
                     flag = true;
@@ -24,7 +25,7 @@ class Solution {
         }
         // from right to left row wise
         for(int i = 0; i < m; i++) {
-            boolean flag = false;
+            flag = false;
             for(int j = n - 1; j >= 0; j--) {
                 if(mat[i][j] == 1) {
                     flag = true;
@@ -39,7 +40,7 @@ class Solution {
         }
         //from top to bottom column wise
         for(int j = 0; j < n; j++) {
-            boolean flag = false;
+            flag = false;
             for(int i = 0; i < m; i++) {
                 if(mat[i][j] == 1) {
                     flag = true;
@@ -54,7 +55,7 @@ class Solution {
         }
         //from bottom to top column wise
         for(int j = 0; j < n; j++) {
-            boolean flag = false;
+            flag = false;
             for(int i = m - 1; i >= 0; i--) {
                 if(mat[i][j] == 1) {
                     flag = true;
