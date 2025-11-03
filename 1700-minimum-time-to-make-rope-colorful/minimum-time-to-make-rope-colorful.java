@@ -14,7 +14,6 @@ class Solution {
                 }
                 sum -= max;
                 ans += sum;
-                continue;
             }
             i++;
         }
