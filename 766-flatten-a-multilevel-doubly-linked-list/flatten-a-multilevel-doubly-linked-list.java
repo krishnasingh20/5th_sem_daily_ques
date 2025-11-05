@@ -14,16 +14,9 @@ class Solution {
             return head;
         }
         Stack<Node> st = new Stack<>();
-        Node temp = head;
-        Node curr = head.next;
-        if(head.child != null) {
-            curr = head.child;
-            head.child = null;
-            if(head.next != null) {
-                head.next.prev = null;
-                st.push(head.next);
-            }
-        }
+        Node dummy = new Node();
+        Node temp = dummy;
+        Node curr = head;
         while(curr != null || !st.isEmpty()) {
             if(curr == null) {
                 curr = st.pop();
@@ -33,7 +26,6 @@ class Solution {
             temp = temp.next;
             if(curr.child != null) {
                 if(curr.next != null) {
-                    curr.next.prev = null;
                     st.push(curr.next);
                 }
                 Node next = curr.child;
@@ -44,6 +36,8 @@ class Solution {
                 curr = curr.next;
             }
         }
-        return head;
+        temp = dummy.next;
+        temp.prev = null;
+        return temp;
     }
 }
