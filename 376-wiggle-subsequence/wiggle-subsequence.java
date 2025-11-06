@@ -1,19 +1,15 @@
 class Solution {
     public int wiggleMaxLength(int[] nums) {
-        int[][][] dp = new int[nums.length][3][nums.length+1];
-        for(int[][] d: dp) {
-            for(int[] a: d) {
-                Arrays.fill(a, -1);
-            }
-        }
+        HashMap<String, Integer> dp = new HashMap<>();
         return wiggle(nums, 0, 0, -1, dp);
     }
-    public int wiggle(int[] arr, int i, int state, int prev, int[][][] dp) {
+    public int wiggle(int[] arr, int i, int state, int prev, HashMap<String, Integer> dp) {
         if(i == arr.length) {
             return 0;
         }
-        if(dp[i][state][prev+1] != -1) {
-            return dp[i][state][prev+1];
+        String key = i+"/"+state+"/"+prev;
+        if(dp.containsKey(key)) {
+            return dp.get(key);
         }
         int ans = 0;
         // pick
@@ -38,6 +34,7 @@ class Solution {
         // no pick
         int c = wiggle(arr, i+1, state, prev, dp);
         ans = Math.max(ans, c);
-        return dp[i][state][prev+1] = ans;
+        dp.put(key, ans);
+        return ans;
     }
 }
