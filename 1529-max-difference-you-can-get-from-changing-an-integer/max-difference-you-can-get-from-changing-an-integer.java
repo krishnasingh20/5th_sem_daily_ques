@@ -1,46 +1,64 @@
 class Solution {
     public int maxDiff(int num) {
-        StringBuilder sb = new StringBuilder();
-        sb.append(num);
+        int len = 0;
+        int n = num;
+        while(n > 0) {
+            len++;
+            n /= 10;
+        }
+        n = num;
+        int[] a = new int[len];
+        int[] b = new int[len];
+        len -= 1;
+        while(n > 0) {
+            int rem = n % 10;
+            a[len] = rem;
+            b[len--] = rem;
+            n /= 10;
+        }
         int i = 0;
-        while(i < sb.length() && sb.charAt(i) == '9') {
+        while(i < a.length && a[i] == 9) {
             i++;
         }
-        if(i != sb.length()) {
-            char c = sb.charAt(i);
+        if(i != a.length) {
+            int val = a[i];
             i = 0;
-            while(i < sb.length()) {
-                if(sb.charAt(i) == c) {
-                    sb.setCharAt(i, '9');
+            while(i < a.length) {
+                if(a[i] == val) {
+                    a[i] = 9;
                 }
                 i++;
             }
         }
-        long num1 = Long.parseLong(sb.toString());
-        sb.setLength(0);
-        sb.append(num);
         i = 0;
-        while(i < sb.length() && sb.charAt(i) <= '1') {
+        while(i < b.length && b[i] <= 1) {
             i++;
         }
-        if(i != sb.length()) {
-            char ch = sb.charAt(i);
-            char c = '0';
+        if(i != b.length) {
+            int val = b[i];
+            int c = 0;
             if(i == 0) {
-                c = '1';
+                c = 1;
             }
             else {
-                c = '0';
+                c = 0;
             }
             i = 0;
-            while(i < sb.length()) {
-                if(sb.charAt(i) == ch) {
-                    sb.setCharAt(i, c);
+            while(i < b.length) {
+                if(b[i] == val) {
+                    b[i] = c;
                 }
                 i++;
             }
         }
-        long num2 = Long.parseLong(sb.toString());
+        long num1 = 0;
+        for(i = 0; i < a.length; i++) {
+            num1 = num1 * 10 + a[i];
+        }
+        long num2 = 0;
+        for(i = 0; i < b.length; i++) {
+            num2 = num2 * 10 + b[i];
+        }
         return (int)(num1 - num2);
     }
 }
