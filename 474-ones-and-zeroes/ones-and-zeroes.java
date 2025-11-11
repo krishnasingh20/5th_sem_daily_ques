@@ -1,27 +1,21 @@
 class Solution {
     public int findMaxForm(String[] strs, int m, int n) {
-        int[][][] dp = new int[strs.length][m+1][n+1];
-        for(int[][] d: dp) {
-            for(int[] a: d) {
-                Arrays.fill(a, -1);
+        int[][] dp = new int[m+1][n+1];
+        for(int i = 0; i < strs.length; i++) {
+            int[] c = count(strs[i]);
+            for(int j = m; j >= c[0]; j --) {
+                for(int k = n; k >= c[1]; k--) {
+                    dp[j][k] = Math.max(dp[j][k], dp[j-c[0]][k-c[1]] + 1);
+                }
             }
         }
-        return maxForm(strs, m, n, 0, dp);
-    }
-    public int maxForm(String[] str, int m, int n, int i, int[][][] dp) {
-        if(i == str.length || (m == 0 && n == 0)) {
-            return 0;
+        int ans = 0;
+        for(int i = 0; i <= m; i++) {
+            for(int j = 0; j <= n; j++) {
+                ans = Math.max(ans, dp[i][j]);
+            }
         }
-        if(dp[i][m][n] != -1) {
-            return dp[i][m][n];
-        }
-        int[] c = count(str[i]);
-        int pick = 0;
-        if(c[0] <= m && c[1] <= n) {
-            pick = 1 + maxForm(str, m-c[0], n-c[1], i+1, dp);
-        }
-        int notPick = maxForm(str, m, n, i+1, dp);
-        return dp[i][m][n] = Math.max(notPick, pick);
+        return ans;
     }
     public int[] count(String s) {
         int one = 0;
