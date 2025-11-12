@@ -9,38 +9,21 @@ class Solution {
             }
             gcd = GCD(gcd, num);
         }
-        if(gcd != 1) {
-            return -1;
-        }
         if(one > 0) {
             return n - one;
         }
+        if(gcd != 1) {
+            return -1;
+        }
         int ans = Integer.MAX_VALUE;
         for(int i = 0; i < n; i++) {
-            int gcd1 = nums[i];
-            int gcd2 = nums[i];
-            int leftC = 0;
-            int rightC = 0;
-            int j = i - 1;
-            int k = i+1;
-            while(j >= 0 && gcd1 != 1) {
-                leftC++;
-                gcd1 = GCD(gcd1, nums[j]);
-                j--;
-            }
-            while(k < n && gcd2 != 1) {
-                rightC++;
-                gcd2 = GCD(gcd2, nums[k]);
-                k++;
-            }
-            if(gcd1 == 1 && gcd2 == 1) {
-                ans = Math.min(ans, Math.min(leftC, rightC));
-            }
-            else if(gcd1 == 1) {
-                ans = Math.min(ans, leftC);
-            }
-            else if(gcd2 == 1) {
-                ans = Math.min(ans, rightC);
+            gcd = nums[i];
+            for(int j = i+1; j < n; j++) {
+                gcd = GCD(gcd, nums[j]);
+                if(gcd == 1) {
+                    ans = Math.min(ans, j - i);
+                    break;
+                }
             }
         }
         return ans + (n-1);
