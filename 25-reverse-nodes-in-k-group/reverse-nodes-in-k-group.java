@@ -10,38 +10,56 @@
  */
 class Solution {
     public ListNode reverseKGroup(ListNode head, int k) {
-        ListNode Dummy = new ListNode();
-        ListNode temp = Dummy;
-        int i = 0;
+        int c = k;
+        ListNode oh = null;
+        ListNode ot = null;
+        ListNode th = null;
+        ListNode tt = null;
         ListNode curr = head;
-        ListNode start = head;
         while(curr != null) {
-            if(i == k - 1) {
-                ListNode next = curr.next;
-                curr.next = null;
-                ListNode reverse = reverse(start, null);
-                temp.next = reverse;
-                while(temp.next != null) {
-                    temp = temp.next;
-                }
-                start = next;
-                curr = next;
-                i = 0;
+            ListNode next = curr.next;
+            curr.next = null;
+            curr.next = th;
+            if(th == null) {    
+                tt = curr;
+                th = curr;
             }
             else {
-                curr = curr.next;
-                i++;
+                th = curr;
             }
+            c--;
+            if(c == 0) {
+                if(oh == null) {
+                    oh = th;
+                }
+                else {
+                    ot.next = th;
+                }
+                ot = tt;
+                c = k;
+                tt = null;
+                th = null;
+            }
+            curr = next;
         }
-        temp.next = start;
-        return Dummy.next;
-    }
-    public ListNode reverse(ListNode curr, ListNode prev) {
-        if(curr == null) {
-            return prev;
+        if(c != 0) {
+            ListNode t1 = null;
+            ListNode t2 = null;
+            while(th != null) {
+                ListNode next = th.next;
+                th.next = null;
+                th.next = t1;
+                if(t1 == null) {
+                    t1 = th;
+                    t2 = th;
+                }
+                else {
+                    t1 = th;
+                }
+                th = next;
+            }
+            ot.next = t1;
         }
-        ListNode temp = reverse(curr.next, curr);
-        curr.next = prev;
-        return temp;
+        return oh;
     }
 }
