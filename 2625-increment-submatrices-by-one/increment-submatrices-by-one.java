@@ -1,23 +1,23 @@
 class Solution {
     public int[][] rangeAddQueries(int n, int[][] queries) {
-        int[][] prefix = new int[n][n];
-        for(int[] query: queries) {
-            int r1 = query[0];
-            int r2 = query[2];
-            int c1 = query[1];
-            int c2 = query[3];
-            for(int i = r1; i <= r2; i++) {
-                prefix[i][c1] += 1;
-                if(c2+1 < n) {
-                    prefix[i][c2+1] -= 1;;
+        int[][] ans = new int[n][n];
+        for(int i = 0; i < queries.length; i++) {
+            int r1 = queries[i][0];
+            int c1 = queries[i][1];
+            int r2 = queries[i][2];
+            int c2 = queries[i][3];
+            for(int r = r1; r <= r2; r++) {
+                ans[r][c1] += 1;
+                if(c2+1 != n) {
+                    ans[r][c2+1] -= 1;
                 }
             }
         }
         for(int i = 0; i < n; i++) {
             for(int j = 1; j < n; j++) {
-                prefix[i][j] += prefix[i][j-1];
+                ans[i][j] += ans[i][j-1];
             }
         }
-        return prefix;
+        return ans;
     }
 }
