@@ -21,7 +21,7 @@ class Solution {
             int y = buildings[i][1];
             List<Integer> ll1 = map1.get(y);
             List<Integer> ll2 = map2.get(x);
-            if(ll1.get(0) == x || ll1.get(ll1.size() - 1) == x || ll1.size() < 3 || ll2.get(0) == y || ll2.get(ll2.size()-1) == y || ll2.size() < 3) {
+            if(ll1.get(0) == x || ll1.get(ll1.size() - 1) == x || ll2.get(0) == y || ll2.get(ll2.size()-1) == y) {
                 continue;
             }
             ans++;
