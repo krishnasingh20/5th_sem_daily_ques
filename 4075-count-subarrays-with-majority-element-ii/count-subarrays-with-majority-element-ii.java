@@ -29,7 +29,7 @@ class Solution {
                 compress.put(x, id++);
             }
         }
-        Fenwick ft = new Fenwick(id+2);
+        Fenwick ft = new Fenwick(id);
         long ans = 0;
         ft.update(compress.get(0), 1);
         for(int x: nums) {
