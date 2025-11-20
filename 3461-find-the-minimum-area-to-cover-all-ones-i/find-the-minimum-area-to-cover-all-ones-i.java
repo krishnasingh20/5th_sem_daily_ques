@@ -1,21 +1,21 @@
 class Solution {
     public int minimumArea(int[][] grid) {
-        int n = grid.length;
-        int m = grid[0].length;
-        int minX = n;
-        int maxX = -1;
-        int minY = m;
-        int maxY = -1;
-        for(int i = 0; i < n; i++) {
-            for(int j = 0; j < m; j++) {
+        int ans = 0;
+        int minR = 10000;
+        int maxR = -1;
+        int minC = 10000;
+        int maxC = -1;
+        for(int i = 0; i < grid.length; i++) {
+            for(int j = 0; j < grid[0].length; j++) {
                 if(grid[i][j] == 1) {
-                    minX = Math.min(minX, j);
-                    maxX =   Math.max(maxX, j);
-                    minY = Math.min(minY, i);
-                    maxY = Math.max(maxY, i);
+                    minR = Math.min(minR, i);
+                    maxR = Math.max(maxR, i);
+                    minC = Math.min(minC, j);
+                    maxC = Math.max(maxC, j);
+                    ans = (maxR - minR + 1)*(maxC - minC + 1);
                 }
             }
         }
-        return (maxX - minX + 1)*(maxY - minY + 1);
+        return ans;
     }
 }
