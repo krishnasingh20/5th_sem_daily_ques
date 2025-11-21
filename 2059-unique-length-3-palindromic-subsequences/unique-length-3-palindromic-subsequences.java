@@ -27,7 +27,6 @@ class Solution {
                             cnt++;
                         }
                     }
-                    System.out.println(cnt);
                     ans += cnt;
                 }
                 visited[c-'a'] = true;
