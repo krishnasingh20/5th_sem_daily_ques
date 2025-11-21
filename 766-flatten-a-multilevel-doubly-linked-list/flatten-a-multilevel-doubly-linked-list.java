@@ -13,31 +13,33 @@ class Solution {
         if(head == null) {
             return head;
         }
-        Stack<Node> st = new Stack<>();
+        Node curr = head;
         Node dummy = new Node();
         Node temp = dummy;
-        Node curr = head;
+        Stack<Node> st = new Stack<>();
         while(curr != null || !st.isEmpty()) {
-            if(curr == null) {
-                curr = st.pop();
-            }
-            temp.next = curr;
-            curr.prev = temp;
-            temp = temp.next;
-            if(curr.child != null) {
-                if(curr.next != null) {
-                    st.push(curr.next);
+            if(curr != null) {
+                temp.next = curr;
+                curr.prev = temp;
+                temp = temp.next;
+                if(curr.child != null) {
+                    if(curr.next != null) {
+                        st.push(curr.next);
+                        curr.next.prev = null;
+                        curr.next = null;
+                    }
+                    Node ch = curr.child;
+                    curr.child = null;
+                    curr = ch;
+                    continue;
                 }
-                Node next = curr.child;
-                curr.child = null;
-                curr = next;
-            }
-            else {
                 curr = curr.next;
             }
+            else {
+                curr = st.pop();
+            }
         }
-        temp = dummy.next;
-        temp.prev = null;
-        return temp;
+        dummy.next.prev = null;
+        return dummy.next;
     }
 }
