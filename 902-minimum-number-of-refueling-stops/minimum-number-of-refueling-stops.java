@@ -14,13 +14,11 @@ class Solution {
                 pq.add(stations[i]);
                 i++;
             }
-            if(!pq.isEmpty()) {
-                end += pq.poll()[1];
-                ans++;
-            }
-            else {
+            if(pq.isEmpty()) {
                 break;
             }
+            end += pq.poll()[1];
+            ans++;
         }
         if(end >= target) {
             return ans;
