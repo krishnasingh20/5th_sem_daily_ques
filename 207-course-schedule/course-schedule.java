@@ -6,8 +6,8 @@ class Solution {
         }
         int[] inDegree = new int[numCourses];
         for(int[] pre: prerequisites) {
-            inDegree[pre[1]]++;
-            map.get(pre[0]).add(pre[1]);
+            inDegree[pre[0]]++;
+            map.get(pre[1]).add(pre[0]);
         }
         Queue<Integer> q = new LinkedList<>();
         for(int i = 0; i < inDegree.length; i++) {
