@@ -11,17 +11,17 @@ class Solution {
         int count = 0;
         PriorityQueue<int[]> pq = new PriorityQueue<>((a, b)->a[1]-b[1]);
         pq.add(new int[]{k, 0});
-        HashSet<Integer> visited = new HashSet<>();
+        boolean[] visited = new boolean[n+1];
         while(!pq.isEmpty()) {
             int[] rp = pq.poll();//remove
-            if(visited.contains(rp[0])) {//ignore if already visited
+            if(visited[rp[0]]) {//ignore if already visited
                 continue;
             }
-            visited.add(rp[0]);//marked visited
+            visited[rp[0]] = true;//marked visited
             totalTime = Math.max(totalTime, rp[1]);//self work
             count++;//to know how many node we have visited
             for(int nbrs: map.get(rp[0]).keySet()) {//add all unvisited neighbour
-                if(!visited.contains(nbrs)) {
+                if(!visited[nbrs]) {
                     int time = rp[1] + map.get(rp[0]).get(nbrs);
                     pq.add(new int[]{nbrs, time});
                 }
