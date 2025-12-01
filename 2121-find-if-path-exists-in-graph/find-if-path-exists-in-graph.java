@@ -1,42 +1,31 @@
 class Solution {
-    public boolean validPath(int n, int[][] edges, int src, int des) {
-        HashMap<Integer, List<Integer>> map=new HashMap<>();
-        for (int i=0;i<n;i++){
-            map.put(i,new ArrayList<>());
+    public boolean validPath(int n, int[][] edges, int source, int destination) {
+        HashMap<Integer, List<Integer>> map = new HashMap<>();
+        for(int i = 0; i < n; i++) {
+            map.put(i, new ArrayList<>());
         }
-        for(int[] edge:edges){
-            int v1=edge[0];
-            int v2=edge[1];
-            map.get(v1).add(v2);
-            map.get(v2).add(v1);
+        for(int[] edge: edges) {
+            map.get(edge[0]).add(edge[1]);
+            map.get(edge[1]).add(edge[0]);
         }
-        return bft(map,src,des);
-    }
-    public boolean bft(HashMap<Integer,List<Integer>> map,int src,int des){
-        Queue<Integer> q=new LinkedList<>();
-        HashSet<Integer> visited=new HashSet<>();
-        q.add(src);
-        while(!q.isEmpty()){
-            // remove
-            int r=q.poll();
-            // ignore if already visited
-            if(visited.contains(r)){
+        HashSet<Integer> visited = new HashSet<>();
+        Queue<Integer> q = new LinkedList<>();
+        q.add(source);
+        while(!q.isEmpty()) {
+            int rv = q.poll();//remove
+            if(visited.contains(rv)) {//ignore if already visited
                 continue;
             }
-            // marked visited
-            visited.add(r);
-            // self work
-            if(r==des){
+            visited.add(rv);//marked visited
+            if(rv == destination) {//self work
                 return true;
             }
-            // add unvisited nbrs
-            for(int nbrs:map.get(r)){
-                if(!visited.contains(nbrs)){
+            for(int nbrs: map.get(rv)) {//add all unvisited neighbour
+                if(!visited.contains(nbrs)) {
                     q.add(nbrs);
                 }
             }
         }
         return false;
     }
-
 }
