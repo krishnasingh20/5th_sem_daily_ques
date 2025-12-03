@@ -1,40 +1,38 @@
 class Solution {
     public int[] findRedundantConnection(int[][] edges) {
-        List<Integer>[] adj = new ArrayList[edges.length+1];
-        for(int i = 1; i <= edges.length; i++) {
+        int n = edges.length;
+        List<Integer>[] adj = new ArrayList[n+1];
+        for(int i = 1; i <= n; i++) {
             adj[i] = new ArrayList<>();
         }
-        int[] inDegree = new int[edges.length + 1];
         for(int[] edge: edges) {
-            inDegree[edge[0]]++;
-            inDegree[edge[1]]++;
+            if(bfs(edge[0], edge[1], adj)) {
+                return edge;
+            }
             adj[edge[0]].add(edge[1]);
             adj[edge[1]].add(edge[0]);
         }
-        boolean[] visited = new boolean[edges.length+1];
+        return new int[]{}; 
+    }
+    public boolean bfs(int src, int des, List<Integer>[] adj) {
         Queue<Integer> q = new LinkedList<>();
-        for(int i = 0; i < inDegree.length; i++) {
-            if(inDegree[i] == 1) {
-                q.add(i);
-            }
-        }
+        boolean[] visited = new boolean[adj.length];
+        q.add(src);
         while(!q.isEmpty()) {
             int rv = q.poll();
+            if(visited[rv]) {
+                continue;
+            }
             visited[rv] = true;
+            if(rv == des) {
+                return true;
+            }
             for(int nbrs: adj[rv]) {
-                if(!visited[nbrs] ) {
-                    inDegree[nbrs]--;
-                    if(inDegree[nbrs] == 1) {
-                        q.add(nbrs);
-                    }
+                if(!visited[nbrs]) {
+                    q.add(nbrs);
                 }
             }
         }
-        for(int i = edges.length - 1; i >= 0; i--) {
-            if(!visited[edges[i][0]] && !visited[edges[i][1]]) {
-                return edges[i];
-            }
-        }
-        return new int[]{};
+        return false;
     }
 }
