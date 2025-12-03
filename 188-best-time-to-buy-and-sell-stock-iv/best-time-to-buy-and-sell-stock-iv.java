@@ -1,23 +1,19 @@
 class Solution {
     public int maxProfit(int k, int[] prices) {
-        Integer[][][] dp = new Integer[prices.length][2][k+1];
-        return profit(prices, 0, 0, k, dp);
-    }
-    public int profit(int[] prices, int i, int state, int k, Integer[][][] dp) {
-        if(i == prices.length || k == 0) {
-            return 0;
+        int n = prices.length;
+        int[][][] dp = new int[n+1][2][k+1];
+        for(int i = n - 1; i >= 0; i--) {
+            for(int j = 1; j <= k; j++) {
+                // state - 0
+                int a = -prices[i] + dp[i+1][1][j];
+                int b = dp[i+1][0][j];
+                dp[i][0][j] = Math.max(a, b);
+                // state - 1
+                a = prices[i] + dp[i+1][0][j-1];
+                b = dp[i+1][1][j];
+                dp[i][1][j] = Math.max(a, b);
+            }
         }
-        if(dp[i][state][k] != null) {
-            return dp[i][state][k];
-        }
-        int a = 0;
-        if(state == 0) {
-            a = -prices[i] + profit(prices, i+1, 1, k, dp);
-        }
-        else {
-            a = prices[i] + profit(prices, i+1, 0, k-1, dp);
-        }
-        int b = profit(prices, i+1, state, k, dp);
-        return dp[i][state][k] = Math.max(a, b);
+        return dp[0][0][k];
     }
 }
