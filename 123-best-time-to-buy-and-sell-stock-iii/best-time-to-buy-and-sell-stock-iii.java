@@ -15,7 +15,7 @@ class Solution {
         if(dp[i][state][k] != Integer.MIN_VALUE) {
             return dp[i][state][k];
         }
-        int a = Integer.MIN_VALUE;;
+        int a = 0;
         if(state == 1) {
             a = prices[i] + profit(prices, i+1, 0, k-1, dp);
         }
