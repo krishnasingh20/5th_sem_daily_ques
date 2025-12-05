@@ -14,33 +14,33 @@
  * }
  */
 class Solution {
+    HashMap<TreeNode, Integer> dp = new HashMap<>();
     public int rob(TreeNode root) {
-        HashMap<Integer, Integer> dp = new HashMap<>();
-        return dfs(1, root, dp);
+        return dfs(root);
     }
-    public int dfs(int i, TreeNode root, HashMap<Integer, Integer> dp) {
+    public int dfs(TreeNode root) {
         if(root == null) {
             return 0;
         }
         if(root.left == null && root.right == null) {
             return root.val;
         }
-        if(dp.containsKey(i)) {
-            return dp.get(i);
+        if(dp.get(root) != null) {
+            return dp.get(root);
         }
         int rob = root.val;
         if(root.left != null) {
-            rob += dfs((i*2)*2, root.left.left, dp);
-            rob += dfs((i*2)*2 + 1, root.left.right, dp);
+            rob += dfs(root.left.left);
+            rob += dfs(root.left.right);
         }
         if(root.right != null) {
-            rob += dfs(((i*2)+1)*2, root.right.left, dp);
-            rob += dfs(((i*2)+1)*2 + 1, root.right.right, dp);
+            rob += dfs(root.right.left);
+            rob += dfs(root.right.right);
         }
         int notRob = 0;
-        notRob += dfs(i*2, root.left, dp);
-        notRob += dfs((i*2)+1, root.right, dp);
-        dp.put(i, Math.max(rob, notRob));
+        notRob += dfs(root.left);
+        notRob += dfs(root.right);
+        dp.put(root, Math.max(rob, notRob));
         return Math.max(rob, notRob);
     }
 }
