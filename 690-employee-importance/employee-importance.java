@@ -9,25 +9,24 @@ class Employee {
 
 class Solution {
     public int getImportance(List<Employee> employees, int id) {
+        int max = 0;
         HashMap<Integer, Employee> map = new HashMap<>();
         for(Employee e: employees) {
             int val = e.id;
             map.put(val, e);
+            max = Math.max(val,  max);
         }
         Queue<Integer> q = new LinkedList<>();
-        HashSet<Integer> visited = new HashSet<>();
+        boolean[] visited = new boolean[max+1];
         q.add(id);
         int ans = 0;
         while(!q.isEmpty()) {
             int rv = q.poll();
-            if(visited.contains(rv)) {
-                continue;
-            }
-            visited.add(rv);
+            visited[rv] = true;
             Employee e = map.get(rv);
             ans += e.importance;
             for(int sub: e.subordinates) {
-                if(!visited.contains(sub)) {
+                if(!visited[sub]) {
                     q.add(sub);
                 }
             }
