@@ -14,20 +14,23 @@ class Solution {
             return dp[i][curr+100];
         }
         if(ch[i] == '(') {
-            return dp[i][curr+100] = validate(ch, i+1, curr+1, dp);
+            dp[i][curr+100] = validate(ch, i+1, curr+1, dp);
         }
         else if(ch[i] == ')' && curr > 0) {
-            return dp[i][curr+100] = validate(ch, i+1, curr-1, dp);
+            dp[i][curr+100] = validate(ch, i+1, curr-1, dp);
         }
         else if(ch[i] == '*') {
             boolean a = validate(ch, i+1, curr, dp);
             boolean b = validate(ch, i+1, curr+1, dp);
+            dp[i][curr+100] = (a || b);
             if(curr > 0) {
                 boolean c = validate(ch, i+1, curr-1, dp);
-                return dp[i][curr+100] = (a || b || c);
+                dp[i][curr+100] = (dp[i][curr+100] || c);
             }
-            return dp[i][curr+100] = (a || b);
         }
-        return dp[i][curr+100] = false;
+        else {
+            dp[i][curr+100] = false;
+        }
+        return dp[i][curr+100];
     }
 }
