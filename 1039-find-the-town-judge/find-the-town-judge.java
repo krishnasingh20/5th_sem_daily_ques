@@ -7,7 +7,7 @@ class Solution {
             outDegree[t[0]]++;
         }
         for(int i = 1; i <= n; i++) {
-            if(inDegree[i] == n - 1 && outDegree[i] == 0) {
+            if(inDegree[i] == n-1 && outDegree[i] == 0) {
                 return i;
             }
         }
