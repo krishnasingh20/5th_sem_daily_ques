@@ -1,29 +1,34 @@
 class Solution {
     public int findCircleNum(int[][] isConnected) {
-        int n = isConnected.length;
-        int provinces = 0;
-        HashSet<Integer> visited = new HashSet<>();
+        return component(isConnected);
+    }
+    public int component(int[][] graph) {
+        int n = graph.length;
+        int m = graph[0].length;
+        boolean[] visited = new boolean[n];
         Queue<Integer> q = new LinkedList<>();
+        int c = 0;
         for(int i = 0; i < n; i++) {
-            if(visited.contains(i)) {
+            if(visited[i]) {
                 continue;
             }
+            c++;
             q.add(i);
-            provinces++;
             while(!q.isEmpty()) {
-                int rv = q.poll();//remove
-                if(visited.contains(rv)) {//ignore if already visited
+                int rv = q.poll();
+                if(visited[rv]) {
                     continue;
                 }
-                visited.add(rv);//marked visited
-                // self work - nothing to do these time
-                for(int j = 0; j < n; j++) {// add all unvisited neighbour
-                    if(isConnected[rv][j] == 1 && !visited.contains(j)) {
-                        q.add(j);
+                visited[rv] = true;
+                for(int j = 0; j < m; j++) {
+                    if(j != rv) {
+                        if(!visited[j] && graph[rv][j] == 1) {
+                            q.add(j);
+                        }
                     }
                 }
             }
         }
-        return provinces;
+        return c;
     }
 }
