@@ -1,38 +1,67 @@
 class Solution {
     public int[] findRedundantConnection(int[][] edges) {
-        int n = edges.length;
-        List<Integer>[] adj = new ArrayList[n+1];
-        for(int i = 1; i <= n; i++) {
-            adj[i] = new ArrayList<>();
+        int v = edges.length;
+        DSU dsu = new DSU();
+        for(int i = 1; i <= v; i++) {
+            dsu.create(i);
         }
         for(int[] edge: edges) {
-            if(bfs(edge[0], edge[1], adj)) {
+            if(dsu.union(edge[0], edge[1])) {
                 return edge;
             }
-            adj[edge[0]].add(edge[1]);
-            adj[edge[1]].add(edge[0]);
         }
-        return new int[]{}; 
+        return new int[]{};
     }
-    public boolean bfs(int src, int des, List<Integer>[] adj) {
-        Queue<Integer> q = new LinkedList<>();
-        boolean[] visited = new boolean[adj.length];
-        q.add(src);
-        while(!q.isEmpty()) {
-            int rv = q.poll();
-            if(visited[rv]) {
-                continue;
+    class DSU{
+        private HashMap<Integer, Node> map = new HashMap<>();
+        class Node {
+            int val;
+            int rank;
+            Node parent;
+            public Node(int val, int rank, Node parent) {
+                this.val = val;
+                this.rank = rank;
+                this.parent = parent;
             }
-            visited[rv] = true;
-            if(rv == des) {
+        }
+        public void create(int v) {
+            Node nn = new Node(v, 0, null);
+            nn.parent = nn;
+            map.put(v, nn);
+        }
+        public int find(int v) {
+            Node nn = map.get(v);
+            return find(nn).val;
+        }
+        private Node find(Node node) {
+            if(node.parent == node) {
+                return node;
+            }
+            Node nn = find(node.parent);
+            node.parent = nn;
+            return nn;
+        }
+        public boolean union(int v1, int v2) {
+            Node n1 = map.get(v1);
+            Node n2 = map.get(v2);
+            Node r1 = find(n1);
+            Node r2 = find(n2);
+            if(r1 == r2) {
                 return true;
             }
-            for(int nbrs: adj[rv]) {
-                if(!visited[nbrs]) {
-                    q.add(nbrs);
+            else {
+                if(r1.rank == r2.rank) {
+                    r1.parent = r2;
+                    r2.rank++;
                 }
+                else if(r1.rank < r2.rank) {
+                    r1.parent = r2;
+                }
+                else {
+                    r2.parent = r1;
+                }
+                return false;
             }
         }
-        return false;
     }
 }
