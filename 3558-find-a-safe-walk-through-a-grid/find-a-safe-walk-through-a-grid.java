@@ -1,45 +1,42 @@
 class Solution {
     static int[] dx = {0,0,-1,1};
     static int[] dy = {1,-1,0,0};
-    int m;
-    int n;
-    Boolean[][][] dp;
     public boolean findSafeWalk(List<List<Integer>> grid, int health) {
-        m = grid.size();
-        n = grid.get(0).size();
-        dp = new Boolean[m][n][health+1];
-        return dfs(grid, 0, 0, health);
-    }
-    public boolean dfs(List<List<Integer>> grid, int r, int c, int health) {
-        if(r == m-1 && c == n-1) {
-            if(grid.get(r).get(c) == 1) {
-                health--;
+        int m = grid.size();
+        int n = grid.get(0).size();
+        PriorityQueue<Pair> pq = new PriorityQueue<>((a, b)->a.cost-b.cost);
+        pq.add(new Pair(0, 0, grid.get(0).get(0)));
+        boolean[][] visited = new boolean[m][n];
+        while(!pq.isEmpty()) {
+            Pair rv = pq.poll();
+            if(visited[rv.x][rv.y]) {
+                continue;
             }
-
-            if(health >= 1) {
-                return true;
+            visited[rv.x][rv.y] = true;
+            if(rv.x == m-1 && rv.y == n-1) {
+                if(health-rv.cost >= 1) {
+                    return true;
+                }
+                continue;
             }
-            return false;
-        }
-        if(health <= 0) {
-            return false;
-        }
-        if(dp[r][c][health] != null) {
-            return dp[r][c][health];
-        }
-        int val = grid.get(r).get(c);
-        grid.get(r).set(c, -1);
-        for(int i = 0; i < 4; i++) {
-            int nx = r+dx[i];
-            int ny = c+dy[i];
-            if(nx >= 0 && ny >= 0 && nx < m && ny < n && grid.get(nx).get(ny) != -1) {
-                boolean flag = dfs(grid, nx, ny, health-val);
-                if(flag) {
-                    return dp[r][c][health] = true;
+            for(int i = 0; i < 4; i++) {
+                int nx = rv.x+dx[i];
+                int ny = rv.y+dy[i];
+                if(nx >= 0 && ny >= 0 && nx < m && ny < n && !visited[nx][ny]) {
+                    pq.add(new Pair(nx, ny, rv.cost+grid.get(nx).get(ny)));
                 }
             }
         }
-        grid.get(r).set(c, val);
-        return dp[r][c][health] = false;
+        return false;
+    }
+    class Pair{
+        int x;
+        int y;
+        int cost;
+        public Pair(int x, int y, int cost) {
+            this.x = x;
+            this.y = y;
+            this.cost = cost;
+        }
     }
 }
