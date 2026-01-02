@@ -23,7 +23,9 @@ class Solution {
             ans[rv.vtx] = rv.cost;
             for(int[] nbrs: graph[rv.vtx]) {
                 if(ans[nbrs[0]] == Integer.MAX_VALUE) {
-                    pq.add(new Pair(nbrs[0], nbrs[1]+rv.cost));
+                    if(disappear[nbrs[0]] > nbrs[1]+rv.cost) {
+                        pq.add(new Pair(nbrs[0], nbrs[1]+rv.cost));
+                    }
                 }
             }
         }
