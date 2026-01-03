@@ -22,6 +22,7 @@ class Solution {
                     if(visited[rv.vtx] != rv.dis) {
                         return false;//odd length cycle
                     }
+                    continue;
                 }
                 visited[rv.vtx] = rv.dis;
                 for(int nbrs: graph[rv.vtx]) {
