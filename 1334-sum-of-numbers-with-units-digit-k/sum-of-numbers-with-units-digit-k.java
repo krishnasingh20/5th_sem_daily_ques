@@ -12,17 +12,19 @@ class Solution {
         }
         int c = 1;
         int sum = k;
-        while(sum%10 != rem && sum <= num) {
+        boolean[] seen = new boolean[10];
+        seen[sum%10] = true;
+        while(sum%10 != rem) {
             sum += k;
             c++;
+            if(seen[sum%10]) {
+                return -1;
+            }
+            seen[sum%10] = true;
         }
         if(sum > num) {
             return -1;
         }
-        // num -= sum;
-        // if(num % 10 != 0) {
-        //     return -1;
-        // }
         return c;
     }
 }
