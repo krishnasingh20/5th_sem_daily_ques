@@ -1,45 +1,56 @@
 class Solution {
-    long[] cost;
+    HashMap<Integer,HashMap<Integer,Integer>> mp;
     public int findCheapestPrice(int n, int[][] flights, int src, int dst, int k) {
-        List<int[]>[] graph = new ArrayList[n];
-        for(int i = 0; i < n; i++) {
-            graph[i] = new ArrayList<>();
+        mp=new HashMap<>();
+        for(int i=0;i<n;i++){
+            mp.put(i,new HashMap<>());
         }
-        for(int[] flight: flights) {
-            graph[flight[0]].add(new int[]{flight[1], flight[2]});
+        for(int[] e:flights){
+            int v1=e[0];
+            int v2=e[1];
+            int cost=e[2];
+            mp.get(v1).put(v2,cost);
         }
-        Queue<Pair> q = new LinkedList<>();
-        cost = new long[n];
-        Arrays.fill(cost, Long.MAX_VALUE);
-        cost[src] = 0;
-        int ans = Integer.MAX_VALUE;
-        q.add(new Pair(src, 0, 0));
-        while(!q.isEmpty()) {
-            Pair rv = q.poll();
-            if(rv.vtx == dst) {
-                ans = Math.min(ans, rv.cost);
+        return path(dst,k,src);
+    }
+    public int path(int dst,int k,int src){
+        PriorityQueue<Pair> pq=new PriorityQueue<>((a,b)->a.cost-b.cost);
+        pq.add(new Pair(src,0,k+1));
+        int[] best = new int[mp.size()];//prevents from exploring worse states of the same vertex
+        Arrays.fill(best, -1);
+
+        while(!pq.isEmpty()){
+            // remove
+            Pair rp=pq.poll();
+
+            if(rp.vtx==dst){
+                return rp.cost;
+            }
+
+            if(best[rp.vtx] >= rp.mk){
                 continue;
             }
-            for(int[] nbrs: graph[rv.vtx]) {
-                int newStop = rv.stop+1;
-                int newCost = rv.cost+nbrs[1];
-                if(nbrs[0] != dst && newStop > k || cost[nbrs[0]] <= newCost) {
-                    continue;
+            best[rp.vtx] = rp.mk;
+
+            // add nbrs
+            if(rp.mk>0){
+                for(int nbrs:mp.get(rp.vtx).keySet()){
+                        int cost=mp.get(rp.vtx).get(nbrs);
+                        pq.add(new Pair(nbrs,rp.cost+cost,rp.mk-1));
+                    
                 }
-                cost[nbrs[0]] = newCost;
-                q.add(new Pair(nbrs[0], newStop, newCost));
             }
         }
-        return ans==Integer.MAX_VALUE?-1:ans;
+        return -1;
     }
     class Pair{
         int vtx;
-        int stop;
         int cost;
-        Pair(int vtx, int stop, int cost) {
-            this.vtx = vtx;
-            this.stop = stop;
-            this.cost = cost;
+        int mk;
+        Pair(int vtx,int cost,int mk){
+            this.vtx=vtx;
+            this.cost=cost;
+            this.mk=mk;
         }
     }
 }
