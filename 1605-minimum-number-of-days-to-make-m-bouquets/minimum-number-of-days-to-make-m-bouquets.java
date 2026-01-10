@@ -1,18 +1,14 @@
 class Solution {
     public int minDays(int[] bloomDay, int m, int k) {
-        if(m * k > bloomDay.length) {
-            return -1;
-        }
         int ans = -1;
         int low = 1;
-        int high = 0;
-        for(int num: bloomDay) {
-            high = Math.max(high, num);
+        int high = -1;
+        for(int bloom: bloomDay) {
+            high = Math.max(bloom, high);
         }
         while(low <= high) {
-            int mid = low + (high - low) / 2;
-            int c = count(mid, bloomDay, k);
-            if(c >= m) {
+            int mid = low + (high-low)/2;
+            if(possible(bloomDay, mid, m, k)) {
                 ans = mid;
                 high = mid - 1;
             }
@@ -22,19 +18,24 @@ class Solution {
         }
         return ans;
     }
-    public int count(int mid, int[] arr, int k) {
-        int c = 0;
-        int c1 = 0;
-        for(int i = 0; i < arr.length; i++) {
-            if(arr[i] > mid) {
-                c += (c1 / k);
-                c1 = 0;
+    public boolean possible(int[] bloomDay, int mid, int m, int k) {
+        int bloom = 0;
+        int m1 = 0;
+        for(int i = 0; i < bloomDay.length; i++) {
+            if(bloomDay[i] <= mid) {
+                bloom++;
             }
             else {
-                c1++;
+                m1 += bloom/k;
+                bloom = 0;
+            }
+            if(m1 >= m) {
+                return true;
             }
         }
-        c += (c1 / k);
-        return c;
+        if(bloom > 0) {
+            m1 += bloom/k;
+        }
+        return m1 >= m;
     }
 }
