@@ -6,17 +6,9 @@ class Solution {
         int n = arr.length;
         for(int i = 1; i < n; i++) {
             int prev = arr[i]-difference;
-            Integer val1 = map.get(arr[i]);
-            Integer val2 = map.get(prev);
-            if(val1 == null) {
-                map.put(arr[i], 1);
-                val1 = 1;
-            }
-            if(val2 != null) {
-                ans = Math.max(ans, Math.max(val2+1, val1));
-                map.put(arr[i], Math.max(val2+1, val1));
-            }
-            ans = Math.max(ans, val1);
+            int val = 1 + map.getOrDefault(prev, 0);
+            map.put(arr[i], val);
+            ans = Math.max(ans, val);
         }
         return ans;
     }
