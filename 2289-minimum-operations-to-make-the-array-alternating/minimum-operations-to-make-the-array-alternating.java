@@ -5,7 +5,6 @@ class Solution {
             return 0;
         }
         HashMap<Integer, Integer> map = new HashMap<>();
-        PriorityQueue<int[]> pq = new PriorityQueue<>((a, b)->b[1]-a[1]);
         for(int i = 0; i < n; i += 2) {
             map.put(nums[i], map.getOrDefault(nums[i], 0)+1);
         }
