@@ -9,40 +9,61 @@ class Solution {
         for(int i = 0; i < n; i += 2) {
             map.put(nums[i], map.getOrDefault(nums[i], 0)+1);
         }
+        int a10 = -1;
+        int a11 = -1;
+        int a20 = -1;
+        int a21 = -1;
         for(int key: map.keySet()) {
-            pq.add(new int[]{key, map.get(key)});
+            if(map.get(key) >= a11) {
+                a20 = a10;
+                a21 = a11;
+                a10 = key;
+                a11 = map.get(key);
+            }
+            else if(map.get(key) >= a21) {
+                a20 = key;
+                a21 = map.get(key);
+            }
         }
-        int[] a1 = pq.poll();
-        int[] a2 = pq.isEmpty()?new int[]{}:pq.poll();
         map.clear();
-        pq.clear();
         for(int i = 1; i < n; i += 2) {
             map.put(nums[i], map.getOrDefault(nums[i], 0)+1);
         }
+        int b10 = -1;
+        int b11 = -1;
+        int b20 = -1;
+        int b21 = -1;
         for(int key: map.keySet()) {
-            pq.add(new int[]{key, map.get(key)});
+            if(map.get(key) >= b11) {
+                b20 = b10;
+                b21 = b11;
+                b10 = key;
+                b11 = map.get(key);
+            }
+            else if(map.get(key) >= b21) {
+                b20 = key;
+                b21 = map.get(key);
+            }
         }
-        int[] b1 = pq.poll();
-        int[] b2 = pq.isEmpty()?new int[]{}:pq.poll();
         int len1 = n/2 + (n % 2);
         int len2 = n/2;
-        if(a1[0] != b1[0]) {
-            return (len1-a1[1]) + (len2-b1[1]);
+        if(a10 != b10) {
+            return (len1-a11) + (len2-b11);
         }
         else{
-            if(a2.length != 0 && b2.length != 0) {
-                int opr1 = (len1-a1[1]) + (len2-b2[1]);
-                int opr2 = (len1-a2[1]) + (len2-b1[1]);
+            if(a20 != -1 && b20 != -1) {
+                int opr1 = (len1-a11) + (len2-b21);
+                int opr2 = (len1-a21) + (len2-b11);
                 return Math.min(opr1, opr2);
             }
-            else if(a2.length == 0 && b2.length != 0) {
-                int opr1 = (len1-a1[1]) + (len2-b2[1]);
-                int opr2 = len1 + (len2-b1[1]);
+            else if(a20 == -1 && b20 != -1) {
+                int opr1 = (len1-a11) + (len2-b21);
+                int opr2 = len1 + (len2-b11);
                 return Math.min(opr1, opr2);
             }
-            else if(a2.length != 0 && b2.length == 0) {
-                int opr1 = (len1 - a1[1]) + len2;
-                int opr2 = (len1-a2[1]) + (len2-b1[1]);
+            else if(a20 != -1 && b20 == -1) {
+                int opr1 = (len1 - a11) + len2;
+                int opr2 = (len1-a21) + (len2-b11);
                 return Math.min(opr1, opr2);
             }
             else {
