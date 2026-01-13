@@ -4,22 +4,38 @@ class Solution {
     public int largestPrime(int n) {
         prime = new boolean[n+1];
         generatePrime(n);
-        for(int i = ll.size()-1; i >= 0; i--) {
-            int num = ll.get(i);
-            if(possible(num)) {
-                return num;
-            }
-        }
-        return 0;
-    }
-    public boolean possible(int n) {
         int curr = 0;
+        int ans = 0;
         int i = 0;
-        while(i < ll.size() && curr < n) {
+        while(i < ll.size()) {
             curr += ll.get(i);
+            if(curr > n) {
+                break;
+            }
+            if(isPrime(curr)) {
+                ans = curr;
+            }
             i++;
         }
-        return curr == n;
+        return ans;
+    }
+    public boolean isPrime(int n) {
+        if(n <= 1) {
+            return false;
+        }
+        if(n == 2 || n == 3) {
+            return true;
+        }
+        if(n % 2 == 0 || n % 3 == 0) {
+            return false;
+        }
+        int limit = (int)Math.sqrt(n);
+        for(int i = 5; i <= limit; i += 6) {
+            if(n % i == 0 || n %  (i+2) == 0) {
+                return false;
+            }
+        }
+        return true;
     }
     public void generatePrime(int n) {
         Arrays.fill(prime, true);
