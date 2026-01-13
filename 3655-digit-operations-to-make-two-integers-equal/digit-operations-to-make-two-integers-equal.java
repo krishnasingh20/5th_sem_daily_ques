@@ -1,14 +1,11 @@
 class Solution {
-    static int limit = 10001;
-    boolean[] isPrime;
     public int minOperations(int n, int m) {
-        sieve();
-        if(isPrime[n]) {
+        if(isPrime(n)) {
             return -1;
         }
         PriorityQueue<Pair> pq = new PriorityQueue<>((a, b)->Integer.compare(a.cost, b.cost));
         HashSet<Integer> visited = new HashSet<>();
-        int[] dist = new int[limit];
+        int[] dist = new int[10001];
         Arrays.fill(dist, Integer.MAX_VALUE);
         dist[n] = n;
         pq.add(new Pair(n, n));
@@ -26,7 +23,7 @@ class Solution {
                     ch[i] = (char)(c+1);
                     int curr = Integer.parseInt((new String(ch)));
                     int cost = rv.cost+curr;
-                    if(!isPrime[curr] && dist[curr] > cost) {
+                    if(!isPrime(curr) && dist[curr] > cost) {
                         dist[curr] = cost;
                         pq.add(new Pair(curr, cost));
                     }
@@ -36,7 +33,7 @@ class Solution {
                     ch[i] = (char)(c-1);
                     int curr = Integer.parseInt((new String(ch)));
                     int cost = rv.cost+curr;
-                    if(!isPrime[curr] && dist[curr] > cost) {
+                    if(!isPrime(curr) && dist[curr] > cost) {
                         dist[curr] = cost;
                         pq.add(new Pair(curr, cost));
                     }
@@ -46,17 +43,23 @@ class Solution {
         }
         return -1;
     }
-    public void sieve() {
-        isPrime = new boolean[limit];
-        Arrays.fill(isPrime, true);
-        isPrime[0] = isPrime[1] = false;
-        for(int i = 2; i * i < limit; i++) {
-            if(isPrime[i]) {
-                for(int j = i * i; j < limit; j += i) {
-                    isPrime[j] = false;
-                }
+    public boolean isPrime(int n) {
+        if(n <= 1) {
+            return false;
+        }
+        if(n == 2 || n == 3) {
+            return true;
+        }
+        if(n % 2 == 0 || n % 3 == 0) {
+            return false;
+        }
+        int limit = (int)Math.sqrt(n);
+        for(int i = 5; i <= limit; i += 6) {
+            if(n % i == 0 || n % (i+2) == 0) {
+                return false;
             }
         }
+        return true;
     }
     class Pair{
         int n;
