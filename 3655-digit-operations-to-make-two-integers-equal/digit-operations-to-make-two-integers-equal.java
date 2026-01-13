@@ -5,16 +5,13 @@ class Solution {
         }
         PriorityQueue<Pair> pq = new PriorityQueue<>((a, b)->Integer.compare(a.cost, b.cost));
         HashSet<Integer> visited = new HashSet<>();
-        int[] dist = new int[10001];
-        Arrays.fill(dist, Integer.MAX_VALUE);
-        dist[n] = n;
         pq.add(new Pair(n, n));
+        visited.add(n);
         while(!pq.isEmpty()) {
             Pair rv = pq.poll();
             if(rv.n == m) {
                 return rv.cost;
             }
-            visited.add(rv.n);
             char[] ch = (Integer.toString(rv.n)).toCharArray();
             for(int i = 0; i < ch.length; i++) {
                 char c = ch[i];
@@ -23,8 +20,8 @@ class Solution {
                     ch[i] = (char)(c+1);
                     int curr = Integer.parseInt((new String(ch)));
                     int cost = rv.cost+curr;
-                    if(!isPrime(curr) && dist[curr] > cost) {
-                        dist[curr] = cost;
+                    if(!visited.contains(curr) && !isPrime(curr)) {
+                        visited.add(curr);
                         pq.add(new Pair(curr, cost));
                     }
                 }
@@ -33,8 +30,8 @@ class Solution {
                     ch[i] = (char)(c-1);
                     int curr = Integer.parseInt((new String(ch)));
                     int cost = rv.cost+curr;
-                    if(!isPrime(curr) && dist[curr] > cost) {
-                        dist[curr] = cost;
+                    if(!visited.contains(curr) && !isPrime(curr)) {
+                        visited.add(curr);
                         pq.add(new Pair(curr, cost));
                     }
                 }
