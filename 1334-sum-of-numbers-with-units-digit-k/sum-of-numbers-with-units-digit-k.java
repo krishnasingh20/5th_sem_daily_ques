@@ -1,6 +1,6 @@
 class Solution {
     public int minimumNumbers(int num, int k) {
-        int rem = num%10;
+        int rem = num % 10;
         if(num == 0) {
             return 0;
         }
@@ -10,13 +10,13 @@ class Solution {
         if((rem & 1) == 1 && (k & 1) == 0) {
             return -1;
         }
-        boolean[] seen = new boolean[10];//for checking the repetion of number 
         int c = 1;
         int sum = k;
-        seen[k] = true;
-        while(sum%10 != rem) {
-            sum += k;
+        boolean[] seen = new boolean[10];
+        seen[sum] = true;
+        while(sum % 10 != rem) {
             c++;
+            sum += k;
             if(seen[sum%10]) {
                 return -1;
             }
