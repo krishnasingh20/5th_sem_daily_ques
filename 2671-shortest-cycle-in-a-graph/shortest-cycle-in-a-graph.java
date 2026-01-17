@@ -11,6 +11,9 @@ class Solution {
             graph[edge[1]].add(edge[0]);
         }
         for(int i = 0; i < n; i++) {
+            if(graph[i].size() < 2) {
+                continue;
+            }
             bfs(i);
         }
         return ans==Integer.MAX_VALUE?-1:ans;
