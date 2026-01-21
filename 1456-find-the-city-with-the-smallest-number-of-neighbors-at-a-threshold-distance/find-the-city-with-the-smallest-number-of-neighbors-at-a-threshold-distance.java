@@ -36,6 +36,9 @@ class Solution {
         int cityReachable = 0;
         while(!q.isEmpty()) {
             int[] rv = q.poll();
+            if(rv[1] > dist[rv[0]]) {
+                continue;
+            }
             for(int[] nbrs: graph[rv[0]]) {
                 int newWeight = rv[1] + nbrs[1];
                 if(dist[nbrs[0]] > newWeight) {
