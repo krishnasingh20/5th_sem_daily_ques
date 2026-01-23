@@ -21,7 +21,6 @@ class Solution {
             }
             st.push(ch[i]);
         }
-        // System.out.println(cnt);
         while(st.size() > k) {
             if(st.peek() == l && cnt-1 < r) {
                 break;
