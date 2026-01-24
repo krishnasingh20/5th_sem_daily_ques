@@ -6,13 +6,12 @@ class Solution {
             pos[i][0] = positions[i];
             pos[i][1] = i;
         }
-        char[] ch = directions.toCharArray();
         Arrays.sort(pos, (a, b)->Integer.compare(a[0], b[0]));
         Stack<Integer> st = new Stack<>();
         for(int i = 0; i < n; i++) {
             boolean flag = false;
             int idx = pos[i][1];
-            while(!st.isEmpty() && ch[st.peek()] == 'R' && ch[idx] == 'L') {
+            while(!st.isEmpty() && directions.charAt(st.peek()) == 'R' && directions.charAt(idx) == 'L') {
                 if(healths[st.peek()] == healths[idx]) {
                     healths[st.pop()] = -1;
                     healths[idx] = -1;
