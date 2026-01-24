@@ -13,15 +13,8 @@ class Solution {
             int val = s.charAt(1)=='='?1:0;
             char r1 = dsu.find(c1);
             char r2 = dsu.find(c2);
-            if(val == 1) {
-                if(r1 != r2) {
-                    return false;
-                }
-            }
-            else {
-                if(r1 == r2) {
-                    return false;
-                }
+            if(val == 0 && r1 == r2) {
+                return false;
             }
         }
         return true;
