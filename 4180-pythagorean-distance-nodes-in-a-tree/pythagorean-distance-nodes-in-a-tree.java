@@ -12,9 +12,12 @@ class Solution {
         int[] dist1 = new int[n];
         int[] dist2 = new int[n];
         int[] dist3 = new int[n];
-        dfs(x, 0, new boolean[n], dist1);
-        dfs(y, 0, new boolean[n], dist2);
-        dfs(z, 0, new boolean[n], dist3);
+        Arrays.fill(dist1, -1);
+        Arrays.fill(dist2, -1);
+        Arrays.fill(dist3, -1);
+        dfs(y, 0, dist2);
+        dfs(x, 0, dist1);
+        dfs(z, 0, dist3);
         int ans = 0;
         for(int i = 0; i < n; i++) {
             long a = dist1[i];
@@ -26,12 +29,11 @@ class Solution {
         }
         return ans;
     }
-    public void dfs(int src, int dis, boolean[] visited, int[] dist) {
-        visited[src] = true;
+    public void dfs(int src, int dis, int[] dist) {
         dist[src] = dis;
         for(int nbrs: graph[src]) {
-            if(!visited[nbrs]) {
-                dfs(nbrs, dis+1, visited, dist);
+            if(dist[nbrs] == -1) {
+                dfs(nbrs, dis+1, dist);
             }
         }
     }
