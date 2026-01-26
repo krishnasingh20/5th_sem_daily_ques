@@ -22,18 +22,13 @@ class Solution {
             int r1 = dir[street-1][0][0]+rv[0];
             int c1 = dir[street-1][0][1]+rv[1];
             if(r1 >= 0 && r1 < m && c1 >= 0 && c1 < n && grid[r1][c1] != -1) {
-                if(street == 1) {
+                if(street == 1 || street == 3) {
                     if(grid[r1][c1] == 1 || grid[r1][c1] == 4 || grid[r1][c1] == 6) {
                         q.add(new int[]{r1, c1});
                     }
                 }
-                else if(street == 2) {
+                else if(street == 2 || street == 5 || street == 6) {
                     if(grid[r1][c1] == 2 || grid[r1][c1] == 3 || grid[r1][c1] == 4) {
-                        q.add(new int[]{r1, c1});
-                    }
-                }
-                else if(street == 3) {
-                    if(grid[r1][c1] == 1 || grid[r1][c1] == 4 || grid[r1][c1] == 6) {
                         q.add(new int[]{r1, c1});
                     }
                 }
@@ -42,48 +37,23 @@ class Solution {
                         q.add(new int[]{r1, c1});
                     }
                 }
-                else if(street == 5) {
-                    if(grid[r1][c1] == 2 || grid[r1][c1] == 3 || grid[r1][c1] == 4) {
-                        q.add(new int[]{r1, c1});
-                    }
-                }
-                else {
-                    if(grid[r1][c1] == 2 || grid[r1][c1] == 3 || grid[r1][c1] == 4) {
-                        q.add(new int[]{r1, c1});
-                    }
-                }
             }
             // second
             int r2 = dir[street-1][1][0]+rv[0];
             int c2 = dir[street-1][1][1]+rv[1];
             if(r2 >= 0 && r2 < m && c2 >= 0 && c2 < n && grid[r2][c2] != -1) {
-                if(street == 1) {
+                if(street == 1 || street == 6) {
                     if(grid[r2][c2] == 1 || grid[r2][c2] == 3 || grid[r2][c2] == 5) {
                         q.add(new int[]{r2, c2});
                     }
                 }
-                else if(street == 2) {
-                    if(grid[r2][c2] == 2 || grid[r2][c2] == 5 || grid[r2][c2] == 6) {
-                        q.add(new int[]{r2, c2});
-                    }
-                }
-                else if(street == 3) {
-                    if(grid[r2][c2] == 2 || grid[r2][c2] == 5 || grid[r2][c2] == 6) {
-                        q.add(new int[]{r2, c2});
-                    }
-                }
-                else if(street == 4) {
+                else if(street == 2 || street == 3 || street == 4) {
                     if(grid[r2][c2] == 2 || grid[r2][c2] == 5 || grid[r2][c2] == 6) {
                         q.add(new int[]{r2, c2});
                     }
                 }
                 else if(street == 5) {
                     if(grid[r2][c2] == 1 || grid[r2][c2] == 4 || grid[r2][c2] == 6) {
-                        q.add(new int[]{r2, c2});
-                    }
-                }
-                else {
-                    if(grid[r2][c2] == 1 || grid[r2][c2] == 3 || grid[r2][c2] == 5) {
                         q.add(new int[]{r2, c2});
                     }
                 }
