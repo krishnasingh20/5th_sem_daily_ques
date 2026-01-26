@@ -1,42 +1,22 @@
 class Solution {
     public int longestValidParentheses(String s) {
         int ans = 0;
-        Stack<Integer> st = new Stack<>();
+        int n = s.length();
         char[] ch = s.toCharArray();
-        int n = ch.length;
+        Stack<Integer> st = new Stack<>();
+        st.push(-1);//initial valid boundary started after these
         for(int i = 0; i < n; i++) {
             if(ch[i] == '(') {
-                st.push(1);
+                st.push(i);
             }
             else {
-                if(!st.isEmpty()) {
-                    if(st.peek() == 1) {
-                        st.pop();
-                        if(!st.isEmpty() && st.peek() < 0) {
-                            int x = st.pop();
-                            ans = Math.max(ans, Math.abs(x)+2);
-                            st.push((x-2));
-                            continue;
-                        }
-                        st.push(-2);
-                        ans = Math.max(ans, 2);
-                        continue;
-                    }
-                    else if(st.peek() < 0) {
-                        int x = st.pop();
-                        if(!st.isEmpty() && st.peek() == 1) {
-                            st.pop();
-                            x -= 2;
-                            if(!st.isEmpty() && st.peek() < 0) {
-                                x += st.pop();
-                            }
-                            ans = Math.max(ans, Math.abs(x));
-                            st.push(x);
-                            continue;
-                        }
-                    }
+                st.pop();
+                if(st.isEmpty()) {
+                    st.push(i);//new boundary will start after these index
                 }
-                st.push(2);
+                else {
+                    ans = Math.max(ans, i - st.peek());
+                }
             }
         }
         return ans;
