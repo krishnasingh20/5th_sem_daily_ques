@@ -13,7 +13,6 @@ class Solution {
             return 0;
         }
         int ans = Math.min((n-(i+1)), j);
-        System.out.println(ans);
         int k = 0;
         int l = j;
         while(k <= i && l < n) {
