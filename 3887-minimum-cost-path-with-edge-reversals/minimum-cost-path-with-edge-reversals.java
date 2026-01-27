@@ -13,8 +13,8 @@ class Solution {
         PriorityQueue<Pair> pq = new PriorityQueue<>((a, b)->Integer.compare(a.cost, b.cost));
         boolean[] visited = new boolean[n];
         boolean[] on = new boolean[n];
-        pq.add(new Pair(0, 0));
         int ans = Integer.MAX_VALUE;
+        pq.add(new Pair(0, 0));
         while(!pq.isEmpty()) {
             Pair rv = pq.poll();
             if(visited[rv.vtx]) {
