@@ -1,6 +1,6 @@
 class Solution {
     public int[] countRectangles(int[][] rectangles, int[][] points) {
-        TreeMap<Integer, List<Integer>> map = new TreeMap<>();
+        HashMap<Integer, List<Integer>> map = new HashMap<>();
         for(int[] rect: rectangles) {
             map.putIfAbsent(rect[1], new ArrayList<>());
             map.get(rect[1]).add(rect[0]);
