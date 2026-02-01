@@ -1,6 +1,6 @@
 class Solution {
     public int countSpecialNumbers(int n) {
-        return count(String.valueOf(n), 0, 1, 1, new boolean[10])-1;//-1 for case when it will count 0 for also but needed in range [1, n].
+        return count(String.valueOf(n), 0, 1, 1, new boolean[10])-1;//-1 for case when it will count 0 also but needed in range [1, n].
     }
     private int count(String s, int idx, int tight, int lz, boolean[] visited) {
         if(idx == s.length()) {
