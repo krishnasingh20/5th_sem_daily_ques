@@ -1,10 +1,14 @@
 class Solution {
+    Integer[][][][] dp = new Integer[11][2][2][1024];
     public int countSpecialNumbers(int n) {
         return count(String.valueOf(n), 0, 1, 1, 0)-1;//-1 for case when it will count 0 also but needed in range [1, n].
     }
     private int count(String s, int idx, int tight, int lz, int mask) {
         if(idx == s.length()) {
             return 1;
+        }
+        if(dp[idx][tight][lz][mask] != null) {
+            return dp[idx][tight][lz][mask];
         }
         int lb = 0;
         int ub = tight==1?(s.charAt(idx)-'0'):9;
@@ -24,6 +28,6 @@ class Solution {
             }
             ans += count(s, idx+1, newTight, newLz, newMask);
         }
-        return ans;
+        return dp[idx][tight][lz][mask] = ans;
     }
 }
