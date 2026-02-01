@@ -1,5 +1,4 @@
 class Solution {
-    Integer[][][][][] dp = new Integer[9][2][2][2][1023];
     public int countNumbersWithUniqueDigits(int n) {
         int num = (int)Math.pow(10, n)-1;
         return count(String.valueOf(num), 0, 1, 1, 0, 0);
@@ -10,9 +9,6 @@ class Solution {
                 return 1;
             }
             return 0;
-        }
-        if(dp[i][t][lz][r][mask] != null) {
-            return dp[i][t][lz][r][mask];
         }
         int lb = 0;
         int ub = t==1?(s.charAt(i)-'0'):9;
@@ -33,6 +29,6 @@ class Solution {
             }
             ans += count(s, i+1, newTight, newLz, newR, newMask);
         }
-        return dp[i][t][lz][r][mask] = ans;
+        return ans;
     }
 }
