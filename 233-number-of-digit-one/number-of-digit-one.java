@@ -1,28 +1,23 @@
 class Solution {
+    Integer[][][] dp = new Integer[10][2][9];
     public int countDigitOne(int n) {
-        return solve(n);
+        return count(String.valueOf(n), 0, 1, 0);
     }
-    static Integer[][][] dp;
-    public static int solve(int n) {
-        String s = String.valueOf(n);
-        dp = new Integer[11][2][10];
-        return countDigitOne(s, 0, 1, 0);
-    }
-    private static int countDigitOne(String s, int idx, int tight, int cnt_1) {
-        if(idx == s.length()) {
+    private int count(String s, int i, int t, int cnt_1) {
+        if(i == s.length()) {
             return cnt_1;
         }
-        if(dp[idx][tight][cnt_1] != null) {
-            return dp[idx][tight][cnt_1];
+        if(dp[i][t][cnt_1] != null) {
+            return dp[i][t][cnt_1];
         }
-        int lowerBound = 0;
-        int upperBound = (tight == 1)?(s.charAt(idx)-'0'):9;
+        int lb = 0;
+        int ub = t==1?(s.charAt(i)-'0'):9;
         int ans = 0;
-        for(int digit = lowerBound; digit <= upperBound; digit++) {
-            int newTight = (tight == 1 && digit == upperBound)?1:0;
-            int newCnt_1 = digit==1?cnt_1+1:cnt_1;
-            ans += countDigitOne(s, idx+1, newTight, newCnt_1);
+        for(int digit = lb; digit <= ub; digit++) {
+            int newT = (t==1 && digit==ub)?1:0;
+            int newCnt_1 = cnt_1 + ((digit==1)?1:0);
+            ans += count(s, i+1, newT, newCnt_1);
         }
-        return dp[idx][tight][cnt_1] = ans;
+        return dp[i][t][cnt_1] = ans;
     }
 }
