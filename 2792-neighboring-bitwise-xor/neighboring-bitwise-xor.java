@@ -1,8 +1,8 @@
 class Solution {
     public boolean doesValidArrayExist(int[] derived) {
         int xor = 0;
-        for(int a: derived) {
-            xor ^= a;
+        for(int d: derived) {
+            xor ^= d;
         }
         return xor == 0;
     }
