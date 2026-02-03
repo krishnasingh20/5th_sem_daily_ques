@@ -1,13 +1,12 @@
 class Solution {
     Integer[][] dp;
     public int minimizeTheDifference(int[][] mat, int target) {
+        for(int[] m: mat) {
+            Arrays.sort(m);
+        }
         int sum = 0;
         for(int i = 0; i < mat.length; i++) {
-            int max = 0;
-            for(int j = 0; j < mat[0].length; j++) {
-                max = Math.max(max, mat[i][j]);
-            }
-            sum += max;
+            sum += mat[i][mat[0].length-1];
         }
         dp = new Integer[mat.length][sum+1];
         return minDiff(mat, 0, 0, target);
