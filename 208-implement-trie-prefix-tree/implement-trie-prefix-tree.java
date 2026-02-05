@@ -3,10 +3,10 @@ class Trie {
     class Node {
         char ch;
         boolean isTerminal;
-        HashMap<Character, Node> child;
+        Node[] child;
         public Node(char ch) {
             this.ch = ch;
-            child = new HashMap<>();
+            child = new Node[26];
         }
     }
 
@@ -20,12 +20,12 @@ class Trie {
         Node curr = root;
         for(int i = 0; i < word.length(); i++) {
             char ch = word.charAt(i);
-            if(curr.child.containsKey(ch)) {
-                curr = curr.child.get(ch);
+            if(curr.child[ch-'a'] != null) {
+                curr = curr.child[ch-'a'];
             }
             else {
                 Node nn = new Node(ch);
-                curr.child.put(ch, nn);
+                curr.child[ch-'a'] = nn;
                 curr = nn;
             }
         }
@@ -36,22 +36,22 @@ class Trie {
         Node curr = root;
         for(int i = 0; i < word.length(); i++) {
             char ch = word.charAt(i);
-            if(!curr.child.containsKey(ch)) {
+            if(curr.child[ch-'a'] == null) {
                 return false;
             }
-            curr = curr.child.get(ch);
+            curr = curr.child[ch-'a'];
         }
         return curr.isTerminal;
     }
-    
+
     public boolean startsWith(String prefix) {
         Node curr = root;
         for(int i = 0; i < prefix.length(); i++) {
             char ch = prefix.charAt(i);
-            if(!curr.child.containsKey(ch)) {
+            if(curr.child[ch-'a'] == null) {
                 return false;
             }
-            curr = curr.child.get(ch);
+            curr = curr.child[ch-'a'];
         }
         return true;
     }
