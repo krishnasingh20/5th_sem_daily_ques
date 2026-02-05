@@ -36,7 +36,7 @@ class Solution {
             curr = curr.child[ch-'a'];
             if(curr.isTerminal != null) {
                 ans.add(curr.isTerminal);
-                curr.isTerminal = null;//to avoid repititive addition
+                curr.isTerminal = null;//to avoid repetitive addition
             }
             board[i][j] = '*';
             search(board, i+1, j, curr);
