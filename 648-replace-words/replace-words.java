@@ -39,10 +39,7 @@ class Solution {
                         return curr.isTerminal;
                     }
                 }
-                else {
-                    if(curr.isTerminal != null) {
-                        return curr.isTerminal;
-                    }
+                else{
                     return word;
                 }
             }
