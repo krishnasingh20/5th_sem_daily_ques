@@ -14,7 +14,6 @@ class Solution {
         public Trie() {
             root = new Node('*');
         }
-
         public void insert(String word) {
             Node curr = root;
             for(int i = 0; i < word.length(); i++) {
