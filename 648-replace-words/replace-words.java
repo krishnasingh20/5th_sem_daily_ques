@@ -2,7 +2,7 @@ class Solution {
     class Trie {
         class Node {
             char ch;
-            String isTerminal;
+            boolean isTerminal;
             HashMap<Character, Node> child;
             Node(char ch) {
                 this.ch = ch;
@@ -27,7 +27,7 @@ class Solution {
                     curr = nn;
                 }
             }
-            curr.isTerminal = word;
+            curr.isTerminal = true;
         }
         public String search(String word) {
             Node curr = root;
@@ -35,8 +35,8 @@ class Solution {
                 char ch = word.charAt(i);
                 if(curr.child.containsKey(ch)) {
                     curr = curr.child.get(ch);
-                    if(curr.isTerminal != null) {
-                        return curr.isTerminal;
+                    if(curr.isTerminal) {
+                        return word.substring(0, i+1);
                     }
                 }
                 else{
