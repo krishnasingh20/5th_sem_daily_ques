@@ -3,7 +3,6 @@ class Solution {
         class Node {
             char ch;
             int count;
-            boolean isTerminal;
             Node[] child;
             Node(char ch) {
                 this.ch = ch;
@@ -29,7 +28,6 @@ class Solution {
                     curr.count = 1;
                 }
             }
-            curr.isTerminal = true;
         }
         public int prefixScore(String word) {
             int score = 0;
