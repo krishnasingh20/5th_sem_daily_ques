@@ -1,58 +1,53 @@
 class Solution {
-    int n;
     static final int mod = 1000000007;
-    long[] dp;
     public int numDecodings(String s) {
-        n = s.length();
-        dp = new long[n];
-        Arrays.fill(dp, -1);
-        return (int)(decode(s.toCharArray(), 0) % mod);
+        return bottomUp(s.toCharArray());
     }
-    public long decode(char[] ch, int i) {
-        if(i == n) {
-            return 1;
-        }
-        if(dp[i] != -1) {
-            return dp[i];
-        }
-        long ans = 0;
-        if(ch[i] != '0') {
-            long c = decode(ch, i+1);
-            if(ch[i] == '*') {
-                c *= 9;
+    public int bottomUp(char[] ch) {
+        int n = ch.length;
+        long[] dp = new long[n+2];
+        dp[n] = 1;
+        for(int i = n-1; i >= 0; i--) {
+            long ans = 0;
+            if(ch[i] != '0') {
+                long c = dp[i+1];
+                if(ch[i] == '*') {
+                    c *= 9 % mod;
+                }
+                ans += c % mod;
             }
-            ans = (ans + c) % mod;
-        }
-        if(i+1 < n && ch[i] != '0') {
-            if(ch[i] != '*' && ch[i+1] != '*') {
-                int num = (ch[i]-'0')*10 + (ch[i+1]-'0');
-                if(num >= 10 && num <= 26) {
-                    ans = (ans + decode(ch, i+2));
+            if(i+1 < n && ch[i] != '0') {
+                if(ch[i] != '*' && ch[i+1] != '*') {
+                    int num = (ch[i]-'0')*10 + (ch[i+1]-'0');
+                    if(num >= 10 && num <= 26) {
+                        ans += dp[i+2] % mod;
+                    }
+                }
+                else if(ch[i] != '*') {
+                    if(ch[i] <= '2') {
+                        long c = dp[i+2];
+                        int p = ch[i] == '1'?9:6;
+                        c *= p % mod;
+                        ans += c % mod;
+                    }
+                }
+                else if(ch[i+1] != '*' ) {
+                    int p = 1;
+                    if(ch[i+1] <= '6') {
+                        p++;
+                    }
+                    long c = dp[i+2];
+                    c *= p % mod;
+                    ans += c % mod;
+                }
+                else {
+                    long c = dp[i+2];
+                    c *= 15 % mod;
+                    ans += c % mod;
                 }
             }
-            else if(ch[i] != '*') {
-                if(ch[i] <= '2') {
-                    long c = decode(ch, i+2);
-                    long p = ch[i] == '1'?9:6;
-                    c *= p;
-                    ans = (ans + c) % mod;
-                }
-            }
-            else if(ch[i+1] != '*' ) {
-                int p = 1;
-                if(ch[i+1] <= '6') {
-                    p++;
-                }
-                long c = decode(ch, i+2);
-                c *= p;
-                ans = (ans + c) % mod;
-            }
-            else {
-                long c = decode(ch, i+2);
-                c *= 15;
-                ans = (ans + c) % mod;
-            }
+            dp[i] = ans % mod;
         }
-        return dp[i] = ans;
+        return (int)dp[0];
     }
 }
