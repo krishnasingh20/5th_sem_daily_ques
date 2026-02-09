@@ -9,14 +9,14 @@ class Solution {
         }
         return ans;
     }
-    public int cycleLength(int a, int b) {
+    public int cycleLength(int a, int b) {//here i am finding lowest common ancestor of both the node
         int c = 0;
         while(a != b) {
             if(a > b) {
-                a /= 2;
+                a >>= 1;
             }
             else {
-                b /= 2;
+                b >>= 1;
             }
             c++;
         }
