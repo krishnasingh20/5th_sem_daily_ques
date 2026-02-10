@@ -16,38 +16,37 @@
 class Solution {
     public TreeNode reverseOddLevels(TreeNode root) {
         Queue<TreeNode> q = new LinkedList<>();
-        List<TreeNode> ll = new ArrayList<>();
-        q.add(root);
         int level = 0;
+        q.add(root);
         while(!q.isEmpty()) {
             int size = q.size();
-            for(int i = 0; i < size; i++) {
-                TreeNode rv = q.remove();//remove from first
-                ll.add(rv);
+            List<TreeNode> ll = new ArrayList<>();
+            while(size-- > 0) {
+                TreeNode rv = q.poll();
                 if(rv.left != null) {
                     q.add(rv.left);
                 }
                 if(rv.right != null) {
                     q.add(rv.right);
                 }
+                if((level & 1) == 1) {
+                    ll.add(rv);
+                }
             }
-            if(level % 2 != 0) {
+            if((level & 1) == 1) {
                 reverse(ll);
             }
             level++;
-            ll.clear();
         }
         return root;
     }
-    public void reverse(List<TreeNode> ll) {
+    private void reverse(List<TreeNode> ll) {
         int i = 0;
-        int j = ll.size() - 1;
+        int j = ll.size()-1;
         while(i < j) {
-            TreeNode nn1 = ll.get(i);
-            TreeNode nn2 = ll.get(j);
-            int temp = nn1.val;
-            nn1.val = nn2.val;
-            nn2.val = temp;
+            int temp = ll.get(i).val;
+            ll.get(i).val = ll.get(j).val;
+            ll.get(j).val = temp;
             i++;
             j--;
         }
