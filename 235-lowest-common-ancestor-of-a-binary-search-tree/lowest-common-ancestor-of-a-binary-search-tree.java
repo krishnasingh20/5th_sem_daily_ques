@@ -16,17 +16,12 @@ class Solution {
         if(root == null) {
             return root;
         }
-        if(root == p || root == q) {
-            return root;
+        if(root.val > p.val && root.val > q.val) {
+            return LCS(root.left, p, q);
         }
-        TreeNode left = LCS(root.left, p, q);
-        TreeNode right = LCS(root.right, p, q);
-        if(left != null && right != null) {
-            return root;
+        if(root.val < p.val && root.val < q.val) {
+            return LCS(root.right, p, q);
         }
-        if(left != null) {
-            return left;
-        }
-        return right;
+        return root;
     }
 }
