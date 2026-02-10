@@ -14,28 +14,32 @@
  * }
  */
 class Solution {
-    long Max = Long.MIN_VALUE;
+    long ans = 0;
+    long totalSum;
+    static final int mod = 1000000007;
     public int maxProduct(TreeNode root) {
-        long totalsum = totalSum(root);
-        maxProduct(root, totalsum);
-        return (int)(Max % 1000000007);
+        totalSum = sum(root);
+        System.out.println(totalSum);
+        maxPro(root);
+        return (int)(ans % mod);
     }
-    public long maxProduct(TreeNode root, long totalsum) {
+    private long maxPro(TreeNode root) {
         if(root == null) {
             return 0;
         }
-        long left = maxProduct(root.left, totalsum);
-        long right =maxProduct(root.right, totalsum);
-        long currSum = (left + right + root.val);
-        Max = Math.max(Max, currSum * (totalsum - currSum));
-        return left + right + root.val;
+        long left = maxPro(root.left);
+        long right = maxPro(root.right);
+        long curr = root.val+left+right;
+        long ans1 = (totalSum - curr)*curr;
+        ans = Math.max(ans, ans1);
+        return curr;
     }
-    public long totalSum(TreeNode root) {
+    private long sum(TreeNode root) {
         if(root == null) {
             return 0;
         }
-        long left = totalSum(root.left);
-        long right = totalSum(root.right);
-        return left + right + root.val;
+        long left = sum(root.left);
+        long right = sum(root.right);
+        return root.val+left+right;
     }
 }
