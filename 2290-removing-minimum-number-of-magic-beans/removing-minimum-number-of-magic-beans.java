@@ -9,8 +9,8 @@ class Solution {
         long ans = Long.MAX_VALUE;
         int si = 0;
         for(int ei = 0; ei < n; ei++) {
-            while(beans[ei] != beans[si]) {
-                si++;
+            if(beans[ei] != beans[si]) {
+                si = ei;
             }
             long curr = prefix[si] + (prefix[n] - prefix[ei]) - (long)beans[ei]*(n-ei);
             ans = Math.min(ans, curr);
