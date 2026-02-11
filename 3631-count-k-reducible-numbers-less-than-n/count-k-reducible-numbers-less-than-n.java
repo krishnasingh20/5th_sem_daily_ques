@@ -1,15 +1,15 @@
 class Solution {
     static final int mod = 1000000007;
-    Long[][][] dp;
+    Integer[][][] dp;
     public int countKReducibleNumbers(String s, int k) {
-        dp = new Long[s.length()][2][s.length()];
-        long ans = count(s, 0, 1, 0, k);
+        dp = new Integer[s.length()][2][s.length()];
+        int ans = count(s, 0, 1, 0, k);
         if(reducible(s, k)) {
             ans--;
         }
-        return (int)(ans % mod);
+        return ans % mod;
     }
-    public long count(String s, int i, int t, int c, int k) {
+    public int count(String s, int i, int t, int c, int k) {
         if(i == s.length()) {
             int c1 = 1;
             while(c > 1) {
@@ -32,9 +32,9 @@ class Solution {
             ans += count(s, i+1, newT, c+d, k) % mod;
         }
         if(t == 0) {
-            dp[i][t][c] = ans;
+            dp[i][t][c] = (int)ans;
         }
-        return ans;
+        return (int)ans;
     }
     private boolean reducible(String s, int k) {
         int c = 0;
