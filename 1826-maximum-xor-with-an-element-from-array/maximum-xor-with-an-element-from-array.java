@@ -11,18 +11,17 @@ class Solution {
         Arrays.sort(arr, (a, b)->Integer.compare(a[1], b[1]));
         int[] ans = new int[m];
         int j = 0;
-        for(int i = 0; i < n; i++) {
-            while(j < m && nums[i] > arr[j][1]) {
-                int max = trie.maxXOR(arr[j][0]);
-                ans[arr[j][2]] = max;
+        for(int i = 0; i < m; i++) {
+            while(j < n && nums[j] <= arr[i][1]) {
+                trie.add(nums[j]);
                 j++;
             }
-            trie.add(nums[i]);
-        }
-        while(j < m) {
-            int max = trie.maxXOR(arr[j][0]);
-            ans[arr[j][2]] = max;
-            j++;
+            if(j == 0) {
+                ans[arr[i][2]] = -1;
+            }
+            else {
+                ans[arr[i][2]] = trie.maxXOR(arr[i][0]);
+            }
         }
         return ans;
     }
@@ -58,9 +57,6 @@ class Solution {
         public int maxXOR(int num) {
             int ans = 0;
             Node curr = root;
-            if(curr.one == null && curr.zero == null) {
-                return -1;
-            }
             for(int i = 30; i >= 0; i--) {
                 int mask = (1<<i);
                 if((mask & num) != 0) {
