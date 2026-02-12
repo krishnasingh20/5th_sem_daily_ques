@@ -59,11 +59,11 @@ class Solution {
             int ans = 0;
             Node curr = root;
             for(int i = 30; i >= 0; i--) {
+                if(curr.one == null && curr.zero == null) {
+                    return -1;
+                }
                 int mask = (1<<i);
                 if((mask & num) != 0) {
-                    if(curr.one == null && curr.zero == null) {
-                        return -1;
-                    }
                     if(curr.zero != null) {
                         ans |= mask;
                         curr = curr.zero;
@@ -73,9 +73,6 @@ class Solution {
                     }
                 }
                 else {
-                    if(curr.one == null && curr.zero == null) {
-                        return -1;
-                    }
                     if(curr.one != null) {
                         ans |= mask;
                         curr = curr.one;
