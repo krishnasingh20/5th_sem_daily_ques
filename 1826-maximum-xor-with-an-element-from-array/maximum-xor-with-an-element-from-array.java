@@ -58,10 +58,10 @@ class Solution {
         public int maxXOR(int num) {
             int ans = 0;
             Node curr = root;
+            if(curr.one == null && curr.zero == null) {
+                return -1;
+            }
             for(int i = 30; i >= 0; i--) {
-                if(curr.one == null && curr.zero == null) {
-                    return -1;
-                }
                 int mask = (1<<i);
                 if((mask & num) != 0) {
                     if(curr.zero != null) {
