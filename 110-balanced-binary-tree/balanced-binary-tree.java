@@ -14,26 +14,25 @@
  * }
  */
 class Solution {
-    //naive approach using nested loop
     public boolean isBalanced(TreeNode root) {
-        return isbalance(root);
+        return Balance(root).isBal;
     }
-    public boolean isbalance(TreeNode root) {
+    private Pair Balance(TreeNode root) {
         if(root == null) {
-            return true;
+            Pair p = new Pair();
+            p.depth = 0;
+            p.isBal = true;
+            return p;
         }
-        boolean lb = isbalance(root.left);
-        boolean rb = isbalance(root.right);
-        int lh = height(root.left);
-        int rh = height(root.right);
-        return Math.abs(lh - rh) <= 1 && lb && rb;
+        Pair lp = Balance(root.left);
+        Pair rp = Balance(root.right);
+        Pair sp = new Pair();
+        sp.depth = Math.max(lp.depth, rp.depth)+1;
+        sp.isBal = (Math.abs(lp.depth-rp.depth) <= 1 && lp.isBal && rp.isBal);
+        return sp;
     }
-    public int height(TreeNode root) {
-        if(root == null) {
-            return -1;
-        }
-        int lh = height(root.left);
-        int rh = height(root.right);
-        return Math.max(lh, rh) + 1;
+    class Pair {
+        int depth;
+        boolean isBal;
     }
 }
