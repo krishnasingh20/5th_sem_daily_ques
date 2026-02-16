@@ -1,12 +1,28 @@
 class Solution {
     int ans = 0;
+    HashMap<Integer, HashMap<Integer, Integer>> map;
+    boolean[] visit;
     public int maxCompatibilitySum(int[][] students, int[][] mentors) {
         int m = students.length;
         int n = students[0].length;
-        max(students, mentors, new boolean[m], 0, n, m, 0);
+        map = new HashMap<>();
+        for(int i = 0; i < m; i++) {
+            map.put(i, new HashMap<>());
+            for(int j = 0; j < m; j++) {
+                int c = 0;
+                for(int k = 0; k < n; k++) {
+                    if(students[i][k] == mentors[j][k]) {
+                        c++;
+                    }
+                }
+                map.get(i).put(j, c);
+            }
+        }
+        visit = new boolean[m];
+        max(0, m, 0);
         return ans;
     }
-    private void max(int[][] students, int[][] mentors, boolean[] visit, int i, int n, int m, int curr) {
+    private void max(int i, int m, int curr) {
         if(i == m) {
             ans = Math.max(ans, curr);
             return;
@@ -14,13 +30,8 @@ class Solution {
         for(int j = 0; j < m; j++) {
             if(!visit[j]) {
                 visit[j] = true;
-                int c = 0;
-                for(int k = 0; k < n; k++) {
-                    if(students[j][k] == mentors[i][k]) {
-                        c++;
-                    }
-                }
-                max(students, mentors, visit, i+1, n, m, curr+c);
+                int c = map.get(i).get(j);
+                max(i+1, m, curr+c);
                 visit[j] = false;
             }
         }
