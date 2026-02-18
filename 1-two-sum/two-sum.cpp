@@ -5,8 +5,7 @@ public:
         for(int i = 0; i < nums.size(); i++) {
             int curr = target - nums[i];
             if(mp.count(curr)) {
-                vector<int> v = {mp[curr], i};
-                return v;
+                return {mp[curr], i};
             }
             mp[nums[i]] = i;
         }
