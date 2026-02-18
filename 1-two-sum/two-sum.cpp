@@ -10,7 +10,6 @@ public:
             }
             mp[nums[i]] = i;
         }
-        vector<int> v = {-1, -1};
-        return v;
+        return {-1, -1};
     }
 };
