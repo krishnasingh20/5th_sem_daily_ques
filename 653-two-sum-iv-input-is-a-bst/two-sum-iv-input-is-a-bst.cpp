@@ -11,7 +11,6 @@
  */
 class Solution {
 public:
-
     unordered_set<int> set;
     bool findTarget(TreeNode* root, int k) {
         if(root == nullptr) {
