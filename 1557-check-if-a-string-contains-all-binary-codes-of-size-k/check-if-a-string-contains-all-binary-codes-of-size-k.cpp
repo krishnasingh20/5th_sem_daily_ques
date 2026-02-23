@@ -12,6 +12,6 @@ public:
             }
             set.insert(num);
         }
-        return set.size() == pow(2, k);
+        return set.size() == (1<<k);
     }
 };
