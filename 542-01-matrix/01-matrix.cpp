@@ -23,7 +23,7 @@ public:
             for(int i = 0; i < 4; i++) {
                 int newX = x+dirX[i];
                 int newY = y+dirY[i];
-                if(newX < 0 || newX >= m || newY < 0 || newY >= n || ans[newX][newY] <= ans[x][y]+1) {
+                if(newX < 0 || newX >= m || newY < 0 || newY >= n || ans[newX][newY] < ans[x][y]+1) {
                     continue;
                 }
                 ans[newX][newY] = ans[x][y]+1;
