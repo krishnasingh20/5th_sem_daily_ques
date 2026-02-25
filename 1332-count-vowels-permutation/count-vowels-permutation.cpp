@@ -1,6 +1,5 @@
 class Solution {
 public:
-    inline static const vector<char> arr = {0, 1, 2, 3, 4};
     inline static const int MOD = 1000000007;
     int countVowelPermutation(int n) {
         vector<vector<int>> dp(n+1, vector<int> (6, -1));
@@ -25,12 +24,12 @@ public:
                     ans = (ans + count(n-1, i, dp)) % MOD;
                 }
             }
-            else if(arr[i] == 2) {
+            else if(i == 2) {
                 if(prev != i) {
                     ans = (ans + count(n-1, i, dp)) % MOD;
                 }
             }
-            else if(arr[i] == 3) {
+            else if(i == 3) {
                 if(prev == -1 || prev == 2 || prev == 4) {
                     ans = (ans + count(n-1, i, dp)) % MOD;
                 }
