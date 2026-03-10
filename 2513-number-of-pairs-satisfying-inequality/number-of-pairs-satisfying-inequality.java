@@ -1,15 +1,19 @@
 class Solution {
     public long numberOfPairs(int[] nums1, int[] nums2, int diff) {
         int n = nums1.length;
+
         for(int i = 0; i < n; i++) {
             nums1[i] = nums1[i] - nums2[i];
             nums2[i] = nums1[i];
         }
+
         ArrayList<int[]> compress = new ArrayList<>();
         HashMap<Integer, Integer> map = new HashMap<>();
+
         Arrays.sort(nums2);
         compress.add(new int[]{nums2[0], 1});
         map.put(nums2[0], 1);
+
         int idx = 1;
         for(int i = 1; i < n; i++) {
             if(compress.get(idx-1)[0] != nums2[i]) {
@@ -17,8 +21,10 @@ class Solution {
                 compress.add(new int[]{nums2[i], idx});
             }
         }
+
         Fenwick f = new Fenwick(idx);
         long ans = 0;
+
         for(int i = 0; i < n; i++) {
             int curr = nums1[i] + diff;
             int id = binarySearch(compress, curr);
@@ -27,6 +33,7 @@ class Solution {
             }
             f.update(map.get(nums1[i]), 1);
         }
+        
         return ans;
     }
     private int binarySearch(ArrayList<int[]> compress, int val) {
