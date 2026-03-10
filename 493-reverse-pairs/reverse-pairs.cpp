@@ -33,20 +33,15 @@ public:
 
         vector<int> temp = nums;
         vector<pair<long long, int>> compress;
-        unordered_map<long long, int> map;
 
         sort(temp.begin(), temp.end());
 
         int idx = 1;
         compress.push_back({(long long)temp[0], idx});
-        map[(long long)temp[0]] = 1;
 
         for(int i = 1; i < n; i++) {
-            pair<long long, int> p = compress[idx-1];
-
-            if(p.first != (long long)temp[i]) {
+            if(compress[idx-1].first != (long long)temp[i]) {
                 compress.push_back({(long long)temp[i], ++idx});
-                map[(long long)temp[i]] = idx;
             }
         }
 
@@ -63,13 +58,13 @@ public:
                 ans += (i - f.query(id));
             }
 
-            id = map[(long long)nums[i]];
+            id = binarySearch(compress, (long long)nums[i]);
             f.update(id, 1);
         }
 
         return ans;
     }
-    
+
     int binarySearch(vector<pair<long long, int>>& compress, long long val) {
         int id = -1;
         int low = 0;
