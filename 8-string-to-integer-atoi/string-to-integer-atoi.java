@@ -14,50 +14,33 @@ class Solution {
         while(i < s.length() && s.charAt(i) == '0') {
             i++;
         }
-        long ans = 0;
+        StringBuilder sb = new StringBuilder();
         while(i < s.length()) {
             if(!isValid(s.charAt(i))) {
-                if(!sign) {
-                    ans *= -1;
-                    if(ans < negINF) {
-                        return negINF;
-                    }
-                    return (int)ans;
-                }
-                else {
-                    if(ans > posINF) {
-                        return posINF;
-                    }
-                    return (int)ans;
-                }
+                break;
             }
-            ans = ans*10 + (s.charAt(i)-'0');
-            long temp = ans;
-            if(!sign) {
-                temp *= -1;
-                if(temp < negINF) {
-                    return negINF;
-                }
-            }
-            else {
-                if(temp > posINF) {
-                    return posINF;
-                }
+            sb.append(s.charAt(i));
+            if(sb.length() > 10) {
+                break;
             }
             i++;
         }
+        if(sb.length() == 0) {
+            return 0;
+        }
+        long num = Long.parseLong(sb.toString());
         if(!sign) {
-            ans *= -1;
-            if(ans < negINF) {
+            num *= -1;
+            if(num < negINF) {
                 return negINF;
             }
-            return (int)ans;
+            return (int)num;
         }
         else {
-            if(ans > posINF) {
+            if(num > posINF) {
                 return posINF;
             }
-            return (int)ans;
+            return (int)num;
         }
     }
     private boolean isValid(char c) {
