@@ -14,30 +14,30 @@
  * }
  */
 class Solution {
-    long ans = Long.MIN_VALUE;
+    int ans = Integer.MIN_VALUE;
 
     public int maxPathSum(TreeNode root) {
         dfs(root);
-        return (int)ans;
+        return ans;
     }
 
-    private long dfs(TreeNode root) {
+    private int dfs(TreeNode root) {
         if(root == null) {
-            return Integer.MIN_VALUE;
+            return -10000;
         }
 
-        long l = dfs(root.left);
-        long r = dfs(root.right);
+        int l = dfs(root.left);
+        int r = dfs(root.right);
 
         ans = Math.max(ans, root.val);
         ans = Math.max(ans, root.val+l);
         ans = Math.max(ans, root.val+r);
         ans = Math.max(ans, root.val+r+l);
 
-        long curr = root.val;
+        int curr = root.val;
         curr = Math.max(curr, root.val+l);
         curr = Math.max(curr, root.val+r);
-        
+
         return curr;
     }
 }
