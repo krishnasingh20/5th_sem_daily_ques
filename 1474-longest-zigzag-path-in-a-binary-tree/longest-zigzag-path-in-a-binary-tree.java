@@ -18,7 +18,7 @@ class Solution {
     int id = 1;
     public int longestZigZag(TreeNode root) {
         dfs(root);
-        dp = new Integer[id+1][3];
+        dp = new Integer[id][3];
         return zigzag(root, 0);
     }
     Integer[][] dp;
