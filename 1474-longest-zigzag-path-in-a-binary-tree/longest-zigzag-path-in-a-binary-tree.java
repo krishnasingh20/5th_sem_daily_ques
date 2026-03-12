@@ -14,21 +14,20 @@
  * }
  */
 class Solution {
-    HashMap<TreeNode, Integer> map = new HashMap<>();
-    int id = 1;
     public int longestZigZag(TreeNode root) {
-        dfs(root);
-        dp = new Integer[id][3];
+        dp = new HashMap<>();
         return zigzag(root, 0);
     }
-    Integer[][] dp;
+    HashMap<TreeNode, Integer[]> dp;
     private int zigzag(TreeNode root, int dir) {
         if(root == null) {
             return -1;
         }
-        int i = map.get(root);
-        if(dp[i][dir] != null) {
-            return dp[i][dir];
+        if(!dp.containsKey(root)) {
+            dp.put(root, new Integer[3]);
+        }
+        if(dp.get(root)[dir] != null) {
+            return dp.get(root)[dir];
         }
         int ans = Integer.MIN_VALUE;
         if(dir == 0) {
@@ -48,14 +47,7 @@ class Solution {
             int l = 1 + zigzag(root.left, 1);
             ans = Math.max(ans, l);
         }
-        return dp[i][dir] = ans;
-    }
-    private void dfs(TreeNode root) {
-        if(root == null) {
-            return;
-        }
-        map.put(root, id++);
-        dfs(root.left);
-        dfs(root.right);
+        dp.get(root)[dir] = ans;
+        return ans;
     }
 }
