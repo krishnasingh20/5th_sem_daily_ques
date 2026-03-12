@@ -13,7 +13,7 @@ class Solution {
             return 0;
         }
 
-        String key = i+"/"+val+"/"+div+"/"+k;
+        String key = i+"/"+val+"/"+div;
 
         if(dp.containsKey(key)) {
             return dp.get(key);
@@ -26,7 +26,7 @@ class Solution {
         ans += count(nums, i+1, val, div, k);//unchanged
 
         dp.put(key, ans);
-        
+
         return ans;
     }
 }
