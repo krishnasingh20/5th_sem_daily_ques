@@ -2,7 +2,7 @@ class Solution {
     boolean[] good;
     public long countFancy(long l, long r) {
         good = compute();
-        
+
         String s1 = String.valueOf(r);
         String s2 = String.valueOf(l-1);
 
@@ -23,7 +23,7 @@ class Solution {
             return 0;
         }
 
-        if(t == 0 && lz == 0 && dp[i][t][lz][prev][sum][state] != null) {
+        if(dp[i][t][lz][prev][sum][state] != null) {
             return dp[i][t][lz][prev][sum][state];
         }
 
@@ -57,11 +57,7 @@ class Solution {
             }
         }
 
-        if(t == 0 && lz == 0) {
-            dp[i][t][lz][prev][sum][state] = res;
-        }
-
-        return res;
+        return dp[i][t][lz][prev][sum][state] = res;
     }
 
     private boolean[] compute() {
