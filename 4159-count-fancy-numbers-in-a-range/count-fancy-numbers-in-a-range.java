@@ -6,13 +6,13 @@ class Solution {
         String s1 = String.valueOf(r);
         String s2 = String.valueOf(l-1);
 
-        Long[][][][][][] dp1 = new Long[s1.length()][2][2][10][136][4];
-        Long[][][][][][] dp2 = new Long[s2.length()][2][2][10][136][4];
+        Long[][][][][] dp1 = new Long[s1.length()][2][10][136][4];
+        Long[][][][][] dp2 = new Long[s2.length()][2][10][136][4];
 
-        return count(s1, 0, 1, 1, 0, 0, 0, dp1) - count(s2, 0, 1, 1, 0, 0, 0, dp2);
+        return count(s1, 0, 1, 0, 0, 0, dp1) - count(s2, 0, 1, 0, 0, 0, dp2);
     }
 
-    private long count(String s, int i, int t, int lz, int prev, int sum, int state, Long[][][][][][] dp) {
+    private long count(String s, int i, int t, int prev, int sum, int state, Long[][][][][] dp) {
         if(i == s.length()) {
             if(state == 0 || state == 1 || state == 2) {
                 return 1;
@@ -23,8 +23,8 @@ class Solution {
             return 0;
         }
 
-        if(dp[i][t][lz][prev][sum][state] != null) {
-            return dp[i][t][lz][prev][sum][state];
+        if(dp[i][t][prev][sum][state] != null) {
+            return dp[i][t][prev][sum][state];
         }
 
         int lb = 0;
@@ -33,31 +33,30 @@ class Solution {
 
         for(int d = lb; d <= ub; d++) {
             int newT = (t==1 && d==ub)?1:0;
-            int newLz = (lz==1 && d==0)?1:0;
 
-            if(lz == 1) {
+            if(sum == 0) {
                 if(d == 0) {
-                    res += count(s, i+1, newT, newLz, prev, sum, 0, dp);
+                    res += count(s, i+1, newT, prev, sum, 0, dp);
                 }
                 else {
-                    res += count(s, i+1, newT, newLz, d, sum+d, 0, dp);
+                    res += count(s, i+1, newT, d, sum+d, 0, dp);
                 }
             }
             else {
                 if((state == 0 || state == 1) && d > prev) {
-                    res += count(s, i+1, newT, newLz, d, sum+d, 1, dp);
+                    res += count(s, i+1, newT, d, sum+d, 1, dp);
                     continue;
                 }
                 else if((state == 0 || state == 2) && d < prev) {
-                    res += count(s, i+1, newT, newLz, d, sum+d, 2, dp);
+                    res += count(s, i+1, newT, d, sum+d, 2, dp);
                     continue;
                 }
                 
-                res += count(s, i+1, newT, newLz, d, sum+d, 3, dp);
+                res += count(s, i+1, newT, d, sum+d, 3, dp);
             }
         }
 
-        return dp[i][t][lz][prev][sum][state] = res;
+        return dp[i][t][prev][sum][state] = res;
     }
 
     private boolean[] compute() {
