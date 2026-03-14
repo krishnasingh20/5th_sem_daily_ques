@@ -20,7 +20,7 @@ class Solution {
             return 0;
         }
 
-        if(dp[i][t][lz][prev][sum][state] != null) {
+        if(t == 0 && lz == 0 && dp[i][t][lz][prev][sum][state] != null) {
             return dp[i][t][lz][prev][sum][state];
         }
 
@@ -54,7 +54,11 @@ class Solution {
             }
         }
 
-        return dp[i][t][lz][prev][sum][state] = res;
+        if(t == 0 && lz == 0) {
+            dp[i][t][lz][prev][sum][state] = res;
+        }
+
+        return res;
     }
 
     private boolean isGood(int n) {
