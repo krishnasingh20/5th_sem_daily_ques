@@ -1,5 +1,7 @@
 class Solution {
+    boolean[] good;
     public long countFancy(long l, long r) {
+        good = compute();
         String s1 = String.valueOf(r);
         String s2 = String.valueOf(l-1);
         long[][][][][][] dp = new long[16][2][2][10][136][4];
@@ -39,7 +41,7 @@ class Solution {
             if(state == 0 || state == 1 || state == 2) {
                 return 1;
             }
-            if(isGood(sum)) {
+            if(good[sum]) {
                 return 1;
             }
             return 0;
@@ -86,32 +88,22 @@ class Solution {
         return res;
     }
 
-    private boolean isGood(int n) {
-        int prev = 10;
-        int num = n;
-
-        while(num > 0) {
-            if(num % 10 >= prev) {
-                prev = -1;
-                break;
+    private boolean[] compute() {
+        boolean[] arr = new boolean[136];
+        for(int i = 0; i <= 135; i++) {
+            boolean flag1 = true;
+            boolean flag2 = true;
+            String s = Integer.toString(i);
+            for(int j = 1; j < s.length(); j++) {
+                if(s.charAt(j) <= s.charAt(j-1)) {
+                    flag1 = false;
+                }
+                if(s.charAt(j) >= s.charAt(j-1)) {
+                    flag2 = false;
+                }
             }
-            prev = num % 10;
-            num /= 10;
+            arr[i] = flag1 || flag2;
         }
-
-        if(prev != -1) {
-            return true;
-        }
-
-        num = n;
-        while(num > 0) {
-            if(num % 10 <= prev) {
-                return false;
-            }
-            prev = num % 10;
-            num /= 10;
-        }
-
-        return true;
+        return arr;
     }
 }
