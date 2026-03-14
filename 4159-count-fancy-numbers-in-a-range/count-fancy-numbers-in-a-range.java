@@ -2,14 +2,39 @@ class Solution {
     public long countFancy(long l, long r) {
         String s1 = String.valueOf(r);
         String s2 = String.valueOf(l-1);
+        long[][][][][][] dp = new long[16][2][2][10][136][4];
 
-        Long[][][][][][] dp1 = new Long[s1.length()][2][2][10][136][4];
-        Long[][][][][][] dp2 = new Long[s2.length()][2][2][10][136][4];
+        for(long[][][][][] d: dp) {
+            for(long[][][][] d1: d) {
+                for(long[][][] d2: d1) {
+                    for(long[][] d3: d2) {
+                        for(long[] d4: d3) {
+                            Arrays.fill(d4, -1);
+                        }
+                    }
+                }
+            }
+        }
+        long ans1 = count(s1, 0, 1, 1, 0, 0, 0, dp);
 
-        return count(s1, 0, 1, 1, 0, 0, 0, dp1) - count(s2, 0, 1, 1, 0, 0, 0, dp2);
+        for(long[][][][][] d: dp) {
+            for(long[][][][] d1: d) {
+                for(long[][][] d2: d1) {
+                    for(long[][] d3: d2) {
+                        for(long[] d4: d3) {
+                            Arrays.fill(d4, -1);
+                        }
+                    }
+                }
+            }
+        }
+        
+        long ans2 = count(s2, 0, 1, 1, 0, 0, 0, dp);
+
+        return ans1 - ans2;
     }
 
-    private long count(String s, int i, int t, int lz, int prev, int sum, int state, Long[][][][][][] dp) {
+    private long count(String s, int i, int t, int lz, int prev, int sum, int state, long[][][][][][] dp) {
         if(i == s.length()) {
             if(state == 0 || state == 1 || state == 2) {
                 return 1;
@@ -20,7 +45,7 @@ class Solution {
             return 0;
         }
 
-        if(t == 0 && lz == 0 && dp[i][t][lz][prev][sum][state] != null) {
+        if(t == 0 && lz == 0 && dp[i][t][lz][prev][sum][state] != -1) {
             return dp[i][t][lz][prev][sum][state];
         }
 
