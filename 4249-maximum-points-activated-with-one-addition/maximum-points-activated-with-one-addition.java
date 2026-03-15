@@ -36,6 +36,14 @@ class Solution {
                 size[p2] += size[p1];
             }
         }
+
+        int maxActive(int n) {
+            Arrays.sort(size);
+            if(size[200009]-1 == n) {
+                return n+1;
+            }
+            return size[200009] + size[200008] - 1;
+        }
     }
     
     public int maxActivated(int[][] points) {
@@ -88,26 +96,8 @@ class Solution {
             dsu.union(x, y);
         }
 
-        HashSet<Integer> parent = new HashSet<>();//it will help to know number of component
+        int max = dsu.maxActive(n);
 
-        for(int a: used) {
-            parent.add(dsu.find(a));
-        }
-
-        if(parent.size() == 1) {
-            return n+1;
-        }
-
-        List<Integer> componentSize = new ArrayList<>();
-
-        for(int p: parent) {
-            componentSize.add(dsu.size[p]);
-        }
-
-        Collections.sort(componentSize);
-        
-        int maxPoint = componentSize.get(componentSize.size()-1) + componentSize.get(componentSize.size()-2) - 1;
-
-        return maxPoint;
+        return max;
     }
 }
