@@ -105,8 +105,7 @@ class Solution {
         }
 
         Collections.sort(componentSize);
-
-        System.out.println(componentSize);
+        
         int maxPoint = componentSize.get(componentSize.size()-1) + componentSize.get(componentSize.size()-2) - 1;
 
         return maxPoint;
