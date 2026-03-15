@@ -38,11 +38,21 @@ class Solution {
         }
 
         int maxActive(int n) {
-            Arrays.sort(size);
-            if(size[200009]-1 == n) {
+            int fm = -1;
+            int sm = -1;
+            for(int s: size) {
+                if(s > fm) {
+                    sm = fm;
+                    fm = s;
+                }
+                else if(s > sm) {
+                    sm = s;
+                }
+            }
+            if(fm-1 == n) {
                 return n+1;
             }
-            return size[200009] + size[200008] - 1;
+            return fm + sm - 1;
         }
     }
     
