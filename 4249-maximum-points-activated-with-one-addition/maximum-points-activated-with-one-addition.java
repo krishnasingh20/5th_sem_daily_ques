@@ -80,37 +80,42 @@ class Solution {
 
         DSU dsu = new DSU(n);
         int offSet = n;//to avoid (x, y) overlap
-        HashSet<Integer> used = new HashSet<>();
 
         for(int[] p: points) {
             int x = compressX.get(p[0]);
             int y = compressY.get(p[1]) + offSet;
-            used.add(x);
-            used.add(y);
             dsu.union(x, y);
         }
         
         HashSet<Integer> parent = new HashSet<>();//it will help to know number of component
 
-        for(int a: used) {
-            parent.add(dsu.find(a));
+        for(int p[]: points) {
+            parent.add(dsu.find(compressX.get(p[0])));
         }
 
         if(parent.size() == 1) {
             return n+1;
         }
 
-        List<Integer> componentSize = new ArrayList<>();
+        List<Integer> compSize = new ArrayList<>();
 
         for(int p: parent) {
-            componentSize.add(dsu.size[p]);
+            compSize.add(dsu.size[p]);
         }
 
-        Collections.sort(componentSize);
-        int m = componentSize.size();
-        
-        int maxPoint = componentSize.get(m-1) + componentSize.get(m-2) - 1;
+        int max1 = 0;
+        int max2 = 0;
 
-        return maxPoint;
+        for(int c: compSize) {
+            if(c > max1) {
+                max2 = max1;
+                max1 = c;
+            }
+            else if(c > max2) {
+                max2 = c;
+            }
+        }
+
+        return max1 + max2 - 1;
     }
 }
