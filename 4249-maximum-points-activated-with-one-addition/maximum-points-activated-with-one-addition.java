@@ -96,13 +96,10 @@ class Solution {
 
         DSU dsu = new DSU();
         int offSet = 100001;//to avoid (x, y) overlap
-        HashSet<Integer> used = new HashSet<>();
 
         for(int[] p: points) {
             int x = compressX.get(p[0]);
             int y = compressY.get(p[1]) + offSet;
-            used.add(x);
-            used.add(y);
             dsu.union(x, y);
         }
 
