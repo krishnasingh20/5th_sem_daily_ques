@@ -2,11 +2,13 @@ class Solution {
     class DSU {
         int[] parent;
         int[] size;
+        int n;
 
-        public DSU() {
-            parent = new int[200010];
-            size = new int[200010];
-            for(int i = 0; i < 200010; i++) {
+        public DSU(int n) {
+            this.n = n;
+            parent = new int[2*n+10];
+            size = new int[2*n+10];
+            for(int i = 0; i < 2*n+10; i++) {
                 parent[i] = i;
                 size[i] = 1;
             }
@@ -36,24 +38,6 @@ class Solution {
                 size[p2] += size[p1];
             }
         }
-
-        int maxActive(int n) {
-            int fm = -1;
-            int sm = -1;
-            for(int s: size) {
-                if(s > fm) {
-                    sm = fm;
-                    fm = s;
-                }
-                else if(s > sm) {
-                    sm = s;
-                }
-            }
-            if(fm-1 == n) {
-                return n+1;
-            }
-            return fm + sm - 1;
-        }
     }
     
     public int maxActivated(int[][] points) {
@@ -67,7 +51,7 @@ class Solution {
 
         Arrays.sort(temp);
 
-        int idx1 = 1;
+        int idx1 = 0;
         HashMap<Integer, Integer> compressX = new HashMap<>();
         compressX.put(temp[0], idx1);
 
@@ -84,7 +68,7 @@ class Solution {
 
         Arrays.sort(temp);
 
-        int idx2 = 1;
+        int idx2 = 0;
         HashMap<Integer, Integer> compressY = new HashMap<>();
         compressY.put(temp[0], idx2);
 
@@ -94,17 +78,38 @@ class Solution {
             }
         }
 
-        DSU dsu = new DSU();
-        int offSet = 100001;//to avoid (x, y) overlap
+        DSU dsu = new DSU(n);
+        int offSet = n;//to avoid (x, y) overlap
+        HashSet<Integer> used = new HashSet<>();
 
         for(int[] p: points) {
             int x = compressX.get(p[0]);
             int y = compressY.get(p[1]) + offSet;
+            used.add(x);
+            used.add(y);
             dsu.union(x, y);
         }
+        
+        HashSet<Integer> parent = new HashSet<>();//it will help to know number of component
 
-        int max = dsu.maxActive(n);
+        for(int a: used) {
+            parent.add(dsu.find(a));
+        }
 
-        return max;
+        if(parent.size() == 1) {
+            return n+1;
+        }
+
+        List<Integer> componentSize = new ArrayList<>();
+
+        for(int p: parent) {
+            componentSize.add(dsu.size[p]);
+        }
+
+        Collections.sort(componentSize);
+        
+        int maxPoint = componentSize.get(componentSize.size()-1) + componentSize.get(componentSize.size()-2) - 1;
+
+        return maxPoint;
     }
 }
