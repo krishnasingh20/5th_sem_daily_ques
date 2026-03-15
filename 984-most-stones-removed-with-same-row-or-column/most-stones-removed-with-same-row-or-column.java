@@ -1,16 +1,12 @@
 class Solution {
 
     class DSU {
-        int component;
         int[] parent;
         int[] size;
-        int n;
-        public DSU(int n) {
-            this.n = n;
-            component = n;
-            parent = new int[n];
-            size = new int[n];
-            for(int i = 0; i < n; i++) {
+        public DSU() {
+            parent = new int[20010];
+            size = new int[20010];
+            for(int i = 0; i < 20010; i++) {
                 parent[i] = i;
                 size[i] = 1;
             }
@@ -37,25 +33,31 @@ class Solution {
                 parent[p1] = p2;
                 size[p2] += size[p1];
             }
-            component--;
-        }
-
-        int stoneRemove() {
-            return n-component;
         }
     }
 
     public int removeStones(int[][] stones) {
         int n = stones.length;
-        DSU dsu = new DSU(n);
+        DSU dsu = new DSU();
+        int offSet = 10001;
+
+        HashSet<Integer> used = new HashSet<>();//all unique node
+
         for(int i = 0; i < n; i++) {
-            for(int j = i+1; j < n; j++) {
-                if(stones[i][0] == stones[j][0] || stones[i][1] == stones[j][1]) {
-                    dsu.union(i, j);
-                }
-            }
+            int r = stones[i][0];
+            int c = stones[i][1] + offSet;
+            used.add(r);
+            used.add(c);
+
+            dsu.union(r, c);
         }
 
-        return dsu.stoneRemove();
+        HashSet<Integer> parent = new HashSet<>();//size of these hashset tell number of component
+        
+        for(int node: used) {
+            parent.add(dsu.find(node));
+        }
+
+        return n - parent.size();
     }
 }
