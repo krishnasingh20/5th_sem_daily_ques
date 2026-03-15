@@ -59,7 +59,7 @@ public:
         return dsu.group;
     }
 
-    bool similar(const string& s1, const string& s2) {
+    bool similar(string& s1, string& s2) {
         int pos = 0;
         for(int i = 0; i < s1.length(); i++) {
             if(s1[i] != s2[i]) {
