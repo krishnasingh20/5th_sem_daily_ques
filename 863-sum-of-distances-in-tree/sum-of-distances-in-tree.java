@@ -2,15 +2,15 @@ class Solution {
     public int[] sumOfDistancesInTree(int n, int[][] edges) {
         int[] dist = new int[n];
         int[] subtree = new int[n];
-        List<List<Integer>> tree = new ArrayList<>();
+        List<Integer>[] tree = new ArrayList[n];
 
         for(int i = 0; i < n; i++) {
-            tree.add(new ArrayList<>());
+            tree[i] = new ArrayList<>();
         }
 
         for(int[] edge: edges) {
-            tree.get(edge[0]).add(edge[1]);
-            tree.get(edge[1]).add(edge[0]);
+            tree[edge[0]].add(edge[1]);
+            tree[edge[1]].add(edge[0]);
         }
 
         dfs1(0, tree, dist, subtree, new boolean[n]);
@@ -23,10 +23,10 @@ class Solution {
         return ans;
     }
 
-    private static void dfs1(int node, List<List<Integer>> tree, int[] dist, int[] subtree, boolean[] visited) {
+    private static void dfs1(int node, List<Integer>[] tree, int[] dist, int[] subtree, boolean[] visited) {
         visited[node] = true;
 
-        for(int child: tree.get(node)) {
+        for(int child: tree[node]) {
             if(visited[child]) {
                 continue;
             }
@@ -38,10 +38,10 @@ class Solution {
         subtree[node] += 1;
     }
 
-    private static void dfs2(int n, int node, List<List<Integer>> tree, int[] ans, int[] dist, int[] subtree, boolean[] visited) {
+    private static void dfs2(int n, int node, List<Integer>[] tree, int[] ans, int[] dist, int[] subtree, boolean[] visited) {
         visited[node] = true;
 
-        for(int child: tree.get(node)) {
+        for(int child: tree[node]) {
             if(visited[child]) {
                 continue;
             }
