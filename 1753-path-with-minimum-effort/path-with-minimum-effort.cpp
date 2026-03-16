@@ -10,34 +10,32 @@ public:
         vector<vector<int>> effort(m, vector<int>(n, INT_MAX));
         effort[0][0] = 0;
         
-        queue<pair<int, int>> q;
-        q.push({0, 0});
+        priority_queue<vector<int>, vector<vector<int>>, greater<vector<int>>> pq;
+        pq.push({0,0,0});
 
-        while(!q.empty()) {
-            auto rv = q.front();
-            int x = rv.first;
-            int y = rv.second;
-            q.pop();
+        while(!pq.empty()) {
+            auto rv = pq.top();
+            pq.pop();
 
-            if(x == m-1 && y == n-1) {
+            if(rv[1] == m-1 && rv[2] == n-1) {
                 continue;
             }
 
             for(int i = 0; i < 4; i++) {
-                int newX = x + dx[i];
-                int newY = y + dy[i];
+                int newX = rv[1] + dx[i];
+                int newY = rv[2] + dy[i];
 
                 if(newX < 0 || newX >= m || newY < 0 || newY >= n) {
                     continue;
                 }
 
-                int e = max(abs(heights[x][y] - heights[newX][newY]), effort[x][y]);
+                int e = max(abs(heights[rv[1]][rv[2]] - heights[newX][newY]), effort[rv[1]][rv[2]]);
                 if(e >= effort[newX][newY]) {
                     continue;
                 }
 
                 effort[newX][newY] = e;
-                q.push({newX, newY});
+                pq.push({e, newX, newY});
             }
         }
 
