@@ -6,8 +6,8 @@ class Solution {
         }
         int[] inDegree = new int[numCourses];
         for(int[] pre: prerequisites) {
-            inDegree[pre[0]]++;
             graph[pre[1]].add(pre[0]);
+            inDegree[pre[0]]++;
         }
         Queue<Integer> q = new LinkedList<>();
         for(int i = 0; i < numCourses; i++) {
@@ -25,6 +25,6 @@ class Solution {
                 }
             }
         }
-        return course==numCourses;
+        return course == numCourses;
     }
 }
