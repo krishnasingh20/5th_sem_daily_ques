@@ -5,7 +5,7 @@ class Solution {
         m = grid.length;
         n = grid[0].length;
 
-        dp = new Long[m][n][m*n + 1];
+        dp = new Long[m][n][m+n+1];
 
         int ans = (int)(maxPro(grid, 0, 0, 0) % 1000000007);
         return ans < 0?-1:ans;
