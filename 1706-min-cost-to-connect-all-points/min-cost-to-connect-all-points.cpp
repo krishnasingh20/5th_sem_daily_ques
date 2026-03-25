@@ -57,10 +57,15 @@ public:
         DSU dsu(n);
 
         int cost = 0;
+        int count = 0;
 
         for(auto &e: edges) {
             if(dsu.unite(e[0], e[1])) {
+                count++;
                 cost += e[2];
+                if(count == n-1) {
+                    return cost;
+                }
             }
         }
 
