@@ -63,9 +63,9 @@ public:
             if(dsu.unite(e[0], e[1])) {
                 count++;
                 cost += e[2];
-                if(count == n-1) {
-                    return cost;
-                }
+            }
+            if(count == n-1) {
+                return cost;
             }
         }
 
