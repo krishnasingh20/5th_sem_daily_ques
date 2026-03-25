@@ -6,10 +6,9 @@ struct Comparator {
 
 class DSU {
     vector<int> parent, size, count;
-    vector<int>* mx;
+    vector<int>& mx;
 public:
-    DSU(int n, vector<int>& arr) {
-        mx = &arr;
+    DSU(int n, vector<int>& arr) :mx(arr) {
         parent.resize(n);
         size.resize(n);
         count.resize(n);
@@ -35,22 +34,22 @@ public:
             return 0;
         }
 
-        int val = max((*mx)[p1], (*mx)[p2]);
+        int val = max(mx[p1], mx[p2]);
         int c = 0;
         int ans = 0;
 
-        if((*mx)[p1] == (*mx)[p2]) {
+        if(mx[p1] == mx[p2]) {
             ans += (count[p1]*count[p2]);
             c = count[p1] + count[p2];
         }
         else {
-            if((*mx)[p1] == val) {
+            if(mx[p1] == val) {
                 c = count[p1];
-                (*mx)[p2] = val;
+                mx[p2] = val;
             }
             else {
                 c = count[p2];
-                (*mx)[p1] = val;
+                mx[p1] = val;
             }
         }
 
