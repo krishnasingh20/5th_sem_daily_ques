@@ -1,52 +1,67 @@
 class Solution {
     public int findMaximumXOR(int[] nums) {
-        Trie trie = new Trie();
-        for(int num: nums) {
-            trie.add(num);
-        }
         int ans = 0;
-        for(int num: nums) {
-            ans = Math.max(ans, trie.maxXOR(num));
+        int n = nums.length;
+
+        Trie trie = new Trie();
+
+        for(int i = 0; i < n; i++) {
+            trie.insert(nums[i]);
+            ans = Math.max(ans, trie.maxXOR(nums[i]));
         }
+
         return ans;
     }
     class Trie {
+
         class Node {
             Node one;
             Node zero;
         }
+
+        private Node root;
+
         public Trie() {
             root = new Node();
         }
-        private Node root;
-        public void add(int num) {
+
+        public void insert(int num) {
             Node curr = root;
+
             for(int i = 31; i >= 0; i--) {
-                int mask = (1<<i);
-                if((mask & num) != 0) {
-                    if(curr.one == null) {
-                        Node one = new Node();
-                        curr.one = one;
+                int mask = (1 << i);
+
+                if((num & mask) != 0) {
+                    if(curr.one != null) {
+                        curr = curr.one;
                     }
-                    curr = curr.one;
+                    else {
+                        curr.one = new Node();
+                        curr = curr.one;
+                    }
                 }
-                else {
-                    if(curr.zero == null) {
-                        Node zero = new Node();
-                        curr.zero = zero;
+                else  {
+                    if(curr.zero != null) {
+                        curr = curr.zero;
                     }
-                    curr = curr.zero;
+                    else {
+                        curr.zero = new Node();
+                        curr = curr.zero;
+                    }
                 }
             }
         }
+
         public int maxXOR(int num) {
             int ans = 0;
             Node curr = root;
+
             for(int i = 31; i >= 0; i--) {
-                int mask = (1<<i);
-                if((mask & num) != 0) {
+                int mask = (1 << i);
+
+                if((num & mask) != 0) {
                     if(curr.zero != null) {
-                        ans |= (1<<i);
+                        ans += mask;
                         curr = curr.zero;
                     }
                     else {
@@ -55,7 +70,7 @@ class Solution {
                 }
                 else {
                     if(curr.one != null) {
-                        ans |= (1<<i);
+                        ans += mask;
                         curr = curr.one;
                     }
                     else {
@@ -63,6 +78,7 @@ class Solution {
                     }
                 }
             }
+
             return ans;
         }
     }
