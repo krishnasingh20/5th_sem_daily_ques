@@ -2,7 +2,8 @@ class Solution {
     int mod = 1000000007;
     public int countVisiblePeople(int n, int pos, int k) {
         long[] fact = new long[n+1];
-        precompute(fact);
+        long[] invFact = new long[n+1];
+        precompute(fact, invFact);
 
         long ans = 0;
         int l = pos;
@@ -12,20 +13,28 @@ class Solution {
             int k1 = i;
             int k2 = k - i;
             if(k1 <= l && k2 <= r) {
-                long temp1 = (((fact[l] * inversefact(fact[k1])) % mod) * inversefact(fact[(l-k1)])) % mod;
-                long temp2 = (((fact[r] * inversefact(fact[k2])) % mod) * inversefact(fact[(r-k2)])) % mod;
-                ans = (ans + (temp1 * temp2) % mod) % mod;
+                long temp1 = (((fact[l] * invFact[k1]) % mod) * invFact[(l-k1)]) % mod;
+                long temp2 = (((fact[r] * invFact[k2]) % mod) * invFact[(r-k2)]) % mod;
+                ans = (ans + (temp1 * temp2) % mod);
             }
         }
 
         return (int)((ans*2)%mod);
     }
 
-    public void precompute(long[] fact) {
+    public void precompute(long[] fact, long[] invfact) {
         int n = fact.length;
+
+        // factorial calculating
         fact[0] = 1;
         for(int i = 1; i < n; i++) {
             fact[i] = (fact[i-1]*i) % mod;
+        }
+
+        // inverse factorial calculating
+        invfact[n-1] = inversefact(fact[n-1]);
+        for(int i = n-2; i >= 0; i--) {
+            invfact[i] = (invfact[i+1]*(i+1)) % mod;
         }
     }
 
