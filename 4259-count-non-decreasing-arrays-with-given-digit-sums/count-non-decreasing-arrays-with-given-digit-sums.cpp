@@ -31,7 +31,7 @@ public:
 
             int j = 0;
             int k = 0;
-            long long sum = 0;
+            int sum = 0;
 
             while(k < 5001 && j < a.size()) {
                 if(a[j] < k) {
