@@ -37,19 +37,16 @@ public:
         }
 
         vector<int> ans;
-        arr.clear();
-
+        
         while(!st.empty()) {
-            arr.push_back(st.top());
+            pos[st.top().second] = -1;
             st.pop();
         }
 
-        sort(arr.begin(), arr.end(), [](pair<int, int> &a, pair<int, int> &b) {
-            return a.second < b.second;
-        });
-
-        for(int i = 0; i < arr.size(); i++) {
-            ans.push_back(h[arr[i].second]);
+        for(int i = 0; i < n; i++) {
+            if(pos[i] == -1) {
+                ans.push_back(h[i]);
+            }
         }
 
         return ans;
