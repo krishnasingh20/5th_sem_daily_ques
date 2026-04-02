@@ -2,7 +2,7 @@ class Solution {
 public:
     int maximumAmount(vector<vector<int>>& coins) {
         
-        vector<vector<vector<int>>> dp(coins.size(), vector<vector<int>>(coins[0].size(), vector<int>(3, -1)));
+        // vector<vector<vector<int>>> dp(coins.size(), vector<vector<int>>(coins[0].size(), vector<int>(3, -1)));
 
         // return maxProfit(coins, 0, 0, 2, dp);
 
