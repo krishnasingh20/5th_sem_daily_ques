@@ -1,32 +1,31 @@
 class Solution {
     public long minIncrease(int[] nums) {
-
-        int n = nums.length;
-        int state = (n & 1)==1?1:0;
-
-        dp = new Long[n][2];
-
-        return minInc(nums, 1, state);
+        return bottomUp(nums);
     }
 
-    Long[][] dp;
+    public long bottomUp(int[] nums) {
+        int n = nums.length;
 
-    public long minInc(int[] nums, int i, int state) {
-        if(i >= nums.length-1) {
-            return 0;
+        long[][] dp = new long[n+1][2];
+
+        for(int i = n-2; i >= 1; i--) {
+            for(int state = 0; state <= 1; state++) {
+                if((n & 1) == 1 && state == 0) {
+                    continue;
+                }
+                long curr = Math.max(0, Math.max(nums[i-1]+1-nums[i], nums[i+1]+1-nums[i])) + dp[i+2][state];
+                if(state == 0) {
+                    long skip = dp[i+1][1];
+                    curr = Math.min(curr, skip);
+                }
+                dp[i][state] = curr;
+            }
         }
 
-        if(dp[i][state] != null) {
-            return dp[i][state];
+        if((n & 1) == 1) {
+            return dp[1][1];
         }
 
-        long ans = Math.max(0, Math.max(nums[i-1]+1-nums[i], nums[i+1]+1-nums[i])) + minInc(nums, i+2, state);
-
-        if(state == 0) {
-            long skip = minInc(nums, i+1, 1);
-            ans = Math.min(ans, skip);
-        }
-
-        return dp[i][state] = ans;
+        return Math.min(dp[1][0], dp[1][1]);
     }
 }
