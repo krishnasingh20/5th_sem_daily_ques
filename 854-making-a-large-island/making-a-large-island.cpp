@@ -61,10 +61,11 @@ public:
         }
 
         int ans = INT_MIN;
+        unordered_set<int> set;
         for(int i = 0; i < n; i++) {
             for(int j = 0; j < n; j++) {
                 if(grid[i][j] == 0) {
-                    unordered_set<int> set;
+                    set.clear();
                     if(i-1 >= 0 && grid[i-1][j]) {
                         int id = (i-1)*n + (j+1);
                         set.insert(dsu.find(id));
