@@ -24,12 +24,6 @@ class Solution {
 
         dfs1(0);
 
-        adj = new ArrayList<>();
-
-        for(int i = 0; i < n; i++) {
-            adj.add(new ArrayList<>());
-        }
-
         for(int i = 1; i < n; i++) {
             adj.get(p[i]).add(i);
         }
@@ -50,7 +44,11 @@ class Solution {
 
         arr[s.charAt(src)-'a'] = src;
 
-        for(int nbrs: adj.get(src)) {
+        int size = adj.get(src).size();
+
+        for(int i = size-1; i >= 0; i--) {
+            int nbrs = adj.get(src).get(i);
+            adj.get(src).remove(i);
             dfs1(nbrs);
         }
 
@@ -59,6 +57,7 @@ class Solution {
 
     public int dfs2(int src) {
         int c = 0;
+
         for(int nbrs: adj.get(src)) {
             c += dfs2(nbrs);
         }
