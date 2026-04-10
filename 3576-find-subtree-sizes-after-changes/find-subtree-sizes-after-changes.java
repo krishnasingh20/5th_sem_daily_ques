@@ -24,6 +24,10 @@ class Solution {
 
         dfs1(0);
 
+        for(int i = 0; i < n; i++) {
+            adj.get(i).clear();
+        }
+
         for(int i = 1; i < n; i++) {
             adj.get(p[i]).add(i);
         }
@@ -44,11 +48,7 @@ class Solution {
 
         arr[s.charAt(src)-'a'] = src;
 
-        int size = adj.get(src).size();
-
-        for(int i = size-1; i >= 0; i--) {
-            int nbrs = adj.get(src).get(i);
-            adj.get(src).remove(i);
+        for(int nbrs: adj.get(src)) {
             dfs1(nbrs);
         }
 
