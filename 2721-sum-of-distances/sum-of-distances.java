@@ -1,5 +1,6 @@
 class Solution {
     public long[] distance(int[] arr) {
+        int n=arr.length;
         HashMap<Integer, List<Integer>> map = new HashMap<>();
         for(int i = 0; i < arr.length; i++) {
             if(!map.containsKey(arr[i])) {
@@ -13,7 +14,7 @@ class Solution {
         }
         long[] ans = new long[arr.length];
         for(List<Integer> ll: map.values()) {
-            int n = ll.size();
+            n = ll.size();
             long leftSum = 0;
             long rightSum = 0;
             for(int l: ll) {
