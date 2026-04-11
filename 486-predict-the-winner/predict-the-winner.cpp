@@ -9,22 +9,27 @@ public:
         }
 
         //player 1 score
-        int score = maxScore(0, n-1, nums);
+        vector<vector<int>> dp(n, vector<int>(n, -1));
+        int score = maxScore(0, n-1, nums, dp);
 
         return score >= (totalScore-score);
     }
 
-    int maxScore(int i, int j, vector<int>& nums) {
+    int maxScore(int i, int j, vector<int>& nums, vector<vector<int>>& dp) {
         if(i > j) {
             return 0;
         }
 
+        if(dp[i][j] != -1) {
+            return dp[i][j];
+        }
+
         // take from front
-        int front = nums[i] + min(maxScore(i+2, j, nums),  maxScore(i+1, j-1, nums));
+        int front = nums[i] + min(maxScore(i+2, j, nums, dp),  maxScore(i+1, j-1, nums, dp));
 
         //take from last
-        int last = nums[j] + min(maxScore(i+1, j-1, nums), maxScore(i, j-2, nums));
+        int last = nums[j] + min(maxScore(i+1, j-1, nums, dp), maxScore(i, j-2, nums, dp));
 
-        return max(front, last);
+        return dp[i][j] = max(front, last);
     }
 };
