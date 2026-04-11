@@ -1,24 +1,28 @@
 class Solution {
     public int minimumDistance(int[] nums) {
-        HashMap<Integer, List<Integer>> map = new HashMap<>();
-        for(int i = 0; i < nums.length; i++) {
-            if(!map.containsKey(nums[i])) {
-                map.put(nums[i], new ArrayList<>());
-            }
-            map.get(nums[i]).add(i);
+        int n = nums.length;
+
+        int[][] arr = new int[n+1][2];
+
+        for(int[] a: arr) {
+            Arrays.fill(a, -1);
         }
+
         int ans = Integer.MAX_VALUE;
-        for(List<Integer> ll: map.values()) {
-            if(ll.size() < 3) {
-                continue;
+
+        for(int i = 0; i < n; i++) {
+            if(arr[nums[i]][0] == -1) {
+                arr[nums[i]][0] = arr[nums[i]][1];
+                arr[nums[i]][1] = i;
             }
-            for(int i = 0; i <= ll.size()-3; i++) {
-                int a = ll.get(i);
-                int b = ll.get(i+1);
-                int c = ll.get(i+2);
-                ans = Math.min(ans, (b-a)+(c-b)+(c-a));
+            else {
+                int dist = (arr[nums[i]][1] - arr[nums[i]][0]) + (i - arr[nums[i]][1]) + (i - arr[nums[i]][0]);
+                ans = Math.min(ans, dist);
+                arr[nums[i]][0] = arr[nums[i]][1];
+                arr[nums[i]][1] = i;
             }
         }
-        return ans == Integer.MAX_VALUE?-1:ans;
+
+        return ans==Integer.MAX_VALUE?-1:ans;
     }
 }
