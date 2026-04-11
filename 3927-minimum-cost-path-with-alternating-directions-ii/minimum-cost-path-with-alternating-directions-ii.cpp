@@ -6,9 +6,11 @@ public:
         m = _m;
         n = _n;
 
-        vector<vector<long long>> dp(m, vector<long long>(n, -1));
+        // vector<vector<long long>> dp(m, vector<long long>(n, -1));
 
-        return minCost1(0, 0, waitCost, dp);
+        // return minCost1(0, 0, waitCost, dp);
+
+        return bottomUp(waitCost);
     }
 
     long long minCost1(int r, int c, vector<vector<int>>& waitCost, vector<vector<long long>>& dp) {
@@ -41,5 +43,44 @@ public:
         }
 
         return dp[r][c] = ans;
+    }
+
+    long long bottomUp(vector<vector<int>>& waitCost) {
+        vector<vector<long long>> dp(m+1, vector<long long>(n+1));
+
+        dp[m-1][n-1] = m*n;
+
+        for(int r = m-1; r >= 0; r--) {
+            for(int c = n-1; c >= 0; c--) {
+
+                if(r == m-1 && c == n-1) {
+                    continue;
+                }
+
+                long long ans = LONG_MAX;
+
+                if(r+1 < m) {
+                    long long curr = (r+1)*(c+1) + dp[r+1][c];
+                    if(r != 0 || c != 0) {
+                        curr += waitCost[r][c];
+                    }
+
+                    ans = min(curr, ans);
+                }
+
+                if(c+1 < n) {
+                    long long curr = (r+1)*(c+1) + dp[r][c+1];
+                    if(r != 0 || c != 0) {
+                        curr += waitCost[r][c];
+                    }
+
+                    ans = min(ans, curr);
+                }
+
+                dp[r][c] = ans;
+            }
+        }
+
+        return dp[0][0];
     }
 };
