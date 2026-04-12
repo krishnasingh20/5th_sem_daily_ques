@@ -24,6 +24,7 @@ class Solution {
                 cnt++;
             }
 
+            //here we are maintaining a valid window with exactly k distict interge
             while(dist > k) {
                 if(--map1[nums[si1]] == 0) {
                     dist--;
@@ -31,6 +32,7 @@ class Solution {
                 si1++;
             }
 
+            //here we are finding index before which for partcular ei all are valid start from si1 to si2-1
             while(cnt >= k) {
                 if(map2[nums[si2]]-- == m) {
                     cnt--;
