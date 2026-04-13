@@ -1,10 +1,10 @@
 class Solution {
 
     public boolean repeatedSubstringPattern(String s) {
-        return isRepeatedPattern(s);
+        return isRepeated(s);
     }
 
-    public static boolean isRepeatedPattern(String s) {
+    private boolean isRepeated(String s) {
         int n = s.length();
 
         List<Integer> factor = generateFactor(s, n);
@@ -29,7 +29,6 @@ class Solution {
             arr[i] = ((s.charAt(i) - 'a') * p) % MOD;
         }
 
-        // prefix sum hash
         for (int i = 1; i < n; i++) {
             arr[i] = (arr[i] + arr[i - 1]) % MOD;
         }
@@ -45,7 +44,6 @@ class Solution {
             for (; i < n; i += k) {
                 long curr = arr[i] - arr[i - k];
 
-                // handle negative
                 if (curr < 0) curr += MOD;
 
                 if (curr != (pat * pow[i - k + 1]) % MOD) {
@@ -54,13 +52,15 @@ class Solution {
                 }
             }
 
-            if (flag) return true;
+            if (flag) {
+                return true;
+            }
         }
 
         return false;
     }
 
-    public static List<Integer> generateFactor(String s, int n) {
+    private List<Integer> generateFactor(String s, int n) {
         List<Integer> factor = new ArrayList<>();
 
         int limit = (int) Math.sqrt(n);
@@ -76,7 +76,6 @@ class Solution {
 
         Collections.sort(factor);
 
-        // remove n itself
         factor.remove(factor.size() - 1);
 
         return factor;
