@@ -3,37 +3,38 @@ public:
     int minimumXORSum(vector<int>& nums1, vector<int>& nums2) {
 
         int n = nums1.size();
-        vector<int> dp((1 << n), -1);
 
-        return minXor(0, n, nums1, nums2, dp);
+        return bottomUp(nums1, nums2, n);
     }
 
-    int minXor(int mask, int n, vector<int>& nums1, vector<int>& nums2, vector<int>& dp){
-        int i = setBitCount(mask);
+    int bottomUp(vector<int>& nums1, vector<int>& nums2, int n) {
+        vector<int> dp((1 << n)+1);
 
-        if(i == n) {
-            return 0;
-        }
+        for(int mask = (1 << n)-1; mask >= 0; mask--) {
+            int i = setBitCount(mask);
 
-        if(dp[mask] != -1) {
-            return dp[mask];
-        }
-
-        int ans = INT_MAX;;
-
-        for(int j = 0; j < n; j++) {
-            if((mask & (1 << j)) != 0) {
+            if(i == n) {
                 continue;
             }
 
-            int curr = (nums1[i] ^ nums2[j]) + minXor((mask | (1 << j)), n, nums1, nums2, dp);
+            int ans = INT_MAX;
 
-            ans = min(ans, curr);
+            for(int j = 0; j < n; j++) {
+                if((mask & (1 << j)) != 0) {
+                    continue;
+                }
+
+                int curr = (nums1[i] ^ nums2[j]) + dp[(mask | (1 << j))];
+
+                ans = min(ans, curr);
+            }
+
+            dp[mask] = ans;
         }
 
-        return dp[mask] = ans;
+        return dp[0];
     }
-
+    
     int setBitCount(int n) {
         int c = 0;
         
