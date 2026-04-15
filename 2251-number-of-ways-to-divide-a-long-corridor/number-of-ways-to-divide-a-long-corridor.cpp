@@ -5,37 +5,36 @@ public:
     int numberOfWays(string &corridor) {
         n = corridor.length();
 
-        vector<vector<int>> dp(n, vector<int>(3, -1));
-
-        return ways(corridor, 0, 0, dp);
+        return bottomUp(corridor);
     }
 
-    int ways(string &corridor, int i, int seat, vector<vector<int>>& dp) {
-        if(i == n) {
-            if(seat == 2) {
-                return 1;
+    int bottomUp(string &corridor) {
+        vector<vector<int>> dp(n+1, vector<int>(3, 0));
+
+        dp[n][2] = 1;//base case
+
+        for(int i = n-1; i >= 0; i--) {
+            for(int seat = 0; seat < 3; seat++) {
+
+                int newSeat = ((corridor[i] == 'S')?1:0)+seat;
+
+                if(newSeat == 3) {
+                    dp[i][seat] = 0;
+                    continue;
+                }
+
+                int ans = 0;
+
+                if(newSeat == 2) {
+                    ans = (ans + dp[i+1][0]) % MOD;
+                }
+
+                int skip = dp[i+1][newSeat] % MOD;
+
+                dp[i][seat] = (ans+skip) % MOD;
             }
-            return 0;
         }
 
-        if(dp[i][seat] != -1) {
-            return dp[i][seat];
-        }
-
-        int newSeat = ((corridor[i] == 'S')?1:0)+seat;
-
-        if(newSeat == 3) {
-            return dp[i][seat] = 0;
-        }
-
-        int ans = 0;
-
-        if(newSeat == 2) {
-            ans = (ans + ways(corridor, i+1, 0, dp)) % MOD;
-        }
-
-        int skip = ways(corridor, i+1, newSeat, dp) % MOD;
-
-        return dp[i][seat] = (ans+skip) % MOD;
+        return dp[0][0];
     }
 };
