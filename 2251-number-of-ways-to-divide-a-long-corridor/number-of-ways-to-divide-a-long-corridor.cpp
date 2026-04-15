@@ -1,40 +1,45 @@
 class Solution {
 public:
     int MOD = 1000000007;
-    int n;
     int numberOfWays(string &corridor) {
-        n = corridor.length();
-
         return bottomUp(corridor);
     }
 
     int bottomUp(string &corridor) {
-        vector<vector<int>> dp(n+1, vector<int>(3, 0));
+    int n = corridor.size();
 
-        dp[n][2] = 1;//base case
+    int next0 = 0, next1 = 0, next2 = 1; // dp[n][2] = 1
 
-        for(int i = n-1; i >= 0; i--) {
-            for(int seat = 0; seat < 3; seat++) {
+    for(int i = n - 1; i >= 0; i--) {
 
-                int newSeat = ((corridor[i] == 'S')?1:0)+seat;
+        int curr0 = 0, curr1 = 0, curr2 = 0;
 
-                if(newSeat == 3) {
-                    dp[i][seat] = 0;
-                    continue;
-                }
+        for(int seat = 0; seat < 3; seat++) {
 
-                int ans = 0;
+            int newSeat = ((corridor[i] == 'S') ? 1 : 0) + seat;
 
-                if(newSeat == 2) {
-                    ans = (ans + dp[i+1][0]) % MOD;
-                }
+            if(newSeat == 3) continue;
 
-                int skip = dp[i+1][newSeat] % MOD;
+            int ans = 0;
 
-                dp[i][seat] = (ans+skip) % MOD;
+            if(newSeat == 2) {
+                ans = (ans + next0) % MOD;
             }
+
+            int skip = (newSeat == 0 ? next0 : (newSeat == 1 ? next1 : next2)) % MOD;
+
+            int value = (ans + skip) % MOD;
+
+            if(seat == 0) curr0 = value;
+            else if(seat == 1) curr1 = value;
+            else curr2 = value;
         }
 
-        return dp[0][0];
+        next0 = curr0;
+        next1 = curr1;
+        next2 = curr2;
     }
+
+    return next0;
+}
 };
