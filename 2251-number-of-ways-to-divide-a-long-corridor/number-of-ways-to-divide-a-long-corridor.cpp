@@ -1,45 +1,48 @@
 class Solution {
 public:
     int MOD = 1000000007;
+    int n;
     int numberOfWays(string &corridor) {
-        return bottomUp(corridor);
-    }
+        n = corridor.length();
 
-    int bottomUp(string &corridor) {
-    int n = corridor.size();
+        int seat0 = 0;
+        int seat1 = 0;
+        int seat2 = 1;
 
-    int next0 = 0, next1 = 0, next2 = 1; // dp[n][2] = 1
+        for(int i = n-1; i >= 0; i--) {
+            int curr0 = 0, curr1 = 0, curr2 = 0;
+            for(int seat = 0; seat < 3; seat++) {
+                int newSeat = (corridor[i]=='S'?1:0)+seat;
+                if(newSeat == 3) {
+                    continue;
+                }
 
-    for(int i = n - 1; i >= 0; i--) {
+                int ans = 0;
 
-        int curr0 = 0, curr1 = 0, curr2 = 0;
+                if(newSeat == 2) {
+                    ans = (ans + seat0) % MOD;
+                }
 
-        for(int seat = 0; seat < 3; seat++) {
+                int skip = (newSeat==0?seat0:(newSeat==1?seat1:seat2)) % MOD;
 
-            int newSeat = ((corridor[i] == 'S') ? 1 : 0) + seat;
+                ans = (ans + skip) % MOD;
 
-            if(newSeat == 3) continue;
-
-            int ans = 0;
-
-            if(newSeat == 2) {
-                ans = (ans + next0) % MOD;
+                if(seat == 0) {
+                    curr0 = ans;
+                }
+                else if(seat == 1) {
+                    curr1 = ans;
+                }
+                else {
+                    curr2 = ans;
+                }
             }
 
-            int skip = (newSeat == 0 ? next0 : (newSeat == 1 ? next1 : next2)) % MOD;
-
-            int value = (ans + skip) % MOD;
-
-            if(seat == 0) curr0 = value;
-            else if(seat == 1) curr1 = value;
-            else curr2 = value;
+            seat0 = curr0;
+            seat1 = curr1;
+            seat2 = curr2;
         }
 
-        next0 = curr0;
-        next1 = curr1;
-        next2 = curr2;
+        return seat0;
     }
-
-    return next0;
-}
 };
