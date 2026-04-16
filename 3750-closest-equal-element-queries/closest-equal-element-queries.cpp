@@ -1,61 +1,66 @@
 class Solution {
 public:
     vector<int> solveQueries(vector<int>& nums, vector<int>& queries) {
-        unordered_map<int, int> map1;
         int n = nums.size();
 
-        for(int i = 0; i < n; i++) {
-            map1[nums[i]] = i;
-        }
-
-        unordered_map<int, int> map2;
-        vector<int> arr(n, INT_MAX);
+        unordered_map<int, vector<int>> map;
 
         for(int i = 0; i < n; i++) {
-            if(map2.count(nums[i])) {
-                arr[i] = i-map2[nums[i]];
+            if(map.count(nums[i])) {
+                map[nums[i]].push_back(i);
             }
-            if(map1[nums[i]] != i) {
-                if(map1[nums[i]] > i) {
-                    arr[i] = min(arr[i], i+(n-map1[nums[i]]));
-                }
-                else {
-                    arr[i] = min(arr[i], i-map1[nums[i]]);
-                }
-            }
-            map2[nums[i]] = i;
-        }
-
-        for(int i = n-1; i >= 0; i--) {
-            map1[nums[i]] = i;
-        }
-
-        map2.clear();
-
-        for(int i = n-1; i >= 0; i--) {
-            if(map2.count(nums[i])) {
-                arr[i] = min(arr[i], abs(map2[nums[i]]-i));
-            }
-            if(map1[nums[i]] != i) {
-                if(map1[nums[i]] < i) {
-                    arr[i] = min(arr[i], map1[nums[i]] + (n-i));
-                }
-                else {
-                    arr[i] = min(arr[i], map1[nums[i]]-i);
-                }
-            }
-            map2[nums[i]] = i;
-            if(arr[i] == INT_MAX) {
-                arr[i] = -1;
+            else {
+                vector<int> a = {i};
+                map[nums[i]] = a;
             }
         }
 
         int q = queries.size();
+        vector<int> ans(q);
 
         for(int i = 0; i < q; i++) {
-            queries[i] = arr[queries[i]];
+            int num = nums[queries[i]];
+            auto &arr = map[num];
+
+            if(arr.size() == 1) {
+                ans[i] = -1;
+                continue;
+            }
+
+            int idx = search(arr, queries[i]);
+
+            if(idx == 0) {
+                ans[i] = min((arr[idx+1] - queries[i]), (queries[i]+(n-arr[arr.size()-1])));
+            }
+            else if(idx == arr.size()-1) {
+                ans[i] = min((queries[i] - arr[idx-1]), ((n-queries[i])+arr[0]));
+            }
+            else {
+                ans[i] = min((queries[i]-arr[idx-1]), (arr[idx+1] - queries[i]));
+            }
         }
 
-        return queries;
+        return ans;
+    }
+
+    int search(auto &arr, int target) {
+        int low = 0;
+        int high = arr.size()-1;
+
+        while(low <= high) {
+            int mid = low + (high - low)/2;
+
+            if(arr[mid] == target) {
+                return mid;
+            }
+            else if(arr[mid] < target) {
+                low = mid + 1;
+            }
+            else {
+                high = mid - 1;
+            }
+        }
+
+        return -1;
     }
 };
