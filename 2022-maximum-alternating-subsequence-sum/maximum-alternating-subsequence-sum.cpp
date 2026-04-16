@@ -1,34 +1,34 @@
 class Solution {
 public:
     long long maxAlternatingSum(vector<int>& nums) {
-        int n = nums.size();
-        vector<vector<long long>> dp(n, vector<long long>(3, -1));
-        return maxSum(nums, 0, 0, dp);
+        return bottomUp(nums);
     }
+    long long bottomUp(vector<int>& nums) {
+        int n = nums.size();
 
-    long long maxSum(vector<int>& nums, int i, int state, vector<vector<long long>>& dp) {
-        if(i == nums.size()) {
-            return 0;
-        }
+        vector<vector<long long>> dp(n+1, vector<long long>(3));
 
-        if(dp[i][state] != -1) {
-            return dp[i][state];
-        }
+        for(int i = n-1; i >= 0; i--) {
+            for(int state = 0; state <= 2; state++) {
 
-        if(state == 0) {
-            long long curr = nums[i] + maxSum(nums, i+1, 2, dp);
-            long long skip = maxSum(nums, i+1, 0, dp);
-            return dp[i][state] = max(curr, skip);
+                if(state == 0) {
+                    long long curr = nums[i] + dp[i+1][2];
+                    long long skip = dp[i+1][0];
+                    dp[i][state] = max(curr, skip);
+                }
+                else if(state == 1) {
+                    long long curr = nums[i] + dp[i+1][2];
+                    long long skip = dp[i+1][1];
+                    dp[i][state] = max(curr, skip);
+                }
+                else {
+                    long long curr = -nums[i] + dp[i+1][1];
+                    long long skip = dp[i+1][2];
+                    dp[i][state] = max(curr, skip);
+                }
+            }
         }
-        else if(state == 1) {
-            long long curr = nums[i] + maxSum(nums, i+1, 2, dp);
-            long long skip = maxSum(nums, i+1, 1, dp);
-            return dp[i][state] = max(curr, skip);
-        }
-        else {
-            long long curr = -nums[i] + maxSum(nums, i+1, 1, dp);
-            long long skip = maxSum(nums, i+1, 2, dp);
-            return dp[i][state] = max(curr, skip);
-        }
+        
+        return dp[0][0];
     }
 };
