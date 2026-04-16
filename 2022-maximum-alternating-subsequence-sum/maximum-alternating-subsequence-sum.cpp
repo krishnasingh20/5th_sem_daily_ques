@@ -6,29 +6,34 @@ public:
     long long bottomUp(vector<int>& nums) {
         int n = nums.size();
 
-        vector<vector<long long>> dp(n+1, vector<long long>(3));
+        long long next0 = 0, next1 = 0, next2 = 0;
 
         for(int i = n-1; i >= 0; i--) {
+            long long curr0 = 0, curr1 = 0, curr2 = 0;
             for(int state = 0; state <= 2; state++) {
 
                 if(state == 0) {
-                    long long curr = nums[i] + dp[i+1][2];
-                    long long skip = dp[i+1][0];
-                    dp[i][state] = max(curr, skip);
+                    long long curr = nums[i] + next2;
+                    long long skip = next0;
+                    curr0 = max(curr, skip);
                 }
                 else if(state == 1) {
-                    long long curr = nums[i] + dp[i+1][2];
-                    long long skip = dp[i+1][1];
-                    dp[i][state] = max(curr, skip);
+                    long long curr = nums[i] + next2;
+                    long long skip = next1;
+                    curr1 = max(curr, skip);
                 }
                 else {
-                    long long curr = -nums[i] + dp[i+1][1];
-                    long long skip = dp[i+1][2];
-                    dp[i][state] = max(curr, skip);
+                    long long curr = -nums[i] + next1;
+                    long long skip = next2;
+                    curr2 = max(curr, skip);
                 }
             }
+
+            next0 = curr0;
+            next1 = curr1;
+            next2 = curr2;
         }
-        
-        return dp[0][0];
+
+        return next0;
     }
 };
