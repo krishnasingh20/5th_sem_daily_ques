@@ -51,12 +51,11 @@ public:
         }
 
         int q = queries.size();
-        vector<int> ans(q);
 
         for(int i = 0; i < q; i++) {
-            ans[i] = arr[queries[i]];
+            queries[i] = arr[queries[i]];
         }
 
-        return ans;
+        return queries;
     }
 };
