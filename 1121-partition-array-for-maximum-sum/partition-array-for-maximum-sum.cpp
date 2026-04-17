@@ -1,31 +1,31 @@
 class Solution {
 public:
     int maxSumAfterPartitioning(vector<int>& arr, int k) {
-        vector<int> dp(arr.size(), -1);
-
-        return maxSum(arr, 0, k, dp);
+        return maxSum(arr, k);
     }
 
-    int maxSum(vector<int>& arr, int i, int k, vector<int>& dp) {
-        if(i == arr.size()) {
-            return 0;
+    int maxSum(vector<int>& arr, int k) {
+
+        int n = arr.size();
+        vector<int> dp(n+1);
+
+        for(int i = n-1; i >= 0; i--) {
+
+            int ans = 0;
+            int len = min(i+k-1, n-1);
+            int mmax = 0;
+
+            for(int j = i; j <= len; j++) {
+                mmax = max(mmax, arr[j]);
+
+                int curr = (j-i+1)*mmax + dp[j+1];
+
+                ans = max(ans, curr);
+            }
+
+            dp[i] = ans;
         }
 
-        if(dp[i] != -1) {
-            return dp[i];
-        }
-
-        int ans = 0;
-
-        int n = min(i+k-1, (int)arr.size()-1);
-
-        int mmax = 0;
-        for(int j = i; j <= n; j++) {
-            mmax = max(mmax, arr[j]);
-            int curr = (j-i+1)*mmax + maxSum(arr, j+1, k, dp);
-            ans = max(ans, curr);
-        }
-
-        return dp[i] = ans;
+        return dp[0];
     }
 };
