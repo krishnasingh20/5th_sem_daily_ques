@@ -50,13 +50,7 @@ public:
 
         for(int i = 0; i <= n; i++) {
             long long curr = arr1[i] - arr2[i];
-
-            if(ans == INT_MAX) {
-                ans = curr;
-            }
-            else {
-                ans = min(ans, curr);
-            }
+            ans = min(ans, curr);
         }
 
         return ans;
