@@ -2,35 +2,24 @@ class Solution {
 public:
     int maxDistance(vector<int>& nums1, vector<int>& nums2) {
         int ans = 0;
-        int n = nums2.size();
+        int n = nums1.size();
+        int m = nums2.size();
+        int i = 0;
 
-        for(int i = 0; i < n; i++) {
-            int idx = search(nums1, nums2[i]);
+        for(int j = 0; j < m; j++) {
+            
+            while(i < n && nums1[i] > nums2[j]) {
+                i++;
+            }
 
-            if(idx != -1 && idx <= i) {
-                ans = max(ans, (i-idx));
+            if(i == n) {
+                break;
+            }
+            if(i <= j) {
+                ans = max(ans, (j-i));
             }
         }
 
         return ans;
-    }
-
-    int search(vector<int>& nums, int val) {
-        int low = 0;
-        int high = nums.size()-1;
-        int idx = -1;
-        
-        while(low <= high) {
-            int mid = low + (high-low)/2;
-            if(nums[mid] <= val) {
-                idx = mid;
-                high = mid - 1;
-            }
-            else {
-                low = mid + 1;
-            }
-        }
-
-        return idx;
     }
 };
