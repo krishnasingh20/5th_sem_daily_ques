@@ -40,38 +40,29 @@ public:
 
 class Solution {
 public:
+    vector<vector<int>> prefix;
     Node* construct(vector<vector<int>>& grid) {
         int n = grid.size();
+        prefix.resize(n+1, vector<int>(n+1));
+
+        for(int i = 0; i < n; i++) {
+            for(int j = 0; j < n; j++) {
+               prefix[i+1][j+1] = grid[i][j] + prefix[i][j+1] + prefix[i+1][j] - prefix[i][j];
+            }
+        }
+        
         return constructTree(grid, 0, n-1, 0, n-1);
     }
 
     Node* constructTree(vector<vector<int>>& grid, int r0, int r1, int c0, int c1) {
-        bool one = false;
-        bool zero = false;
+        int total = (r1 - r0 + 1)*(c1 - c0 + 1);
+        int curr = prefix[r1+1][c1+1] - prefix[r0][c1+1] - prefix[r1+1][c0] + prefix[r0][c0];
 
-        for(int i = r0; i <= r1; i++) {
-            for(int j = c0; j <= c1; j++) {
-                if(grid[i][j] == 1) {
-                    one = true;
-                }
-                else {
-                    zero = true;
-                }
-
-                if(one && zero) {
-                    break;
-                }
-            }
-            if(one && zero) {
-                break;
-            }
-        }
-
-        if(one && !zero) {
+        if(curr == total) {
             Node* node = new Node(true, true);
             return node;
         }
-        if(!one && zero) {
+        if(curr == 0) {
             Node* node = new Node(false, true);
             return node;
         }
