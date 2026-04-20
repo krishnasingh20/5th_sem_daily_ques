@@ -1,13 +1,13 @@
 class Solution {
 public:
     long long numberOfSubarrays(vector<int>& nums) {
-        unordered_map<int, int> map;
-        stack<pair<int, int>> st;
 
+        stack<pair<int, int>> st;
         int n = nums.size();
         long long ans = 0;
 
         for(int i = 0; i < n; i++) {
+            
             while(!st.empty() && nums[st.top().first] < nums[i]) {
                 st.pop();
             }
