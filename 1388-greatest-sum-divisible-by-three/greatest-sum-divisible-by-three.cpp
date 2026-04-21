@@ -15,7 +15,7 @@ public:
                 int skip = dp[rem];
                 dp1[rem] = max(pick, skip);
             }
-            dp = move(dp1);
+            dp = dp1;
         }
 
         return dp[0];
