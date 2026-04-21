@@ -1,12 +1,12 @@
 class Solution {
 public:
     int maxSumDivThree(vector<int>& nums) {
-        vector<vector<long long>> dp(nums.size(), vector<long long>(3, -1));
-        long long ans = maxSum(nums, 0, 0, dp);
-        return max(0, (int)ans);
+        vector<vector<int>> dp(nums.size(), vector<int>(3, -1));
+        int ans = maxSum(nums, 0, 0, dp);
+        return max(0, ans);
     }
 
-    long long maxSum(vector<int>& nums, int i, int rem, vector<vector<long long>>& dp) {
+    int maxSum(vector<int>& nums, int i, int rem, vector<vector<int>>& dp) {
         if(i == nums.size()) {
             if(rem == 0) {
                 return 0;
@@ -18,8 +18,8 @@ public:
             return dp[i][rem];
         }
 
-        long long pick = nums[i] + maxSum(nums, i+1, (rem+nums[i])%3, dp);
-        long long skip = maxSum(nums, i+1, rem, dp);
+        int pick = nums[i] + maxSum(nums, i+1, (rem+nums[i])%3, dp);
+        int skip = maxSum(nums, i+1, rem, dp);
 
         return dp[i][rem] = max(pick, skip);
     }
