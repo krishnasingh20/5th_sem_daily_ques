@@ -1,33 +1,38 @@
 class Solution {
-    public long[] distance(int[] arr) {
-        int n=arr.length;
-        HashMap<Integer, List<Integer>> map = new HashMap<>();
-        for(int i = 0; i < arr.length; i++) {
-            if(!map.containsKey(arr[i])) {
-                List<Integer> ll = new ArrayList<>();
-                ll.add(i);
-                map.put(arr[i], ll);
+    public long[] distance(int[] nums) {
+        int n = nums.length;
+        HashMap<Integer, long[]> map = new HashMap<>();
+
+        for(int i = n-1; i >= 0; i--) {
+            if(!map.containsKey(nums[i])) {
+                map.put(nums[i], new long[]{0, 0L});
             }
-            else {
-                map.get(arr[i]).add(i);
-            }
+            long[] a = map.get(nums[i]);
+            a[0] += 1;
+            a[1] += i;
         }
-        long[] ans = new long[arr.length];
-        for(List<Integer> ll: map.values()) {
-            n = ll.size();
-            long leftSum = 0;
-            long rightSum = 0;
-            for(int l: ll) {
-                rightSum += l;
+
+        HashMap<Integer, long[]> map1 = new HashMap<>();
+        long[] ans = new long[n];
+
+        for(int i = 0; i < n; i++) {
+            long[] a = map.get(nums[i]);
+            a[0]--;
+            a[1] -= i;
+            long curr = 0;
+            curr += Math.abs((long)a[0]*i - a[1]);
+
+            if(!map1.containsKey(nums[i])) {
+                map1.put(nums[i], new long[]{0, 0L});
             }
-            for(int i = 0; i < n; i++) {
-                long val = (i*(long)ll.get(i)) - leftSum;
-                val += (rightSum - (ll.get(i)*(long)(n-i)));
-                leftSum += ll.get(i);
-                rightSum -= ll.get(i);
-                ans[ll.get(i)] = val;
-            }
+
+            a = map1.get(nums[i]);
+            curr += ((long)a[0]*i - a[1]);
+            a[0] += 1;
+            a[1] += i;
+            ans[i] = curr;
         }
+
         return ans;
     }
 }
