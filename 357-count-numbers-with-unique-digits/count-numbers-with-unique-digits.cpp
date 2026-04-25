@@ -1,14 +1,17 @@
 class Solution {
 public:
+    
+    int dp[8][2][1 << 10];
+
     int countNumbersWithUniqueDigits(int n) {
 
         int x = pow(10, n) - 1;
         string s = to_string(x);
-        vector<vector<vector<int>>> dp(n, vector<vector<int>>(2, vector<int>(1024, -1)));
+        memset(dp, -1, sizeof(dp));
 
-        return count(s, 0, 1, 0, dp);
+        return count(s, 0, 1, 0);
     }
-    int count(string& s, int idx, int t, int mask, vector<vector<vector<int>>>& dp) {
+    int count(string& s, int idx, int t, int mask) {
 
         if (idx == s.length()) {
             return 1;
@@ -35,7 +38,7 @@ public:
                 newMask = (mask | (1 << d));
             }
 
-            res += count(s, idx + 1, newT, newMask, dp);
+            res += count(s, idx + 1, newT, newMask);
         }
 
         if(t == 0) {
