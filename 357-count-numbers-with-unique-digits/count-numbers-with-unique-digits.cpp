@@ -1,7 +1,7 @@
 class Solution {
 public:
     
-    int dp[8][1 << 10][2];
+    int dp[8][2][1 << 10];
 
     int countNumbersWithUniqueDigits(int n) {
 
@@ -17,8 +17,8 @@ public:
             return 1;
         }
 
-        if(t == 0 && dp[idx][mask][t] != -1) {
-            return dp[idx][mask][t];
+        if(t == 0 && dp[idx][t][mask] != -1) {
+            return dp[idx][t][mask];
         }
 
         int lb = 0;
@@ -42,7 +42,7 @@ public:
         }
 
         if(t == 0) {
-            dp[idx][mask][t] = res;
+            dp[idx][t][mask] = res;
         }
 
         return res;
