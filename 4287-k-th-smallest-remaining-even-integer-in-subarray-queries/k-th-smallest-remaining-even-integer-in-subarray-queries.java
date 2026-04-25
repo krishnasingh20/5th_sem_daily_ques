@@ -4,15 +4,11 @@ class Solution {
 
         int n = nums.length;
         int[] prefix = new int[n + 1];
-        TreeSet<Long> set = new TreeSet<>();
-        HashMap<Long, Integer> map = new HashMap<>();
 
         for (int i = 0; i < n; i++) {
 
             if ((nums[i] & 1) == 0) {
                 prefix[i + 1] = 1;
-                set.add((long) nums[i]);
-                map.put((long) nums[i], i);
             }
 
             prefix[i + 1] += prefix[i];
