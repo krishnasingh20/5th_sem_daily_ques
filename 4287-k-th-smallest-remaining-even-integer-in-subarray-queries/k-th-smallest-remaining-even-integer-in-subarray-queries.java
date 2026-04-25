@@ -23,7 +23,7 @@ class Solution {
             int k = queries[i][2];
 
             long low = 0;
-            long high = 3000000000L;
+            long high = 2L*(k+(prefix[r+1]-prefix[l]));
             long temp = 0;
 
             while(low <= high) {
