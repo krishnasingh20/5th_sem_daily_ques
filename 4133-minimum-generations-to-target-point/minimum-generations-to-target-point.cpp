@@ -8,7 +8,7 @@ public:
             }
             visited[p1[0]][p1[1]][p1[2]] = true;
         }
-        for(int k = 1; k <= 15; k++) {
+        for(int k = 1; k <= 20; k++) {
             int size = p.size();
             for(int j = 0; j < size; j++) {
                 if(p[j][0] == t[0] && p[j][1] == t[1] && p[j][2] == t[2]) {
