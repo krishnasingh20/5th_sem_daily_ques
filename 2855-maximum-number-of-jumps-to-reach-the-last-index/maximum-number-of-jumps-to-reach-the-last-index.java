@@ -1,27 +1,29 @@
 class Solution {
+    Integer[] dp;
     public int maximumJumps(int[] nums, int target) {
-        long[] dp = new long[nums.length];
-        Arrays.fill(dp, -1);
-        long ans = maxJump(nums, 0, target, dp);
-        return ans == Long.MIN_VALUE?-1:(int)ans;
+        dp = new Integer[nums.length];
+        int ans = maxJump(nums, 0, target);
+        return ans < 0 ? -1 : ans;
     }
-    public long maxJump(int[] nums, int i, int target, long[] dp) {
-        if(i >= nums.length - 1) {
+
+    private int maxJump(int[] nums, int i, int target) {
+        if(i == nums.length - 1) {
             return 0;
         }
-        if(dp[i] != -1) {
+
+        if(dp[i] != null) {
             return dp[i];
         }
-        long ans = Long.MIN_VALUE;
-        for(int j = i + 1; j < nums.length; j++) {
-            if((long)nums[j]-nums[i] >= (-1*target) && (long)nums[j]-nums[i] <= target) {
-                long next = maxJump(nums, j, target, dp);
-                if(next != Long.MIN_VALUE) {
-                    ans = Math.max(ans, next+1);
-                }
+
+        int ans = Integer.MIN_VALUE/100;
+
+        for(int j = i+1; j < nums.length; j++) {
+            if(nums[j] - nums[i] >= -target && nums[j] - nums[i] <= target) {
+                int curr = 1 + maxJump(nums, j, target);
+                ans = Math.max(ans, curr);
             }
         }
-        dp[i] = ans;
-        return ans;
+
+        return dp[i] = ans;
     }
 }
