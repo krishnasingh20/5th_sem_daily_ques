@@ -1,29 +1,26 @@
 class Solution {
-    Integer[] dp;
     public int maximumJumps(int[] nums, int target) {
-        dp = new Integer[nums.length];
-        int ans = maxJump(nums, 0, target);
-        return ans < 0 ? -1 : ans;
+        return maxJump(nums, target);
     }
-
-    private int maxJump(int[] nums, int i, int target) {
-        if(i == nums.length - 1) {
-            return 0;
-        }
-
-        if(dp[i] != null) {
-            return dp[i];
-        }
-
-        int ans = Integer.MIN_VALUE/100;
-
-        for(int j = i+1; j < nums.length; j++) {
-            if(nums[j] - nums[i] >= -target && nums[j] - nums[i] <= target) {
-                int curr = 1 + maxJump(nums, j, target);
-                ans = Math.max(ans, curr);
+    private int maxJump(int[] nums, int target) {
+        int n = nums.length;
+        int[] move = new int[n];
+        Arrays.fill(move, Integer.MIN_VALUE);
+        move[0] = 0;
+        Queue<Integer> q = new LinkedList<>();
+        q.add(0);
+        while(!q.isEmpty()) {
+            int rv = q.poll();
+            for(int i = rv + 1; i < n; i++) {
+                if(nums[i] - nums[rv] >= -target && nums[i] - nums[rv] <= target) {
+                    int curr = move[rv] + 1;
+                    if(curr > move[i]) {
+                        q.add(i);
+                        move[i] = curr;
+                    }
+                }
             }
         }
-
-        return dp[i] = ans;
+        return move[n-1] == Integer.MIN_VALUE ? -1 : move[n-1];
     }
 }
