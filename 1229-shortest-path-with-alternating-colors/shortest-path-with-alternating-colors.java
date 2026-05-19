@@ -7,19 +7,20 @@ class Solution {
         }
 
         for(int[] e: redEdges) {
-            adj.get(e[0]).add(new int[]{e[1], 1});
+            adj.get(e[0]).add(new int[]{e[1], 0});
         }
 
         for(int[] e: blueEdges) {
-            adj.get(e[0]).add(new int[]{e[1], 2});
+            adj.get(e[0]).add(new int[]{e[1], 1});
         }
 
         Queue<int[]> q = new LinkedList<>();
         int[] ans = new int[n];
-        boolean[][] visited = new boolean[n][3];
+        boolean[][] visited = new boolean[n][2];
         Arrays.fill(ans, -1);
         
         q.add(new int[]{0, 0});
+        q.add(new int[]{0, 1});
         int len = 0;
         visited[0][0] = true;
 
@@ -31,18 +32,18 @@ class Solution {
                     ans[rv[0]] = len;
                 }
                 for(int[] nbrs: adj.get(rv[0])) {
-                    if(nbrs[1] == 1) {
-                        if(rv[1] == 0 || rv[1] == 2) {
-                            if(!visited[nbrs[0]][1]) {
-                                visited[nbrs[0]][1] = true;
+                    if(nbrs[1] == 0) {
+                        if(rv[1] == 1) {
+                            if(!visited[nbrs[0]][0]) {
+                                visited[nbrs[0]][0] = true;
                                 q.add(nbrs);
                             }
                         }
                     }
                     else {
-                        if(rv[1] == 0 || rv[1] == 1) {
-                            if(!visited[nbrs[0]][2]) {
-                                visited[nbrs[0]][2] = true;
+                        if(rv[1] == 0) {
+                            if(!visited[nbrs[0]][1]) {
+                                visited[nbrs[0]][1] = true;
                                 q.add(nbrs);
                             }
                         }
