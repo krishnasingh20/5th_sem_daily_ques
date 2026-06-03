@@ -23,26 +23,18 @@ class Solution {
         }
         return idx;
     }
-    public void bfs(int src, int[] dist, int[] edges, int n) {
-        Queue<Pair> q = new LinkedList<>();
-        q.add(new Pair(src, 0));
+    public void bfs(int src, int[] dist, int[] arr, int n) {
+        Queue<Integer> q = new LinkedList<>();
+        q.add(src);
         boolean[] visited = new boolean[n];
         visited[src] = true;
         while(!q.isEmpty()) {
-            Pair rv = q.poll();
-            dist[rv.vtx] = rv.dis;
-            if(edges[rv.vtx] != -1 && !visited[edges[rv.vtx]]) {
-                visited[rv.vtx] = true;
-                q.add(new Pair(edges[rv.vtx], rv.dis+1));
+            int rv = q.poll();
+            if(arr[rv] != -1 && !visited[arr[rv]]) {
+                dist[arr[rv]] = dist[rv] + 1;
+                visited[arr[rv]] = true;
+                q.add(arr[rv]);
             }
-        }
-    }
-    class Pair{
-        int vtx;
-        int dis;
-        Pair(int vtx, int dis) {
-            this.vtx = vtx;
-            this.dis = dis;
         }
     }
 }
