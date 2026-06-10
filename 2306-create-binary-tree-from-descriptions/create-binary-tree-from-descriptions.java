@@ -23,6 +23,7 @@ class Solution {
             int c = d[1];
             TreeNode p1;
             TreeNode c1;
+            
             if(!map.containsKey(p)) {
                 p1 = new TreeNode(p);
                 map.put(p, p1);
@@ -51,12 +52,6 @@ class Solution {
             }
         }
 
-        int p = 0;
-
-        for(int p1: parent) {
-            p = p1;
-        }
-
-        return map.get(p);
+        return map.get(parent.iterator().next());
     }
 }
