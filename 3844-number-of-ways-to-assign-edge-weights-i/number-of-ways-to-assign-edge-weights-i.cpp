@@ -1,68 +1,47 @@
 class Solution {
 public:
+    vector<vector<int>> adj;
+    int n;
     int depth = 0;
+    int MOD = 1000000007;
     int assignEdgeWeights(vector<vector<int>>& edges) {
-        int n = edges.size()+1;
-        vector<vector<int>> adj(n+1);
-        vector<long long> fact(n+1);
-        vector<long long> invFact(n+1);
-        long long MOD = 1000000007;
+        n = edges.size() + 1;
+        adj.resize(n+1);
 
-        fact[0] = (long long)1;
-        for(int i = 1; i <= n; i++) {
-            fact[i] = fact[i-1] * i % MOD;
-        }
-
-        invFact[n] = power(fact[n], MOD-2, MOD);
-        for(int i = n - 1; i >= 0; i--) {
-            invFact[i] = invFact[i+1] * (i+1) % MOD;
-        }
-
-        for(vector<int> &edge: edges) {
+        for(vector<int>& edge: edges) {
             adj[edge[0]].push_back(edge[1]);
             adj[edge[1]].push_back(edge[0]);
         }
 
-        //find maximum depth
-        vector<bool> visited(n+1, false);
-        maxDepth(1, 0, adj, visited);
+        dfs(1, 1, 0);
 
-        //now we have two option 1 and 2 as edge weight so we will start putting 2 from 0 to depth edge and check for odd weight cost
-        long long ans = 0;
-
-        for(int i = 0; i <= depth; i++) {
-            int cost = depth + i;
-            if((cost & 1)) {
-                ans = (ans + (fact[depth] * invFact[i] % MOD * invFact[depth-i] % MOD)) % MOD;
-            }
-        }
-
-        return (int)(ans % MOD);
+        return (int)power(2, depth-1);//from binomial theorem and parity identity
     }
 
-    void maxDepth(int src, int curr, vector<vector<int>>& adj, vector<bool>& visited) {
-        visited[src] = true;
+    void dfs(int node, int parent, int curr) {
+        depth = max(depth, curr);
 
-        if(curr > depth) {
-            depth = curr;
-        }
-
-        for(int child: adj[src]) {
-            if(!visited[child]) {
-                maxDepth(child, curr+1, adj, visited);
+        for(int child: adj[node]) {
+            if(child == parent) {
+                continue;
             }
+
+            dfs(child, node, curr+1);
         }
     }
 
-    long long power(long long a, long long b, long long MOD) {
+    long long power(int a, int b) {
         if(b == 0) {
-            return 1;
+            return 1LL;
         }
-        long long half = power(a, b/2, MOD);
-        long ans = half * half % MOD;
+
+        long long half = power(a, b/2);
+        long long  ans = half * half % MOD;
+
         if((b & 1)) {
             ans = ans * a % MOD;
         }
+
         return ans;
     }
 };
