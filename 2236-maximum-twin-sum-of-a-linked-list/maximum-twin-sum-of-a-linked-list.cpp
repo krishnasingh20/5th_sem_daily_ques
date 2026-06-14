@@ -42,13 +42,14 @@ public:
     }
 
     ListNode* reverse(ListNode* curr, ListNode* prev) {
-        if(curr == nullptr) {
-            return prev;
+        
+        while(curr != nullptr) {
+            ListNode* next = curr->next;
+            curr->next = prev;
+            prev = curr;
+            curr = next;
         }
 
-        ListNode* temp = reverse(curr->next, curr);
-        curr->next = prev;
-
-        return temp;
+        return prev;
     }
 };
