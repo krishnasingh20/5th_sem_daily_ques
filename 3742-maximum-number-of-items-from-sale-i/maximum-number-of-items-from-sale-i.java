@@ -8,6 +8,8 @@ class Solution {
         free = new int[n];
         dp = new Integer[n][2][budget+1];
 
+        Arrays.sort(items, (a, b) -> Integer.compare(a[1], b[1]));
+
         for(int i = 0; i < n; i++) {
             for(int j = 0; j < n; j++) {
                 if(i == j) {
@@ -25,11 +27,7 @@ class Solution {
     // state represent that if we come first time at any index then we can take free copies count also after buying one copiy of ith item other wise we get only one copy that we purchased
 
     public int maxSaleItem(int[][] items, int i, int state, int budget) {
-        if(i == n) {
-            return 0;
-        }
-
-        if(budget == 0) {
+        if(i == n || budget < items[i][1]) {
             return 0;
         }
 
