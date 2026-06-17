@@ -19,12 +19,11 @@ class Solution {
 
         for(int i = 0; i < n; i++) {
 
-            int j = 1;
             int x = items[i][0];
 
-            while(x*j <= max) {
-                free[i] += freq[x*j];
-                j++;
+            while(x <= max) {
+                free[i] += freq[x];
+                x += items[i][0];
             }
 
             free[i]--;
