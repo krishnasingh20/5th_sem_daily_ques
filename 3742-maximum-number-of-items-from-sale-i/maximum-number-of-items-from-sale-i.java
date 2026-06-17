@@ -1,7 +1,7 @@
 class Solution {
     int n;
     int[] free;
-    Integer[][][] dp;
+    int[][][] dp;
 
     public int maximumSaleItems(int[][] items, int budget) {
         n = items.length;
@@ -29,7 +29,13 @@ class Solution {
             free[i]--;
         }
 
-        dp = new Integer[n][2][budget+1];
+        dp = new int[n][2][budget+1];
+
+        for(int[][] d: dp) {
+            for(int[] a: d) {
+                Arrays.fill(a, -1);
+            }
+        }
 
         return maxSaleItem(items, 0, 0, budget);
     }
@@ -41,7 +47,7 @@ class Solution {
             return 0;
         }
 
-        if(dp[i][state][budget] != null) {
+        if(dp[i][state][budget] != -1) {
             return dp[i][state][budget];
         }
 
