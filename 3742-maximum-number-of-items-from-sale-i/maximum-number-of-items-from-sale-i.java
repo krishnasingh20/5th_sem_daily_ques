@@ -5,21 +5,32 @@ class Solution {
 
     public int maximumSaleItems(int[][] items, int budget) {
         n = items.length;
+        int m = 1501;
+        int max = 0;
+        int[] freq = new int[m];
         free = new int[n];
-        dp = new Integer[n][2][budget+1];
 
         Arrays.sort(items, (a, b) -> Integer.compare(a[1], b[1]));
 
         for(int i = 0; i < n; i++) {
-            for(int j = 0; j < n; j++) {
-                if(i == j) {
-                    continue;
-                }
-                if(items[j][0] % items[i][0] == 0) {
-                    free[i]++;
-                } 
-            }
+            freq[items[i][0]]++;
+            max = Math.max(max, items[i][0]);
         }
+
+        for(int i = 0; i < n; i++) {
+
+            int j = 1;
+            int x = items[i][0];
+
+            while(x*j <= max) {
+                free[i] += freq[x*j];
+                j++;
+            }
+
+            free[i]--;
+        }
+
+        dp = new Integer[n][2][budget+1];
 
         return maxSaleItem(items, 0, 0, budget);
     }
