@@ -1,5 +1,5 @@
 class Solution {
-    Queue<Integer> q = new LinkedList<>();
+    static Queue<Integer> q = new LinkedList<>();
     HashSet<Integer>[] adj;
     public int[] findRedundantDirectedConnection(int[][] edges) {
         int n = edges.length;
