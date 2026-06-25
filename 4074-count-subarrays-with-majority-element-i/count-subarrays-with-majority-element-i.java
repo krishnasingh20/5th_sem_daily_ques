@@ -1,34 +1,20 @@
 class Solution {
     public int countMajoritySubarrays(int[] nums, int target) {
-        boolean flag = true;
-        for(int i = 0; i < nums.length; i++) {
-            if(nums[i] == target) {
-                nums[i] = 1;
-                flag = false;
-            }
-            else {
-                nums[i] = -1;
-            }
-            if(i > 0) {
-                nums[i] = nums[i]+nums[i-1];
-            }
-        }
-        if(flag) {
-            return 0;
-        }
-        long ans = 0;
-        TreeMap<Integer, Long> map = new TreeMap<>();
-        map.put(0, (long)1);
-        for(int i = 0; i < nums.length; i++) {
-            int x = nums[i];
-            for(int key: map.keySet()) {
-                if(key >= x) {
-                    break;
+        int ans = 0;
+        int n = nums.length;
+        
+        for(int i = 0; i < n; i++) {
+            int count = 0;
+            for(int j = i; j < n; j++) {
+                if(nums[j] == target) {
+                    count++;
                 }
-                ans += (map.get(key));
+                if(count > (j - i + 1)/2) {
+                    ans++;
+                }
             }
-            map.put(x, map.getOrDefault(x, 0L)+1L);
         }
-        return (int)ans;
+
+        return ans;
     }
 }
