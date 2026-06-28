@@ -1,5 +1,5 @@
 struct compare {
-    bool operator()(vector<int>& a, vector<int>& b) {
+    bool operator()(const vector<int>& a, const vector<int>& b) {
         return a[2] > b[2];
     }
 };
