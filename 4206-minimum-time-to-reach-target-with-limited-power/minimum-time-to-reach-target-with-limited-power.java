@@ -33,7 +33,7 @@ class Solution {
             }
 
             for(int[] nbrs: adj[vtx]) {
-                long newTime = time[vtx][p] + nbrs[1];
+                long newTime = t + nbrs[1];
                 int newPower = p - cost[vtx];
                 if(time[nbrs[0]][newPower] <= newTime) {
                     continue;
