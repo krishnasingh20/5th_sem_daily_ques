@@ -46,11 +46,17 @@ class Solution {
             Arrays.fill(d, Integer.MIN_VALUE);
         }
         dist[0][0] = manDis[0][0];
-        
-        q.add(new int[]{0, 0});
 
-        while(!q.isEmpty()) {
-            int[] rv = q.poll();
+        PriorityQueue<int[]> pq = new PriorityQueue<>((a, b) -> Integer.compare(b[2], a[2]));
+        pq.add(new int[]{0, 0, dist[0][0]});
+
+        while(!pq.isEmpty()) {
+            int[] rv = pq.poll();
+
+            if(rv[0] == n-1 && rv[1] == n-1) {
+                return rv[2];
+            }
+
             for(int i = 0; i < 4; i++) {
                 int nX = dx[i] + rv[0];
                 int nY = dy[i] + rv[1];
@@ -62,11 +68,11 @@ class Solution {
                 int newDis = Math.min(dist[rv[0]][rv[1]], manDis[nX][nY]);
                 if(newDis > dist[nX][nY]) {
                     dist[nX][nY] = newDis;
-                    q.add(new int[]{nX, nY});
+                    pq.add(new int[]{nX, nY, newDis});
                 }
             }
         }
 
-        return dist[n-1][n-1];
+        return -1;
     }
 }
