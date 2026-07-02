@@ -3,7 +3,7 @@ class Solution {
         int n = nums.length;
         long ans = 0;
         Stack<Integer> st = new Stack<>();
-
+        // we are finding constribution of each element as minimum and maximum in subarray
         for(int i = 0; i < n; i++) {
             while(!st.isEmpty() && nums[st.peek()] > nums[i]) {
                 int j = st.pop();
