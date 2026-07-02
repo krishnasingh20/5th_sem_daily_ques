@@ -1,42 +1,39 @@
 class Solution {
-    static int[] dx = {0,0,-1,1};
-    static int[] dy = {1,-1,0,0};
+    static int[] dx = {-1, 1, 0, 0};
+    static int[] dy = {0, 0, -1, 1};
     public boolean findSafeWalk(List<List<Integer>> grid, int health) {
         int m = grid.size();
         int n = grid.get(0).size();
-        PriorityQueue<Pair> pq = new PriorityQueue<>((a, b)->a.cost-b.cost);
-        pq.add(new Pair(0, 0, grid.get(0).get(0)));
-        boolean[][] visited = new boolean[m][n];
-        while(!pq.isEmpty()) {
-            Pair rv = pq.poll();
-            if(visited[rv.x][rv.y]) {
-                continue;
-            }
-            visited[rv.x][rv.y] = true;
-            if(rv.x == m-1 && rv.y == n-1) {
-                if(health-rv.cost >= 1) {
-                    return true;
-                }
-                continue;
-            }
+
+        int[][] healthLeft = new int[m][n];
+
+        for(int[] h: healthLeft) {
+            Arrays.fill(h, Integer.MIN_VALUE);
+        }
+        healthLeft[0][0] = health - grid.get(0).get(0);
+
+        Queue<int[]> q = new LinkedList<>();
+        q.add(new int[]{0, 0});
+
+        while(!q.isEmpty()) {
+            int[] rv = q.poll();
+
             for(int i = 0; i < 4; i++) {
-                int nx = rv.x+dx[i];
-                int ny = rv.y+dy[i];
-                if(nx >= 0 && ny >= 0 && nx < m && ny < n && !visited[nx][ny]) {
-                    pq.add(new Pair(nx, ny, rv.cost+grid.get(nx).get(ny)));
+                int nX = dx[i] + rv[0];
+                int nY = dy[i] + rv[1];
+
+                if(nX < 0 || nX >= m || nY < 0 || nY >= n) {
+                    continue;
+                }
+
+                    int newHealth  = healthLeft[rv[0]][rv[1]] - grid.get(nX).get(nY);
+                if(newHealth > healthLeft[nX][nY]) {
+                    healthLeft[nX][nY] = newHealth;
+                    q.add(new int[]{nX, nY});
                 }
             }
         }
-        return false;
-    }
-    class Pair{
-        int x;
-        int y;
-        int cost;
-        public Pair(int x, int y, int cost) {
-            this.x = x;
-            this.y = y;
-            this.cost = cost;
-        }
+
+        return healthLeft[m-1][n-1] > 0;
     }
 }
