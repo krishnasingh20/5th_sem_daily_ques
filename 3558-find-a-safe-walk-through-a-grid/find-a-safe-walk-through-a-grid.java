@@ -12,11 +12,18 @@ class Solution {
         }
         healthLeft[0][0] = health - grid.get(0).get(0);
 
-        Queue<int[]> q = new LinkedList<>();
-        q.add(new int[]{0, 0});
+        PriorityQueue<int[]> pq = new PriorityQueue<>((a, b) -> Integer.compare(b[2], a[2]));
+        pq.add(new int[]{0, 0, healthLeft[0][0]});
 
-        while(!q.isEmpty()) {
-            int[] rv = q.poll();
+        while(!pq.isEmpty()) {
+            int[] rv = pq.poll();
+
+            if(rv[0] == m-1 && rv[1] == n-1) {
+                if(rv[2] > 0) {
+                    return true;
+                }
+                continue;
+            }
 
             for(int i = 0; i < 4; i++) {
                 int nX = dx[i] + rv[0];
@@ -26,14 +33,14 @@ class Solution {
                     continue;
                 }
 
-                    int newHealth  = healthLeft[rv[0]][rv[1]] - grid.get(nX).get(nY);
+                int newHealth  = healthLeft[rv[0]][rv[1]] - grid.get(nX).get(nY);
                 if(newHealth > healthLeft[nX][nY]) {
                     healthLeft[nX][nY] = newHealth;
-                    q.add(new int[]{nX, nY});
+                    pq.add(new int[]{nX, nY, newHealth});
                 }
             }
         }
 
-        return healthLeft[m-1][n-1] > 0;
+        return false;
     }
 }
