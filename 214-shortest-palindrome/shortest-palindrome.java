@@ -34,7 +34,8 @@ class Solution {
         }
 
         int mid = (n-1)/2;
-        int len = n-1;
+        int len = (s.charAt(0) == s.charAt(1)) ? n - 2 : n - 1;
+
         for(int i = mid; i >= 0; i--) {
             //odd length
             int l = i-1;  
@@ -57,9 +58,6 @@ class Solution {
                     if(left == right) {
                         len = Math.min(idx, len);
                     }
-                }
-                else {
-                    len = Math.min(len, n-2);
                 }
             }
         }
