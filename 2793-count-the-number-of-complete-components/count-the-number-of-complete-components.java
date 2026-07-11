@@ -62,6 +62,10 @@ class Solution {
         int ans = 0;
 
         for(int p: comp) {
+            if(dsu.size[p] == 1) {
+                ans++;
+                continue;
+            }
             boolean flag = false;
             for(int i = 0; i < n; i++) {
                 if(dsu.find(i) == p) {
