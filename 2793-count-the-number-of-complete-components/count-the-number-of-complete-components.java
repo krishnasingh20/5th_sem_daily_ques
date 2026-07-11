@@ -1,53 +1,77 @@
 class Solution {
+    class DSU {
+        int n;
+        int[] parent;
+        int[] size;
+        DSU(int n) {
+            this.n = n;
+            parent = new int[n];
+            size = new int[n];
+            for(int i = 0; i < n; i++) {
+                parent[i] = i;
+                size[i] = 1;
+            }
+        }
+
+        int find(int node) {
+            if(node == parent[node]) {
+                return node;
+            }
+            return parent[node] = find(parent[node]);
+        }
+
+        void unite(int u, int v) {
+            int p1 = find(u);
+            int p2 = find(v);
+
+            if(p1 == p2) {
+                return;
+            }
+
+            if(size[p1] > size[p2]) {
+                parent[p2] = p1;
+                size[p1] += size[p2];
+            }
+            else {
+                parent[p1] = p2;
+                size[p2] += size[p1];
+            }
+        }
+    }
     public int countCompleteComponents(int n, int[][] edges) {
+        DSU dsu = new DSU(n);
+
         int[] degree = new int[n];
-        List<List<Integer>> adj = new ArrayList<>();
+
+        for(int[] edge: edges) {
+            degree[edge[0]]++;
+            degree[edge[1]]++;
+            dsu.unite(edge[0], edge[1]);
+        }
+
+        HashSet<Integer> comp = new HashSet<>();
 
         for(int i = 0; i < n; i++) {
-            adj.add(new ArrayList<>());
+            comp.add(dsu.find(i));
         }
 
-        for(int[] e: edges) {
-            degree[e[0]]++;
-            degree[e[1]]++;
-            adj.get(e[0]).add(e[1]);
-            adj.get(e[1]).add(e[0]);
+        if(comp.size() == n) {
+            return n;
         }
 
-        Queue<Integer> q = new LinkedList<>();
-        boolean[] visited = new boolean[n];
         int ans = 0;
 
-        for(int i = 0; i < n; i++) {
-            if(visited[i]) {
-                continue;
-            }
-            int edge = -1;
+        for(int p: comp) {
             boolean flag = false;
-            int size = 0;
-            q.add(i);
-            while(!q.isEmpty()) {
-                int rv = q.poll();
-                if(visited[rv]) {
-                    continue;
-                }
-                if(edge == -1) {
-                    edge = degree[rv];
-                }
-                else {
-                    if(degree[rv] != edge) {
+            for(int i = 0; i < n; i++) {
+                if(dsu.find(i) == p) {
+                    if(degree[i] != dsu.size[p]-1) {
                         flag = true;
-                    }
-                }
-                size++;
-                visited[rv] = true;
-                for(int nbrs: adj.get(rv)) {
-                    if(!visited[nbrs]) {
-                        q.add(nbrs);
+                        break;
                     }
                 }
             }
-            if(!flag && edge == size-1) {
+            if(!flag) {
                 ans++;
             }
         }
