@@ -1,16 +1,21 @@
 class Solution {
-
-    static int[] arr = {12,23,34,45,56,67,78,89,123,234,345,456,567,678,789,1234,2345,3456,4567,5678,6789,12345,23456,34567,45678,56789,123456,234567,345678,456789,1234567,2345678,3456789,12345678,23456789,123456789};
-
     public List<Integer> sequentialDigits(int low, int high) {
+        int len1 = String.valueOf(low).length();
+        int len2 = String.valueOf(high).length();
+
         List<Integer> ans = new ArrayList<>();
-        
-        for(int a: arr) {
-            if(a > high) {
-                break;
-            }
-            if(a >= low && a <= high) {
-                ans.add(a);
+
+        for(int i = len1; i <= len2; i++) {
+            for(int j = 1; j <= 10 - i; j++) {
+                int k = j;
+                int num = 0;
+                for(int l = 1; l <= i; l++) {
+                    num = num * 10  + k;
+                    k++;
+                }
+                if(num >= low && num <= high) {
+                    ans.add(num);
+                }
             }
         }
 
