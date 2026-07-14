@@ -1,6 +1,5 @@
 class Solution {
     static final int MOD = 1000000007;
-    int[][][] dp;
     public int subsequencePairCount(int[] nums) {
         int max = 0;
 
@@ -8,35 +7,36 @@ class Solution {
             max = Math.max(max, num);
         }
 
-        dp = new int[nums.length][max+1][max+1];
+        return bottomUp(nums, max);
+    }
 
-        for(int[][] d: dp) {
-            for(int[] d1: d) {
-                Arrays.fill(d1, -1);
+    private int GCD(int a, int b) {
+        return (b == 0 ? a : GCD(b, a % b));
+    }
+
+    public int bottomUp(int[] nums, int max) {
+        int n = nums.length;
+        int[][][] dp1 = new int[n+1][max+1][max+1];
+
+        for(int j = 1; j <= max; j++) {
+            dp1[n][j][j] = 1;
+        }
+
+        for(int i = n - 1; i >= 0; i--) {
+            for(int j = 0; j <= max; j++) {
+                for(int k = 0; k <= max; k++) {
+                    int newSub1 = j == 0 ? nums[i] : GCD(j, nums[i]);
+                    int newSub2 = k == 0 ? nums[i] : GCD(k, nums[i]);
+
+                    int a = dp1[i+1][newSub1][k];
+                    int b = dp1[i+1][j][newSub2];
+                    int skip = dp1[i+1][j][k];
+
+                    dp1[i][j][k] = ((a + b) % MOD + skip) % MOD;
+                }
             }
         }
 
-        return count(nums, 0, 0, 0);
-    }
-    public int count(int[] nums, int i, int sub1, int sub2) {
-        if(i == nums.length) {
-            return (sub1 > 0 && sub2 > 0 && sub1 == sub2) ? 1 : 0;
-        }
-
-        if(dp[i][sub1][sub2] != -1) {
-            return dp[i][sub1][sub2];
-        }
-
-        int newSub1 = sub1 == 0 ? nums[i] : GCD(sub1, nums[i]);
-        int newSub2 = sub2 == 0 ? nums[i] : GCD(sub2, nums[i]);
-
-        int a = count(nums, i+1, newSub1, sub2);
-        int b = count(nums, i+1, sub1, newSub2);
-        int skip = count(nums, i+1, sub1, sub2);
-
-        return dp[i][sub1][sub2] = ((a + b) % MOD + skip) % MOD;
-    }
-    private int GCD(int a, int b) {
-        return (b == 0 ? a : GCD(b, a % b));
+        return dp1[0][0][0];
     }
 }
