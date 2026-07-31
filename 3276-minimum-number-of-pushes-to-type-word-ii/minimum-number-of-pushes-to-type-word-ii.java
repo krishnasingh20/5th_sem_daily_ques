@@ -15,21 +15,17 @@ class Solution {
             return n;
         }
 
-        PriorityQueue<int[]> pq = new PriorityQueue<>((a, b) -> Integer.compare(b[1], a[1]));
-
-        for(int i = 0; i < 26; i++) {
-            if(freq[i] > 0) {
-                pq.add(new int[]{i, freq[i]});
-            }
-        }
+        Arrays.sort(freq);
 
         int ans = 0;
         int j = 0;
         int place = 1;
 
-        while(!pq.isEmpty()) {
-            int[] rv = pq.poll();
-            ans += rv[1]*place;
+        for(int i = 25; i >= 0; i--) {
+            if(freq[i] == 0) {
+                break;
+            }
+            ans += freq[i]*place;
             if(++j == 8) {
                 place++;
                 j = 0;
