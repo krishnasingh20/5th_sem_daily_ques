@@ -1,33 +1,36 @@
 class Solution {
+    static int[][] dp;
     public boolean stoneGame(int[] piles) {
-        int sum = 0;
-        for(int pile: piles) {
-            sum += pile;
+        int totalSum = 0;
+
+        for(int p: piles) {
+            totalSum += p;
         }
-        int alice = 0;
-        int l = 0;
-        int m = piles.length - 1;
-        while(l < m) {
-            alice += Math.max(piles[l], piles[m]);
-            l++;
-            m--;
+
+        dp = new int[piles.length][piles.length];
+        for(int[] d: dp) {
+            Arrays.fill(d, -1);
         }
-        // int[][] dp = new int[piles.length][piles.length];
-        // for(int[] d: dp) {
-        //     Arrays.fill(d, -1);
-        // }
-        // int alice = maxPoint(piles, 0, piles.length - 1, dp);
-        return alice > sum - alice;
+
+        int stoneA = stone(piles, 0, piles.length - 1);
+
+        return stoneA > totalSum - stoneA;
     }
-    public int maxPoint(int[] piles, int i, int j, int[][] dp) {
+    public int stone(int[] piles, int i, int j) {
         if(i > j) {
             return 0;
         }
+        if(i == j) {
+            return piles[i];
+        }
+
         if(dp[i][j] != -1) {
             return dp[i][j];
         }
-        int a = piles[i] + maxPoint(piles, i+1, j-1, dp);
-        int b = piles[j] + maxPoint(piles, i+1, j-1, dp);
+
+        int a = piles[i] + Math.min(stone(piles, i+2, j), stone(piles, i+1, j-1));
+        int b = piles[j] + Math.min(stone(piles, i+1, j-1), stone(piles, i, j-2));
+
         return dp[i][j] = Math.max(a, b);
-    } 
+    }
 }
