@@ -1,11 +1,8 @@
 class Solution {
     static int[][] dp;
     public boolean stoneGame(int[] piles) {
-        int totalSum = 0;
 
-        for(int p: piles) {
-            totalSum += p;
-        }
+        int totalSum = Arrays.stream(piles).sum();
 
         dp = new int[piles.length][piles.length];
         for(int[] d: dp) {
