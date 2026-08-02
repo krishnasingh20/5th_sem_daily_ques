@@ -3,31 +3,32 @@ class Solution {
     public boolean stoneGame(int[] piles) {
 
         int totalSum = Arrays.stream(piles).sum();
-
-        dp = new int[piles.length][piles.length];
-        for(int[] d: dp) {
-            Arrays.fill(d, -1);
-        }
-
-        int stoneA = stone(piles, 0, piles.length - 1);
+        
+        int stoneA = bottomUp(piles);
 
         return stoneA > totalSum - stoneA;
     }
-    public int stone(int[] piles, int i, int j) {
-        if(i > j) {
-            return 0;
-        }
-        if(i == j) {
-            return piles[i];
-        }
 
-        if(dp[i][j] != -1) {
-            return dp[i][j];
+    public int bottomUp(int[] piles) {
+        int n = piles.length;
+        dp = new int[n][n];
+
+        for(int i = 0; i < n; i++) {
+            dp[i][i] = piles[i];
         }
 
-        int a = piles[i] + Math.min(stone(piles, i+2, j), stone(piles, i+1, j-1));
-        int b = piles[j] + Math.min(stone(piles, i+1, j-1), stone(piles, i, j-2));
+        for(int i = n - 1; i >= 0; i--) {
+            for(int j = i; j < n; j++) {
+                if(i == j) {
+                    continue;
+                }
+                int a = piles[i] + Math.min((i+2 < n ? dp[i+2][j] : 0), (i+1 < n && j-1 >= 0 ? dp[i+1][j-1] : 0));
+                int b = piles[j] + Math.min((i+1 < n && j-1 >= 0 ? dp[i+1][j-1] : 0), (j-2 >= 0 ? dp[i][j-2] : 0));
 
-        return dp[i][j] = Math.max(a, b);
+                dp[i][j] = Math.max(a, b);
+            }
+        }
+
+        return dp[0][n-1];
     }
 }
