@@ -17,29 +17,29 @@ class Solution {
 
     public int bottomUp(int[] stone) {
         int n = stone.length;
-        int[] dp = new int[7];
+        int[] dp = new int[6];
 
         for(int i = n-1; i >= 0; i--) {
-            int a = stone[i] + Math.min((i+2 < n ? dp[2] : 0), Math.min((i+3 < n ? dp[3] : 0), (i+4 < n ? dp[4] : 0)));
+            int a = stone[i] + Math.min(dp[1], Math.min(dp[2], dp[3]));
 
             int b = Integer.MIN_VALUE;
             int c = Integer.MIN_VALUE;
 
             if(i+1 < n) {
-                b = stone[i] + stone[i+1] + Math.min((i+3 < n ? dp[3] : 0), Math.min((i+4 < n ? dp[4] : 0), (i+5 < n ? dp[5] : 0)));
+                b = stone[i] + stone[i+1] + Math.min(dp[2], Math.min(dp[3], dp[4]));
             }
 
             if(i+2 < n) {
-                c = stone[i] + stone[i+1] + stone[i+2] + Math.min((i+4 < n ? dp[4] : 0), Math.min((i+5 < n ? dp[5] : 0), (i+6 < n ? dp[6] : 0)));
+                c = stone[i] + stone[i+1] + stone[i+2] + Math.min(dp[3], Math.min(dp[4], dp[5]));
             }
 
-            for(int j = 6; j >= 2; j--) {
+            for(int j = 5; j >= 1; j--) {
                 dp[j] = dp[j-1];
             }
 
-            dp[1] = Math.max(a, Math.max(b, c));
+            dp[0] = Math.max(a, Math.max(b, c));
         }
 
-        return dp[1];
+        return dp[0];
     }
 }
