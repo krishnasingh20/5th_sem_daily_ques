@@ -25,10 +25,6 @@ class Solution {
 
             return sum;
         }
-
-        int count(int idx) {
-            return query(n-1) - query(idx-1);
-        }
     }
 
     public long countRatioSubarrays(int[] nums, int a, int b) {
@@ -71,7 +67,7 @@ class Solution {
         for(int i = 1; i <= n; i++) {
             int id = compress.get(arr[i]);
 
-            ans += f.count(id);
+            ans += i - f.query(id-1);
 
             f.update(id, 1);
         }
