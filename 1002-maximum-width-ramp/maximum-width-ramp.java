@@ -7,7 +7,7 @@ class Solution {
             int num = nums[i];
             Integer key = map.floorKey(num);
 
-            System.out.println(key);
+            // System.out.println(key);
 
             if(key != null) {
                 ans = Math.max(ans, i - map.get(key));
