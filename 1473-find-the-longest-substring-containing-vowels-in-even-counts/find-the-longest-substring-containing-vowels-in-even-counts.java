@@ -3,13 +3,15 @@ class Solution {
         int n = s.length();
 
         int[] freq = new int[5];
-        HashMap<Integer, Integer> map = new HashMap<>();
-        map.put(0, -1);
+        int[] map = new int[32];
+        Arrays.fill(map, -2);
+        map[0] = -1;
 
         int ans = 0;
 
         for(int i = 0; i < n; i++) {
             char c = s.charAt(i);
+
             if(c == 'a') {
                 freq[0] = (freq[0] + 1) % 2;
             }
@@ -34,11 +36,11 @@ class Solution {
                 }
             }
 
-            if(map.containsKey(mask)) {
-                ans = Math.max(ans, i - map.get(mask));
+            if(map[mask] != -2) {
+                ans = Math.max(ans, i - map[mask]);
             }
             else {
-                map.put(mask, i);
+                map[mask] = i;
             }
         }
 
