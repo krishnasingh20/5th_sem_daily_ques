@@ -32,23 +32,21 @@ class Solution {
         }
 
         int limit = Math.min(n - i, 2*M);
-        if(turn == 0) {
-            int ans = Integer.MIN_VALUE;
-            for(int X = 1; X <= limit; X++) {
-                int newM = Math.max(M, X);
-                int curr = (prefix[i+X-1] - (i == 0 ? 0 : prefix[i-1])) + maxStone(i+X, 1, newM);
-                ans = Math.max(ans, curr);
+        int ans = (turn == 0 ? Integer.MIN_VALUE : Integer.MAX_VALUE);
+
+        for(int X = 1; X <= limit; X++) {
+            int newM = Math.max(M, X);
+            int newTurn = turn == 0 ? 1 : 0;
+            int curr = maxStone(i+X, newTurn, newM);
+
+            if(turn == 0) {
+                ans = Math.max(ans, curr+(prefix[i+X-1] - (i == 0 ? 0 : prefix[i-1])));
             }
-            return dp[turn][i][M] = ans;
-        }
-        else {
-            int ans = Integer.MAX_VALUE;
-            for(int X = 1; X <= limit; X++) {
-                int newM = Math.max(M, X);
-                int curr = maxStone(i+X, 0, newM);
+            else {
                 ans = Math.min(ans, curr);
             }
-            return dp[turn][i][M] = ans;
         }
+
+        return dp[turn][i][M] = ans;
     }
 }
