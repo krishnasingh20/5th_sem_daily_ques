@@ -30,13 +30,11 @@ class Solution {
 
         boolean ans = turn == 0 ? false : true;
 
-        for(int j: square) {
-            if(j > i) {
-                break;
-            }
+        int idx = upperBound(i);
 
+        for(int j = idx; j >= 0; j--) {
             int newTurn = turn == 0 ? 1 : 0;
-            boolean curr = winner(i - j, newTurn);
+            boolean curr = winner(i - square.get(j), newTurn);
 
             if(turn == 0 && curr) {
                 ans = true;
@@ -49,5 +47,24 @@ class Solution {
         }
 
         return dp[turn][i] = ans;
+    }
+
+    public int upperBound(int target) {
+        int low = 0;
+        int high = square.size() - 1;
+        int idx = -1;
+
+        while(low <= high) {
+            int mid = low + (high - low)/2;
+            if(square.get(mid) <= target) {
+                idx = mid;
+                low = mid + 1;
+            }
+            else {
+                high = mid - 1;
+            }
+        }
+
+        return idx;
     }
 }
