@@ -4,7 +4,6 @@ class Solution {
 
         int[][] freq = new int[n][26];
         int[] index = new int[26];
-        Queue<Integer> q = new LinkedList<>();
         int ans = 0;
         
         for(int i = 0; i < n; i++) {
@@ -18,6 +17,7 @@ class Solution {
 
             int idx = -1;
             int cnt = 0;
+
             for(int j = 0; j < 26; j++) {
                 if(freq[i][j] > 0 && freq[i][j] < k) {
                     idx = Math.max(idx, index[j]);
@@ -32,28 +32,26 @@ class Solution {
                 continue;
             }
 
+            int rv = -1;
             if(idx != -1 && idx != i) {
-                q.add(idx);
+                rv = idx;
             }
 
             int last = -1;
 
-            while(!q.isEmpty()) {
-                int rv = q.poll();
+            while(rv != -1) {
                 int max = -1;
                 last = Math.max(last, rv);
+
                 for(int j = 0; j < 26; j++) {
                     if(freq[i][j] - freq[rv][j] > 0 && freq[i][j] - freq[rv][j] < k) {
                         max = Math.max(max, index[j]);
                     }
                 }
 
-                if(max != -1) {
-                    if(max == i) {
-                        last = -1;
-                        break;
-                    }
-                    q.add(max);
+                rv = max;
+                if(max == i) {
+                    last = -1;
                 }
             }
 
