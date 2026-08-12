@@ -16,29 +16,24 @@ class Solution {
             }
 
             int idx = -1;
-            int cnt = 0;
 
             for(int j = 0; j < 26; j++) {
                 if(freq[i][j] > 0 && freq[i][j] < k) {
                     idx = Math.max(idx, index[j]);
                 }
-                else if(freq[i][j] >= k) {
-                    cnt += freq[i][j];
-                }
             }
 
-            if(cnt == (i+1)) {
-                ans = Math.max(ans, cnt);
+            if(idx == -1) {
+                ans = Math.max(ans, (i+1));
                 continue;
             }
 
             int rv = -1;
-            if(idx != -1 && idx != i) {
+            if(idx != i) {
                 rv = idx;
             }
 
             int last = -1;
-
             while(rv != -1) {
                 int max = -1;
                 last = Math.max(last, rv);
